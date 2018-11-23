@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<templateRoot>
+  <templateSets>
+    <templateSet name="Addresses">
+          <templates>
+            <template expression="^([A-PR-UWYZ0-9][A-HK-Y0-9][AEHMNPRTVXY0-9]?[ABEHMNPRVWXY0-9]? {1,2}[0-9][ABD-HJLN-UW-Z]{2}|GIR 0AA)$" name="UK postcode">
+              <description>The code allocated by the Post Office to identify a group of postal delivery points.
+Max 8 characters.
+Please note the following:
+The letters Q, V and X are not used in the first position.
+The letters I, J and Z are not used in the second position.
+The only letters to appear in the third position are A, B, C, D, E, F, G, H, J, K, S, T, U and W.
+The only letters to appear in the fourth position are A, B, E, H, M, N, P, R, V, W, X and Y.
+The second half of the Postcode is always consistent numeric, alpha, alpha format and the letters C, I, K, M, O and V are never used.
+These conventions may change in the future if operationally required.
+GIR 0AA is a Postcode that was issued historically and does not confirm to current rules on valid Postcode formats, It is however, still in use.
+The Postcode is a combination of between five and seven letters/numbers which define four different levels of geographic unit. It is part of a coding system created and used by the Royal Mail across the United Kingdom for the sorting of mail. The Postcodes are an abbreviated form of address which enable a group of delivery points (a delivery point being a property or a post box) to be specifically identified. There are two types of Postcode, these being large and small user Postcodes.
+A large user Postcode is one that has been assigned to a single address due to the large volume of mail received at that address.
+A small user Postcode identifies a group of delivery points. On average there are 15 delivery points perPostcode, however this can vary between 1 and 100.
+Each Postcode consists of two parts. The first part is the Outward Postcode, or Outcode. This is separated by a single space from the second part which is the Inward Postcode, or Incode. The Outward Postcode enables mail to be sent to the correct local area for delivery. This part of the code contains the area and the district to which the mail is to be delivered.The Inward Postcode is used to sort the mail at the local area delivery office. It consists of a numeric character followed by two alphabetic characters. The numeric character identifies the sector within the postal district. The alphabetic characters then define one or more properties within the sector.
+The following characters are never used in the inward part of the Postcode:C I K M O V.
+An example Postcode is PO1 3AX. PO refers to the Postcode Area of Portsmouth. There are 124 Postcode Areas in the UK. PO1 refers to a Postcode District within the Postcode Area of Portsmouth. There are approximately 2900 Postcode Districts. PO1 3 refers to the Postcode Sector. There are approximately 9,650 Postcode Sectors. The AX completes the Postcode. The last two letters define the &#39;Unit Postcode&#39; which identifies one or more small user delivery points or an individual Large User. There are approximately 1.71 million Unit Postcodes in the UK.
+The schema is to be updated to match this definition.</description>
+            </template>
+        <template expression="^(\p{L}+[. ]+\s*)?(\d+[. ]+\s*)(\p{L}+)" description="Detects streets with number in name." name="Streets with number in name"/>
+        <template expression="^(\p{L}+[. ]+\s*)?(\p{L}+[. ]+\s*)?(\p{L}+[. ]+\s*)?(\p{L}+[. -]+\s*)?(\p{L}+)" description="Detects streets with more initials or abbreviations in name." name="Streets without number in name"/>
+      </templates>
+    </templateSet>
+    
+
+    <templateSet name="Account Number">
+      <templates>
+          <template expression="^[a-zA-Z]{2}\d{2}\s?[a-zA-Z\d]{11,27}$" name="IBAN">
+            <description>IBAN consists of 2 letters followed by 2 digits and BBAN.
+BBAN consists of at least 11 (Norway) and not more than 27 (Malta) alphanumeric characters.</description>
+          </template>
+          <template expression="^\d{8}$" name="UK Bank Account Number">
+              <description>A reference number that uniquely identifies this bank account within this branch of a UK bank.
+Must be 8 numeric characters right justified with leading zeros added if necessary.</description>
+            </template>
+            <template expression="^[a-zA-Z\d&amp;&#39;\*,\.\-\(\) /]{18}$" name="UK Building Society Account Number">
+              <description>A reference number that uniquely identifies this building society account within this branch of a UK building society.
+Max. 18 Characters.
+Only valid characters are: Alpha, Numeric, Ampersand (&amp;), Apostrophe (&#39;) Asterisk (*), Comma (,), Full Stop (.), Hyphen (-), Parentheses (()), Space ( ) and Slash (/).</description>
+            </template>
+            <template expression="^\d{6}$" name="UK Bank Branch Sort Code">
+          <description>A code, allocated by the banking community, used to uniquely identify an individual branch of a bank.
+Must be 6 numeric characters.</description>
+        </template>
+        <template expression="^\d{6}$" name="UK Cheque Number">
+          <description>The identification number pre-printed on a cheque.
+Must be 6 numeric characters.</description>
+        </template>
+        </templates>
+      </templateSet>
+
+
+    <templateSet name="Date">
+      <templateSets/>
+        <templates>
+          <template expression="^(([0-2]?\d)|([3][0,1]))[./\\-]((0?[1-9])|1[0-2])[./\\-]((19\d{2})|(20\d{2}))$" description="Simple date format validator. Date range from 1.1.1900 to 31.12.2099. Full Stop (.), Slash (/), Backslash (\) and Hyphen (-) are considered as possible separators." name="Date dd.MM.yyyy"/>
+          <template expression="^((19\d{2})|(20\d{2}))[./\\-]?((0[1-9])|1[0-2])[./\\-]?(([0-2]\d)|([3][0,1]))$" description="Simple date format validator. Date range from 1.1.1900 to 31.12.2099. Full Stop (.), Slash (/), Backslash (\) and Hyphen (-) are considered as possible separators." name="Date yyyyMMdd"/>
+        </templates>
+      </templateSet>
+      
+
+    <templateSet name="Company">
+      <templates>
+        <template expression="^\d{2}-\d{3}-\d{4}$" name="Dun&#39;s Number">
+          <description>The reference assigned to a company in Dun &amp; Bradstreet&#39;s Company Register.
+Must be 9 numeric characters.
+The Dun and Bradstreet D-U-N-S Number is a unique nine-digit identification sequence, which provides unique identifiers of single business entities, while linking corporate family structures together. An example is 27-552-4106. This is 11 characters long.</description>
+        </template>
+         <template expression="^(R|AC|FC|GE|GN|GS|IC|IP|LP|NA|NF|NI|NL|NO|NP|NR|NZ|OC|RC|SA|SC|SF|SI|SL|SO|SP|SR|SZ|ZC)\d{6}|\d{8}$" name="UK Companies House Reference Number">
+          <description>A unique reference number allocated by the Registrar of Companies to a limited liability company or unlimited company at the time of first registration of that company.
+1. Exactly 8 numerical digits
+OR
+2. The first part must be two characters within the set: AC, FC, GE, GN, GS, IC, IP, LP, NA, NF, NI, NL, NO, NP, NR, NZ, OC, RC, SA, SC, SF, SI, SL, SO, SP, SR, SZ, ZC or the single character R. The second part is exactly 6 numerical digits.
+
+English/Welsh limited/unlimited companies have an 8-digit number. Other corporate body types have a 2-character prefix followed by 6 digits. These are detailed in the list below.
+AC Assurance Company [E/W]
+FC Oversea Company [E/W]
+GE EEIG [E/W]
+GN EEIG [NI]
+GS EEIG [S]
+IC Investment Company with Variable Capital [E/W]
+IP Industrial and Provident society [E/W]
+LP Limited Partnership [E/W]
+NA Assurance Company [NI]
+NF Oversea Company [NI]
+NI Northern Ireland Company
+NL Limited Partnership [NI]
+NO Other type of Company [NI]
+NP Industrial and Provident society[NI]
+NR Royal Charter Company [NI]
+NZ Unregistered Company [NI]
+OC Limited Liability Partnership [E/W]
+RC Royal Charter Company [E/W]
+SA Assurance Company [S]
+SC Scottish Company
+SF Oversea Company [S]
+SI Investment Company with Variable Capital [S]
+SL Limited Partnership [S]
+SO Limited Liability Partnership [S]
+SP Industrial and Provident society[S]
+SR Royal Charter Company [S]
+SZ Unregistered Company [S]
+ZC ZC Unregistered Company [E/W]
+
+The R prefix is included for legacy reasons. [E/W] Registered in England/Wales. [S] Registered in Scotland. [NI] Registered in Northern Ireland.</description>
+        </template>
+        <template expression="^\d{10}$" name="UK Unique Tax Reference Number">
+          <description>A reference number issued by the Inland Revenue that uniquely identifies a particular taxpayer.
+Format: 10 digits.
+1. Must be numeric.
+2. The first digit is a check digit.
+3. Must be a unique number.
+Each reference number is randomly generated.</description>
+        </template>
+        <template expression="^\d{9}$" name="UK Value Added Tax Number">
+          <description>The Value Added Tax registration number issued by Customs &amp; Excise to a person or organisation.
+1. Must be 9 characters.
+2. Modulus97 can be used to validate the check digits (last two digits).</description>
+        </template>
+        <template expression="^\d{5}$" name="UK Standardised Industrial Classification Number">
+          <description>A number, issued by the Office for National Statistics, that identifies the type of trade or industry in which an organisation is active.
+Format: Max. 5 characters.
+Based on UK Standard Industrial Classification (UK SIC) of Economic Activities 2003.</description>
+        </template>
+        <template expression="^[12]\d{3}$" name="UK Government Financial Year">
+          <description>A number that uniquely identifies the financial year for which related items are valid. The Financial Year runs from 1st April to 31st March.
+4 characters.
+The string indicates the year in which the Financial Year ends - 2001 for the Financial Year 2000/2001.</description>
+        </template>
+        <template expression="^[1-2]\d{3}$" name="UK Tax Year">
+          <description>A number that uniquely identifies the Tax Year for which related data items are valid. The Tax Year runs 6th April to 5th April of the following year.
+Format: 4 characters.
+The string indicates the year in which the Tax Year ends - 2001 for the Tax Year 2000/2001.</description>
+        </template>
+      </templates>
+    </templateSet>
+
+
+    <templateSet name="Contact">
+      <templateSets/>
+      <templates>
+        <template expression="^[\d\p{L}!#$%&amp;&#39;/\.=?^_`|}{~-]{1,127}@[\d\p{L}&#39;\.\-]{1,127}$" name="E-mail">
+          <description>The string of characters that identifies an addressee&#39;s post box on the Internet.
+255 characters.
+From IETF RFC2822: An email address is a specific Internet identifier that contains a locally interpreted string followed by the at-sign character (&quot;@&quot;, ASCII value 64) followed by an Internet domain. The locally interpreted string is either a quoted-string or a dot-atom. Comments and enfolding white space SHOULD NOT be used around the &quot;@&quot; in the email address. (i.e. no space characters either side of the @ character). The domain portion identifies the point to which the mail is delivered. The local-part portion is a domain dependent string. In addresses, it is simply interpreted on the particular host as a name of a particular mailbox.
+It has been observed that a number of email service and application providers are not compliant with IETF RFC2822 particularly in the acceptance of all special characters in the email address string prior to the @Domain Name e.g.
+~!&quot;@#$%&amp;&#39;\(\)\*\+,\-/:;&lt;=&gt;\?\[\\\]_\{\}\^£€
+Whilst it is the intention to move to being fully compliant with IETF RFC2822, until that time users with email addresses using special characters may experience validation issues.</description>
+        </template>
+      </templates>
+    </templateSet>
+
+    <templateSet name="Client">
+      <templates>
+        <template expression="^\d{9}$" name="Passport Number UK (New)">
+              <description>A unique reference number given to a new style red passport book issued by SPSL or the United Kingdom Passport Agency. The digit allows identification of the place of issue.
+1. Must be 9 characters.
+2. All characters must be numeric.</description>
+            </template>
+            <template expression="^[A-Z]\d{6}|\d{6}[A-Z]$" name="Passport Number UK (Old)">
+              <description>A unique reference number given to an old style blue passport book issued by SPSL or the United Kingdom Passport Agency. The digit allows identification of the place of issue.
+1. Must be 7 alphanumeric characters.
+2. 6 numeric digits plus one alpha character either prefix or suffix.
+Blue passports are no longer in use, so this definition is for historical data only.</description>
+            </template>
+        <template expression="^[A-Z\d]{5}\d[0156]\d(0[1-9]|[1-2]\d|3[01])\d[A-Z\d]{3}[A-Z]{2}$" name="UK Driver Number">
+          <description>A unique number assigned by the Driver and Vehicle Licensing Agency to identify a Driving Licence Holder; an applicant who has been refused a licence for medical reasons, or who has come to notice through court proceedings e.g. Driving under age.
+1. Must be 16 characters.
+2. First 5 characters are alphanumeric.
+3. Next 6 characters must be numeric.
+4. Next 3 characters are alphanumeric.
+5. Last 2 characters are alpha.
+6. Second character of numeric section can only be 0, 1, 5 or 6.
+7. Fourth and fifth characters of numeric section must be in the range 01 to 31.</description>
+        </template>
+        <template expression="^\d{10}$" name="UK Unique Tax Reference Number">
+          <description>A reference number issued by the Inland Revenue that uniquely identifies a particular taxpayer.
+Format: 10 digits.
+1. Must be numeric.
+2. The first digit is a check digit.
+3. Must be a unique number.
+Each reference number is randomly generated.</description>
+        </template>
+        <template expression="^[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z]\d{6}[A-D]$" name="UK National Insurance Number">
+          <description>A reference number that is issued to a person by the DWP/IR for participants in the National Insurance Scheme.
+1. Must be 9 characters.
+2. First 2 characters must be alpha.
+3. Next 6 characters must be numeric.
+4. Final character can be A, B, C, D or space.
+5. First character must not be D, F, I, Q, U or V.
+6. Second characters must not be D, F, I, O, Q, U or V.
+7. First 2 characters must not be combinations of GB, NK, TN or ZZ (the term combinations covers both GB and BG etc.)
+Schema fragment does include validation number 7.</description>
+        </template>
+        <template expression="^\d{10}$" name="NHS Number (UK)">
+          <description>A number used to identify a person uniquely within the NHS in England and Wales.
+10 numeric.
+The tenth digit of the NHS Number is a check digit used to confirm its validity. The check digit is validated using the Modulus 11 algorithm and the use of this algorithm is mandatory.
+There are 5 steps in the validation of the check digit:
+Step 1: Multiply each of the first nine digits by a weighting factor as follows:
+Digit Position (starting from the left) / Factor
+1 / 10
+2 / 9
+3 / 8
+4 / 7
+5 / 6
+6 / 5
+7 / 4
+8 / 3
+9 / 2
+Step 2: Add the results of each multiplication together.
+Step 3: Divide the total by 11 and establish the remainder.
+Step 4: Subtract the remainder from 11 to give the check digit. If the result is 11 then a check digit of 0 is used. If the result is 10 then the NHS NUMBER is invalid and not used.
+Step 5: Check the remainder matches the check digit. If it does not, the NHS NUMBER is invalid.</description>
+        </template>
+        <template expression="^[A-HJ-NP-RT-Z\d]\d{11}[A-HJ-NP-RT-Z\d]$" name="UK Unique Pupil Number">
+          <description>A Unique Pupil Number (UPN) is allocated to each child in an English state school. It is an identifier for use in the educational context during a child&#39;s school career only and subject to Data Protection restrictions.
+It consists of an upper-case check letter followed by twelve numeric digits (for a permanent UPN) or eleven numeric digits plus a final alphabetical character (for a temporary UPN).
+Format: Annnnnnnnnnnn or AnnnnnnnnnnnA (for temporary UPN).
+1. The check letter at position 1 is found by calculating the modulo 23 sum of the digit position over the 12 numeric digits (for a permanent UPN) or the 11 numeric digits plus the final alphabetical character (for a temporary UPN).
+2. The position of the first numeric digit in the calculation is 2.
+3. The resulting value is replaced by a letter of the alphabet following the rule:
+4. 0 -&gt; A, 1 -&gt; B, .........22 -&gt; Z.
+5. I, O, and S are not used as a check letter or the final character of a temporary UPN.
+6. For the purposes of the modulo 23 calculation, for a temporary UPN the final alphabetical character is assigned the value equivalent as specified in 4 above (e.g. an “A” would be “0” (zero), a “B” would be “1” etc.
+The components of the twelve digit number are, from left to right: a government-allocated Local Education Authority number (three digits); a government allocated Establishment number (four digits); the last two digits of an academic year; three random digits, for a permanent UPN, or 2 random digits and an alphabetical character (excluding I, O and S) for a temporary UPN. The first two components may be checked for validity by an application but should not be considered to yield usable data.</description>
+        </template>
+      </templates>
+    </templateSet>
+
+
+  </templateSets>
+</templateRoot>

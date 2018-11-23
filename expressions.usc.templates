@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<templateRoot>
+  <templateSets>
+        <templateSet name="Phone number">
+              <templates>
+                <template description="Removes any non-digit character from the given string and for resulting strings with 10 digits formats the output as (XXX) XXX - XXXX. Otherwise it returns original string." name="Cleanse and format US phone number">
+                  <expression>phone := trashNonDigits(${value});
+phone_length := length(phone);
+phone_area := substr(phone, 0, 3);
+phone_prefix := substr(phone, 3, 3);
+phone_number := substr(phone, 6, 4);
+
+iif(
+	phone_length != 10,
+	${value},
+	&#39;(&#39; + phone_area +&#39;)&#39; 
+	+ &#39; &#39; + phone_prefix + 
+	&#39; - &#39; + phone_number
+)</expression>
+                </template>
+                <template description="Removes any non-digit character from the given string and for resulting strings with 10 digits formats the output as (XXX) XXX - XXXX. Otherwise it returns original string." name="Phone number tester" expression="matches(&quot;^[0-9]{${length}}$&quot;, trashNonDigits(${value}))">
+                </template>
+              </templates>
+        </templateSet>
+        <templateSet name="Electronic address">
+          <templates>
+            <template expression="matches(&quot;^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$&quot;, ${value})" description="Tests if input string is IPv4 address." name="IPv4 Address"/>
+            <template description="Extracts all possible email addresses from a string." name="Extract email">
+              <expression>email := ${value}; 
+
+substituteAll(@&quot;.*[\s\(\):&lt;&gt;]([\w!#$%&amp;&#39;/\.=?^_`|}{~-]+@[\w\.-]+\w).*&quot;, &quot;$1 &quot;, email)</expression>
+            </template>
+          </templates>
+        </templateSet>
+        <templateSet name="Identifiers">
+          <templates>
+            <template expression="length(trashNonDigits(${value})) == 9" description="Tests if the given string may contain a US social security number." name="SSN"/>
+            <template expression="length(trashNonDigits(${value})) == ${length}" description="Tests if the given string has the given length." name="Field length"/>
+            <template expression="matches(&quot;^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$&quot;, ${value})" name="Fiscal Code">
+            <description>Fiscal Code consists of a string composed of 16 alphanumeric characters.</description>
+          </template>
+          <template expression="matches(&quot;/^(?:(?:[B-DF-HJ-NP-TV-Z]|[AEIOU])[AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[1256LMRS][\dLMNP-V])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/i&quot;, ${value})" name="Fiscal Code in Detail">
+            <description>Fiscal Code consists of a string composed of 16 alphanumeric characters.</description>
+          </template>
+          </templates>
+        </templateSet>
+      </templateSets>
+      
+</templateRoot>

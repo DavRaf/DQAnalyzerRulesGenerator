@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<templateRoot>
+  <templateSets>
+    <templateSet name="String">
+      <templates>
+        <template expression="trashNonDigits(${value})=${value}" description="Checks if string contains digits only. No letters or spaces allowed." name="Digits only"/>
+        <template expression="trashNonDigits(${value}) is not null" description="Tests if string contains at least a single digit." name="Any digit"/>
+        <template expression="trashNonLetters(${value})=${value}" description="Checks if string contains letters only. No digits or spaces allowed." name="Letters only"/>
+        <template expression="trashNonLetters(${value}) is not null" description="Checks if the string contains at least a single letter." name="Any letter"/>
+        <template description="Adds space in front of each uppercase letter in case there is any lowercase letter in a string. It might fix names missing spaces like &#39;JohnSmith&#39;." name="Space before uppercase letter">
+          <expression>name := ${value};
+
+iif(
+	upper(name) != name,
+	substituteAll(@&quot;(\p{Lu})&quot;, &quot; $1&quot;, name), 
+	name
+)</expression>
+        </template>
+        <template description="Template for decode of gender value." name="Decode gender">
+          <expression>male := &#39;M&#39;;
+female := &#39;F&#39;;
+
+decode(upper(${value}), 
+		&quot;M&quot;, male, 
+		&quot;F&quot;, female,
+		&quot;MALE&quot;, male,
+		&quot;FEMALE&quot;, female,
+		&quot;1&quot;, male,
+		&quot;2&quot;, female,
+		&quot;UNKNOWN&quot;, null,
+		&quot;NULL&quot;, null,
+null)</expression>
+        </template>
+        <template expression="decode(${value}, &quot;N/A&quot;, NULL, &quot;#&quot;, NULL, &quot;NULL&quot;, NULL, ${value})" description="Decodes typical database fillers." name="Decode values"/>
+        <template description="Erases a single character length value or copy the value." name="Erase a single letter length value">
+          <expression>iif(
+	length(${value})=1,
+	null,
+	${value}
+)</expression>
+        </template>
+        <template description="Returns null for values containing any number of repeating digits. Useful for artificial codes &#39;000&#39;, &#39;999999&#39; etc." name="Erase a string containing 1 or more repeating digits">
+          <expression>iif(
+	matches(@&quot;^([0-9])\1*$&quot;, ${value}), 
+	null,
+	${value}
+)</expression>
+        </template>
+        <template name="Fill with zeroes from the left">
+          <description>Fills non-empty strings shorter than 'length' with zeroes from the left so that the resulting string finally has the given length.
+</description>
+          <expression>number_of_chars := ${length};
+value := ${value};
+filler := &#39;0&#39;;
+
+iif(
+	length(value)&lt;number_of_chars and value is not null,
+	right(replicate(filler, number_of_chars) + value, number_of_chars),
+	value
+)</expression>
+        </template>
+        <template expression="substituteAll(@&quot;(.)&quot;, &quot;$1 &quot;, ${value})" description="Adds a space after each character (even another space)." name="Interlace string with spaces"/>
+        <template expression="substituteMany(&quot;^[/,.; ]+&quot;,&quot;&quot;, ${value}, 1)" description="Removes special characters and space from the beginning of the string." name="Ltrim special characters"/>
+        <template description="Looks for the 'lookup value' in the given string and returns original value with the 'lookup value' removed." name="Remove a lookup value in a column from another column">
+          <expression>value := ${value};
+lookup_value := ${lookup value};
+index := lastIndexOf(value, lookup_value);
+
+iif(
+	index is not null, 
+	left(value, index) + substr(value, index + length(lookup_value)), 
+	value 
+)</expression>
+        </template>
+        <template expression="substituteMany(&quot;[/,.; ]+$&quot;,&quot;&quot;, ${value}, 1)" description="Removes special characters and space from the end of the string." name="Rtrim special characters"/>
+        <template expression="matches(&quot;^(19[0-9][0-9]|20[0-4][0-9]|2050)[-](0?[1-9]|1[0-2])[-](0?[1-9]|[12][0-9]|3[01])$&quot;, ${value})" description="Tests if input date is in the US format (YYYY-mm-DD)." name="US Date format YYYY-mm-DD"/>
+        <template expression="matches(&quot;^(0?[1-9]|[12][0-9]|3[01])[-](0?[1-9]|1[0-2])[-](19[0-9][0-9]|20[0-4][0-9]|2050)$&quot;, ${value})" description="Tests if input date is in the EU format (DD-mm-YYYY)." name="EU Date format DD-mm-YYYY"/>
+        <template expression="matches(&quot;^(19[0-9][0-9]|20[0-4][0-9]|2050)[/](0?[1-9]|1[0-2])[/](0?[1-9]|[12][0-9]|3[01])$&quot;, ${value})" description="Tests if input date is in the US format (YYYY/mm/DD)." name="US Date format YYYY/mm/DD"/>
+        <template expression="matches(&quot;^(0?[1-9]|[12][0-9]|3[01])[/](0?[1-9]|1[0-2])[/](19[0-9][0-9]|20[0-4][0-9]|2050)$&quot;, ${value})" description="Tests if input date is in the EU format (DD/mm/YYYY)." name="EU Date format DD/mm/YYYY"/>
+        <template expression="matches(&quot;^(19[0-9][0-9]|20[0-4][0-9]|2050)[.](0?[1-9]|1[0-2])[.](0?[1-9]|[12][0-9]|3[01])$&quot;, ${value})" description="Tests if input date is in the US format (YYYY.mm.DD)." name="US Date format YYYY.mm.DD"/>
+        <template expression="matches(&quot;^(0?[1-9]|[12][0-9]|3[01])[.](0?[1-9]|1[0-2])[.](19[0-9][0-9]|20[0-4][0-9]|2050)$&quot;, ${value})" description="Tests if input date is in the EU format (DD.mm.YYYY)." name="EU Date format DD.mm.YYYY"/>
+        <template expression="matches(&quot;^([-a-zA-Z0-9._-]+@[-a-zA-Z0-9._-]+\.[a-zA-Z]+)$&quot;, ${value})" description="Sample email tester " name="Email tester 1"/>
+        <template expression="matches(&quot;^&lt;([-a-zA-Z0-9._-]+@[-a-zA-Z0-9._-]+\.[a-zA-Z]+)&gt;$&quot;, ${value})" description="Email tester in the following format: &lt;email&gt; " name="Email tester 2"/>
+        <template expression="matches(&quot;^[-a-zA-Z]+:([-a-zA-Z0-9._-]+@[-a-zA-Z0-9._-]+\.[a-zA-Z]+)$&quot;, ${value})" description="Email tester in the following format: mailto:email" name="Email tester 3"/>
+        
+      </templates>
+      
+    </templateSet>
+
+
+
+   
+  </templateSets>
+</templateRoot>

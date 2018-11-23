@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<purity-config version="11.1.1.ga-2017-06-14">
+	<references/>
+	<component-mappings>
+		<propertyMappings/>
+	</component-mappings>
+
+<!-- (Profiler) --><step mode="NORMAL" className="com.ataccama.dqc.tasks.profiling.ProfilingAlgorithm" disabled="false" id="Profiler">
+		<properties defaultLocale="en_US" outputFile="../data/out/2.1 Email Parsing.profile" outputLimit="1000" threaded="true" dataSource="DB">
+			<businessDomains strictThreshold="25.0" looseThreshold="20.0"/>
+			<domains>
+				<customs/>
+				<datetime active="true" threshold="80"/>
+				<enum valueCountLimit="20" active="true"/>
+				<numeric active="true" threshold="80"/>
+				<pattern active="true" patternCountLimit="10"/>
+				<specval active="true" gradientThreshold="100"/>
+			</domains>
+			<fkAnalysis/>
+			<inputs>
+				<profilingInput name="emails" drillThrough="true">
+					<businessRules/>
+					<dataToProfile>
+						<profiledData expression="src_primary_key" analyseBusinessDomain="false" analyseDomain="true">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats quantiles="10" calculate="true" extremes="5" calculateAggregated="true"/>
+						</profiledData>
+						<profiledData expression="src_name" maskName="words" analyseBusinessDomain="false" analyseDomain="true">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats quantiles="10" calculate="true" extremes="5" calculateAggregated="true"/>
+						</profiledData>
+						<profiledData expression="src_email" maskName="words" analyseBusinessDomain="false" analyseDomain="true">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats quantiles="10" calculate="true" extremes="5" calculateAggregated="true"/>
+						</profiledData>
+						<profiledData expression="src_address" maskName="words" analyseBusinessDomain="false" analyseDomain="true">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats quantiles="10" calculate="true" extremes="5" calculateAggregated="true"/>
+						</profiledData>
+						<profiledData expression="src_phone" maskName="words" analyseBusinessDomain="false" analyseDomain="true">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats quantiles="10" calculate="true" extremes="5" calculateAggregated="true"/>
+						</profiledData>
+					</dataToProfile>
+					<dependencies/>
+					<pkAnalysis/>
+					<rollUps/>
+				</profilingInput>
+			</inputs>
+			<masks>
+				<maskCfg copyOther="true" name="characters">
+					<characterGroups>
+						<characterGroup characters="[:letter:]" symbol="L"/>
+						<characterGroup characters="[:digit:]" symbol="D"/>
+					</characterGroups>
+				</maskCfg>
+				<maskCfg copyOther="true" name="words">
+					<characterGroups>
+						<characterGroup repeatedSymbol="W" characters="[:letter:]" symbol="L" repeatedThreshold="2"/>
+						<characterGroup repeatedSymbol="N" characters="[:digit:]" symbol="D" repeatedThreshold="2"/>
+					</characterGroups>
+				</maskCfg>
+			</masks>
+			<userMetadata>
+				<items/>
+			</userMetadata>
+		</properties>
+		<visual-constraints layout="horizontal" bounds="216,360,-1,-1"/>
+	</step>
+
+
+
+<!-- (emails) --><step mode="NORMAL" className="com.ataccama.dqc.tasks.io.text.read.TextFileReader" disabled="false" id="emails">
+		<properties lineMaxReadLength="65536" fileName="../data/in/emails.txt" fieldSeparator=";" stringQualifierEscape="&quot;" numberOfLinesInFooter="0" compression="NONE" encoding="UTF-8" lineSeparator="\r\n" stringQualifier="&quot;" numberOfLinesInHeader="1">
+			<columns>
+				<textReaderColumn name="src_primary_key" ignore="false" type="INTEGER">
+					<dataFormatParameters decimalSeparator="." thousandsSeparator=""/>
+				</textReaderColumn>
+				<textReaderColumn name="src_name" ignore="false" type="STRING"/>
+				<textReaderColumn name="src_email" ignore="false" type="STRING"/>
+				<textReaderColumn name="src_address" ignore="false" type="STRING"/>
+				<textReaderColumn name="src_phone" ignore="false" type="STRING"/>
+			</columns>
+			<dataFormatParameters falseValue="false" dateTimeFormat="yyyy-MM-dd HH:mm:ss" decimalSeparator="." dayFormat="yyyy-MM-dd" trueValue="true" dateFormatLocale="en_US" thousandsSeparator=""/>
+			<errorHandlingStrategy rejectFileName="rejected.txt">
+				<errorInstructions>
+					<errorInstruction dataStrategy="READ_POSSIBLE" errorType="EXTRA_DATA" putToLog="true" putToReject="false"/>
+					<errorInstruction dataStrategy="STOP" errorType="LONG_LINE" putToLog="true" putToReject="true"/>
+					<errorInstruction dataStrategy="STOP" errorType="PROCESSING_ERROR" putToLog="true" putToReject="false"/>
+					<errorInstruction dataStrategy="READ_POSSIBLE" errorType="INVALID_DATE" putToLog="true" putToReject="false"/>
+					<errorInstruction dataStrategy="READ_POSSIBLE" errorType="SHORT_LINE" putToLog="true" putToReject="true"/>
+					<errorInstruction dataStrategy="NULL_VALUE" errorType="UNPARSABLE_FIELD" putToLog="true" putToReject="false"/>
+				</errorInstructions>
+			</errorHandlingStrategy>
+			<shadowColumns/>
+		</properties>
+		<visual-constraints layout="horizontal" bounds="96,336,-1,-1"/>
+	</step>
+	<connection className="com.ataccama.dqc.model.elements.connections.StandardFlowConnection" disabled="false">
+		<source endpoint="out" step="emails"/>
+		<target endpoint="emails" step="Profiler"/>
+		<visual-constraints>
+			<bendpoints/>
+		</visual-constraints>
+	</connection>
+
+
+
+<modelComment backgroundColor="255,207,159" borderColor="23,28,83" bounds="24,0,370,269" foregroundColor="23,28,83">In this sample, we will focus on a more business related case - 
+extracting e-mail addresses to help with a direct-mailing campaign. 
+Since we are not sure how the data is stored, we will use DQ 
+Analyzer to get more insight about the data. The sample shows how 
+a suitable pre-processing of the initial data can provide us with better 
+results and how the information from the profile result can be used to 
+derive processing rules.
+
+Our approach is divided into several steps. In the first step, we use
+profiling to reveal the formats of the e-mails. In the next step, we 
+extract and standardize the e-mails from the src_email column. In 
+some records, the e-mails may be stored in the wrong column,
+therefore we use profiling again and analyze the structure of the 
+columns of the records that did not contain valid e-mails in the 
+src_email column. This will help us to extract e-mail addresses for an 
+additional 15% of records.
+
+An explanatory video is available at 
+https://youtu.be/u45G0yo9sE4</modelComment>
+
+
+
+<modelComment backgroundColor="255,255,180" borderColor="183,183,0" bounds="528,0,489,154" foregroundColor="51,51,51">We start with data profiling of the input file. It contains five columns 
+(src_primary_key, src_name, src_email, src_address, and src_phone).
+
+We are profiling unstructured data, therefore we select the &quot;words&quot; mask 
+analysis in the create profile dialog - it is much more suitable for this scenario. 
+We also enable drill-through functionality so that we can view the 
+corresponding data.
+</modelComment>
+
+
+
+<modelComment backgroundColor="255,255,180" borderColor="183,183,0" bounds="504,216,484,187" foregroundColor="0,0,0">Results:
+
+We focus on the src_email column and on the Mask Analysis tab in particular. 
+From the output, we can deduce that most of the data in this column use
+one of the following formats:
+* plain e-mail, e.g., name@domain.com
+* e-mail in angle brackets, e.g., &lt;name@domain.com&gt;
+* e-mail prefixed with &quot;mailto:&quot;, e.g., mailto:name@domain.com
+
+In the next plan, we will standardize the formats and detect the valid e-mails.</modelComment>
+
+
+
+<modelComment backgroundColor="255,255,180" borderColor="255,128,0" bounds="528,167,208,39" foregroundColor="51,51,51">Run the plan to see the results.</modelComment>
+
+</purity-config>
