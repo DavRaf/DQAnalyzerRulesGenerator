@@ -5,7 +5,7 @@ from string import Template
 import re
 
 xml_file_manager = XMLFileManager()
-profiles, profiles_in_json = xml_file_manager.read_profile('2.1 Email Parsing.profile.xml')
+profiles, profiles_in_json = xml_file_manager.read_profile('test-iban.txt.profile.xml')
 '''for p in profiles_in_json:
     print(p + '\n')'''
 files = ['expressions.common.templates', 'expressions.usc.templates', 'regex.common.templates']
@@ -83,7 +83,7 @@ if mask_analysis_list:
             xml_file_manager.write_rule_advanced('1.2 Advanced.plan', rule["name"], rule_expression)
 
 # fiscal code rules
-profile = profiles[3]
+profile = profiles[0]
 mask_analysis_list = []
 mask_analysis = profile.mask_analysis
 for m in mask_analysis:
@@ -104,15 +104,12 @@ if len(mask) == 16:
 profile = profiles[0]
 domain_analysis = profile.domain_analysis
 num_cases_list = []
-print(profile.domain_name, profile.expression_type)
 if 'integer' not in profile.domain_name:
     for d_a in domain_analysis:
         num_cases_list.append(int(d_a.num_cases))
         # values.append(d_a.value)
     if num_cases_list:
         max_num_cases = max(num_cases_list)
-        print(max_num_cases)
-        print(num_cases_list)
         for d_a in domain_analysis:
             if int(d_a.num_cases) == max_num_cases:
                 pattern = d_a.value
@@ -139,7 +136,7 @@ if 'integer' not in profile.domain_name:
         xml_file_manager.write_rule_advanced('1.2 Advanced.plan', rule["name"], rule_expression)'''
 
 # email rules
-profile = profiles[2]
+profile = profiles[0]
 mask_analysis_list = []
 mask_analysis = profile.mask_analysis
 for m in mask_analysis:
@@ -153,7 +150,6 @@ if mask is None:
     for m in mask_analysis:
         if int(m.count) == second_largest:
             mask = m.value
-print(mask)
 if re.match("([W._-]+@[W._-]+\.[W]+)", mask):
     rule = rules_manager.get_rule_by_name("Email tester 1")
     rule_expression_template = rule['expression']
@@ -173,8 +169,8 @@ elif re.match("W:([W._-]+@[W._-]+\.[W]+)", mask):
     rule_expression = rule_expression_template.safe_substitute(value=profile.expression_name)
     xml_file_manager.write_rule_advanced('2.1 Email Parsing.plan', rule["name"], rule_expression)
 
-# phone rules
-profile = profiles[4]
+'''# phone rules
+profile = profiles[0]
 mask_analysis_list = []
 mask_analysis = profile.mask_analysis
 for m in mask_analysis:
@@ -188,14 +184,71 @@ if mask is None:
     for m in mask_analysis:
         if int(m.count) == second_largest:
             mask = m.value
-print(mask)
 if mask == '+N' or mask == '+N N N' or mask == '+N-N-N':
-    rule = rules_manager.get_rule_by_name("Phone number tester")
+    rule = rules_manager.get_rule_by_name("Phone number tester") #Cleanse and format US phone number
     rule_expression_template = rule['expression']
     rule_expression_template = Template(rule_expression_template)
     rule_expression = rule_expression_template.safe_substitute(value=profile.expression_name, length=10) #update with stat
-    xml_file_manager.write_rule_advanced('2.1 Email Parsing.plan', rule["name"], rule_expression)
+    xml_file_manager.write_rule_advanced('2.1 Email Parsing.plan', rule["name"], rule_expression)'''
 
+# iban rules
+profile = profiles[1]
+mask_analysis_list = []
+mask_analysis = profile.mask_analysis
+for m in mask_analysis:
+    mask_analysis_list.append(int(m.count))
+mask_analysis_count_max = max(mask_analysis_list)
+for m in mask_analysis:
+    if int(m.count) == mask_analysis_count_max:
+        mask = m.value
+if mask is None:
+    second_largest = sorted(set(mask_analysis_list))[-2]
+    for m in mask_analysis:
+        if int(m.count) == second_largest:
+            mask = m.value
+if re.match("([a-zA-Z]{4}\s?[a-zA-Z]{11,27})", mask):
+    rule = rules_manager.get_rule_by_name("IBAN validator 1")
+    rule_expression_template = rule['expression']
+    rule_expression_template = Template(rule_expression_template)
+    rule_expression = rule_expression_template.safe_substitute(value=profile.expression_name)
+    xml_file_manager.write_rule_advanced('test-iban.txt.plan', rule["name"], rule_expression)
+elif re.match("<([a-zA-Z]{4}\s?[a-zA-Z]{11,27})>", mask):
+    rule = rules_manager.get_rule_by_name("IBAN validator 2")
+    rule_expression_template = rule['expression']
+    rule_expression_template = Template(rule_expression_template)
+    rule_expression = rule_expression_template.safe_substitute(value=profile.expression_name)
+    xml_file_manager.write_rule_advanced('test-iban.txt.plan', rule["name"], rule_expression)
+elif re.match("(\w+):([a-zA-Z]{4}\s?[a-zA-Z]{11,27})", mask):
+    rule = rules_manager.get_rule_by_name("IBAN validator 3")
+    rule_expression_template = rule['expression']
+    rule_expression_template = Template(rule_expression_template)
+    rule_expression = rule_expression_template.safe_substitute(value=profile.expression_name)
+    xml_file_manager.write_rule_advanced('test-iban.txt.plan', rule["name"], rule_expression)
+elif re.match("(\w+):<([a-zA-Z]{4}\s?[a-zA-Z]{11,27})>", mask):
+    rule = rules_manager.get_rule_by_name("IBAN validator 4")
+    rule_expression_template = rule['expression']
+    rule_expression_template = Template(rule_expression_template)
+    rule_expression = rule_expression_template.safe_substitute(value=profile.expression_name)
+    xml_file_manager.write_rule_advanced('test-iban.txt.plan', rule["name"], rule_expression)
+
+# ipv4 rules
+profile = profiles[2]
+num_cases_list = []
+domain_analysis = profile.domain_analysis
+for d_a in domain_analysis:
+    num_cases_list.append(int(d_a.num_cases))
+    # values.append(d_a.value)
+if num_cases_list:
+    max_num_cases = max(num_cases_list)
+    for d_a in domain_analysis:
+        if int(d_a.num_cases) == max_num_cases:
+            pattern = d_a.value
+if pattern == 'N.N.N.N' or pattern == 'D.D.D.D' or pattern == 'N.D.D.D' or pattern == 'N.N.D.D' or pattern == 'N.N.N.D' or pattern == 'D.N.N.N' or pattern == 'D.D.N.N' or pattern == 'D.D.D.N' or pattern == 'N.D.N.D' or pattern == 'D.N.D.N' or pattern == 'N.D.D.N' or pattern == 'D.N.N.D':
+    rule = rules_manager.get_rule_by_name("IPv4 Address validator")
+    rule_expression_template = rule['expression']
+    rule_expression_template = Template(rule_expression_template)
+    rule_expression = rule_expression_template.safe_substitute(value=profile.expression_name)
+    xml_file_manager.write_rule_advanced('test-iban.txt.plan', rule["name"], rule_expression)
 #rules_manager.get_all_rules()
 #rules_manager.get_rule_by_id_and_replace_value(ObjectId("5bf3d6a86672568be9693ea6"))
 #print(len(rules_templates))

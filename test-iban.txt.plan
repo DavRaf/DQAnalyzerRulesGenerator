@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<purity-config version="11.1.1.ga-2017-06-14">
+	<references/>
+	<component-mappings>
+		<propertyMappings/>
+	</component-mappings>
+
+<!-- (Profiler) --><step mode="NORMAL" className="com.ataccama.dqc.tasks.profiling.ProfilingAlgorithm" disabled="false" id="Profiler">
+		<properties defaultLocale="en_US" outputFile="test-iban.txt.profile" outputLimit="1000" threaded="true" dataSource="DB">
+			<businessDomains strictThreshold="25.0" looseThreshold="20.0"/>
+			<domains>
+				<customs/>
+				<datetime active="true" threshold="80"/>
+				<enum valueCountLimit="20" active="true"/>
+				<numeric active="true" threshold="80"/>
+				<pattern active="true" patternCountLimit="10"/>
+				<specval active="true" gradientThreshold="100"/>
+			</domains>
+			<fkAnalysis/>
+			<inputs>
+				<profilingInput name="test_iban" drillThrough="true">
+					<businessRules/>
+					<dataToProfile>
+						<profiledData expression="src_name" maskName="characters" analyseBusinessDomain="false" analyseDomain="true">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats quantiles="10" calculate="true" extremes="5" calculateAggregated="true"/>
+						</profiledData>
+						<profiledData expression="src_iban" maskName="characters" analyseBusinessDomain="false" analyseDomain="true">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats quantiles="10" calculate="true" extremes="5" calculateAggregated="true"/>
+						</profiledData>
+						<profiledData expression="ipv4" maskName="characters" analyseBusinessDomain="false" analyseDomain="true">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats quantiles="10" calculate="true" extremes="5" calculateAggregated="true"/>
+						</profiledData>
+					</dataToProfile>
+					<dependencies/>
+					<pkAnalysis/>
+					<rollUps/>
+				</profilingInput>
+			</inputs>
+			<masks>
+				<maskCfg copyOther="true" name="characters">
+					<characterGroups>
+						<characterGroup characters="[:letter:]" symbol="L"/>
+						<characterGroup characters="[:digit:]" symbol="D"/>
+					</characterGroups>
+				</maskCfg>
+				<maskCfg copyOther="true" name="words">
+					<characterGroups>
+						<characterGroup repeatedSymbol="W" characters="[:letter:]" symbol="L" repeatedThreshold="2"/>
+						<characterGroup repeatedSymbol="N" characters="[:digit:]" symbol="D" repeatedThreshold="2"/>
+					</characterGroups>
+				</maskCfg>
+				<maskCfg copyOther="true" name="case_sensitive">
+					<characterGroups>
+						<characterGroup characters="[:lowercase:]" symbol="L"/>
+						<characterGroup characters="[:uppercase:]" symbol="U"/>
+						<characterGroup characters="[:digit:]" symbol="D"/>
+					</characterGroups>
+				</maskCfg>
+				<maskCfg copyOther="true" name="mask_digits">
+					<characterGroups>
+						<characterGroup characters="[:digit:]" symbol="D"/>
+					</characterGroups>
+				</maskCfg>
+			</masks>
+			<userMetadata>
+				<items/>
+			</userMetadata>
+		</properties>
+		<visual-constraints layout="vertical" bounds="24,120,-1,-1"/>
+	</step>
+
+
+
+<!-- (test_iban) --><step mode="NORMAL" className="com.ataccama.dqc.tasks.io.text.read.TextFileReader" disabled="false" id="test_iban">
+		<properties lineMaxReadLength="65536" fileName="test-iban.txt" fieldSeparator=";" stringQualifierEscape="" numberOfLinesInFooter="0" compression="NONE" encoding="ISO-8859-1" lineSeparator="\r\n" stringQualifier="" numberOfLinesInHeader="1">
+			<columns>
+				<textReaderColumn name="src_name" ignore="false" type="STRING"/>
+				<textReaderColumn name="src_iban" ignore="false" type="STRING"/>
+				<textReaderColumn name="ipv4" ignore="false" type="STRING"/>
+			</columns>
+			<dataFormatParameters falseValue="false" dateTimeFormat="yy-MM-dd HH:mm:ss" decimalSeparator="." dayFormat="yy-MM-dd" trueValue="true" dateFormatLocale="en_US" thousandsSeparator=""/>
+			<errorHandlingStrategy rejectFileName="rejected.txt">
+				<errorInstructions>
+					<errorInstruction dataStrategy="READ_POSSIBLE" errorType="EXTRA_DATA" putToLog="true" putToReject="false"/>
+					<errorInstruction dataStrategy="STOP" errorType="LONG_LINE" putToLog="true" putToReject="true"/>
+					<errorInstruction dataStrategy="STOP" errorType="PROCESSING_ERROR" putToLog="true" putToReject="false"/>
+					<errorInstruction dataStrategy="READ_POSSIBLE" errorType="INVALID_DATE" putToLog="true" putToReject="false"/>
+					<errorInstruction dataStrategy="READ_POSSIBLE" errorType="SHORT_LINE" putToLog="true" putToReject="true"/>
+					<errorInstruction dataStrategy="NULL_VALUE" errorType="UNPARSABLE_FIELD" putToLog="true" putToReject="false"/>
+				</errorInstructions>
+			</errorHandlingStrategy>
+			<shadowColumns/>
+		</properties>
+		<visual-constraints layout="vertical" bounds="24,24,-1,-1"/>
+	</step>
+	<connection className="com.ataccama.dqc.model.elements.connections.StandardFlowConnection" disabled="false">
+		<source endpoint="out" step="test_iban"/>
+		<target endpoint="test_iban" step="Profiler"/>
+		<visual-constraints>
+			<bendpoints/>
+		</visual-constraints>
+	</connection>
+
+
+
+<modelComment backgroundColor="255,255,180" borderColor="183,183,0" bounds="240,24,169,74" foregroundColor="51,51,51">Click the Run button to create
+the profile or add steps
+from the palette to modify the
+data before it is profiled.</modelComment>
+
+</purity-config>
