@@ -4,5 +4,5 @@ class StatisticsData:
         self.type = type
         self.value = value
 
-    def __str__(self):
-        return "{type: " + self.type + ", value: " + self.value + "}"
+    '''def __str__(self):
+        return "{type: " + self.type + ", value: " + self.value + "}"'''

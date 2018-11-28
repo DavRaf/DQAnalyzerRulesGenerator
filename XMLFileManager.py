@@ -6,7 +6,6 @@ from MongoDBManager import MongoDBManager
 from RuleTemplate import RuleTemplate
 from StatisticsData import StatisticsData
 import html
-from bson.objectid import ObjectId
 
 class XMLFileManager:
 
@@ -91,31 +90,6 @@ class XMLFileManager:
             profiles_in_json.append(profile.to_json())
         return profiles, profiles_in_json
 
-    '''def read_rules_expressions(self, files):
-        rules_templates = []
-        for file in files:
-            doc = minidom.parse(file)
-            templates = doc.getElementsByTagName('template')
-            for template in templates:
-                if 'name' in template.attributes:
-                    name = template.attributes['name'].value
-                if 'description' in template.attributes:
-                    description = template.attributes['description'].value
-                else:
-                    description_tag = template.getElementsByTagName('description')
-                    for d in description_tag:
-                        description = d.firstChild.data
-                if 'expression' in template.attributes:
-                    expression = template.attributes['expression'].value
-                else:
-                    expression_tag = template.getElementsByTagName('expression')
-                    for e in expression_tag:
-                        expression = e.firstChild.data
-                expression = html.unescape(expression).replace("\n", "").replace("\t", "")
-                temp = RuleTemplate(name, description, expression)
-                rules_templates.append(temp.to_json())
-        return rules_templates'''
-
     def read_rules_expressions_advanced(self, files):
         rules_templates = []
         for file in files:
@@ -143,16 +117,10 @@ class XMLFileManager:
                     expression = html.unescape(expression).replace("\n", "").replace("\t", "")
                     temp = RuleTemplate(name, description, expression, category)
                     rules_templates.append(temp.to_json())
-                    '''self.mongodb_manager.insert_doc({"name" : name,
-                                                "description": description,
-                                                "expression": expression,
-                                                "category" : category})'''
                     self.mongodb_manager.collection.update({"name": name}, {"$set":{"name" : name,
                                                 "description": description,
                                                 "expression": expression,
                                                 "category" : category}}, upsert = True)
-        #mongodb_manager.find_all_docs()
-        #mongodb_manager.find_doc_by_id(ObjectId("5bf2e84d048ef6059841f93c"))
         return rules_templates
 
     '''def write_rule(self, file):
@@ -172,5 +140,5 @@ class XMLFileManager:
         element.setAttribute(XMLFileManager.NAME, rule_name)
         cd = doc.getElementsByTagName(XMLFileManager.BUSINESS_RULES)[0]
         cd.appendChild(element)
-        doc.writexml(open("newplan.plan", "w"))
+        doc.writexml(open(file, "w"))
 

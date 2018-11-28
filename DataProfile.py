@@ -9,6 +9,8 @@ class DataProfile:
         self.statistics = statistics
         self.mask_analysis = mask_analysis
         self.domain_name = domain_name
+        self.pattern = None
+        self.mask = None
 
     def set_expression_name(self, expression_name):
         self.expression_name = expression_name
@@ -28,18 +30,48 @@ class DataProfile:
     def set_domain_name(self, domain_name):
         self.domain_name = domain_name
 
-    '''def print_profile(self):
-        print('Profile: \n')
-        print(self.expression_name + '\n')
-        print(self.expression_type + '\n')
-        if self.domain_analysis:
-            for p in self.domain_analysis:
-                print(p.num_cases)
-                print(p.value)
-        for s in self.statistics:
-            print(s.type)
-            print(s.value)'''
+    def set_pattern(self, pattern):
+        self.pattern = pattern
 
+    def set_mask(self, mask):
+        self.mask = mask
+
+    def get_pattern(self):
+        if self.domain_analysis:
+            num_cases_list = []
+            for d_a in self.domain_analysis:
+                num_cases_list.append(int(d_a.num_cases))
+            max_num_cases = max(num_cases_list)
+            for d_a in self.domain_analysis:
+                if int(d_a.num_cases) == max_num_cases:
+                    pattern = d_a.value
+            if pattern is None:
+                second_largest = sorted(set(num_cases_list))[-2]
+                for d_a in self.domain_analysis:
+                    if int(d_a.num_cases) == second_largest:
+                        pattern = d_a.value
+            self.set_pattern(pattern)
+            return pattern
+        return None
+
+    def get_mask(self):
+        if self.mask_analysis:
+            mask_analysis_list = []
+            mask_analysis = self.mask_analysis
+            for m in mask_analysis:
+                mask_analysis_list.append(int(m.count))
+            mask_analysis_count_max = max(mask_analysis_list)
+            for m in mask_analysis:
+                if int(m.count) == mask_analysis_count_max:
+                    mask = m.value
+            if mask is None:
+                second_largest = sorted(set(mask_analysis_list))[-2]
+                for m in mask_analysis:
+                    if int(m.count) == second_largest:
+                        mask = m.value
+            self.set_mask(mask)
+            return mask
+        return None
 
     '''def __str__(self):
         return "Profile: {\n" \
