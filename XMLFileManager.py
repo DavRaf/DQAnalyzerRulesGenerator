@@ -123,16 +123,6 @@ class XMLFileManager:
                                                 "category" : category}}, upsert = True)
         return rules_templates
 
-    '''def write_rule(self, file):
-        doc = minidom.parse(file)
-        rule = self.mongodb_manager.find_doc_by_id(ObjectId("5bf3d6a86672568be9693ea6"))
-        element = doc.createElement(XMLFileManager.BUSINESS_RULE)
-        element.setAttribute(XMLFileManager.EXPRESSION, rule['expression'])
-        element.setAttribute(XMLFileManager.NAME, rule['name'])
-        cd = doc.getElementsByTagName(XMLFileManager.BUSINESS_RULES)[0]
-        cd.appendChild(element)
-        doc.writexml(open("newxmlfile.xml", "w"))'''
-
     def write_rule_advanced(self, file, rule_name, rule_expression):
         doc = minidom.parse(file)
         element = doc.createElement(XMLFileManager.BUSINESS_RULE)
