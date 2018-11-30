@@ -44,7 +44,14 @@
     <addaction name="action_load_profile_file"/>
     <addaction name="action_manage_rules_repository"/>
    </widget>
+   <widget class="QMenu" name="menuRun">
+    <property name="title">
+     <string>Run</string>
+    </property>
+    <addaction name="action_generate_rules"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuRun"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -97,10 +104,10 @@
      <normaloff>../../Downloads/ui.png</normaloff>../../Downloads/ui.png</iconset>
    </property>
    <property name="text">
-    <string>Generate Rules</string>
+    <string>Run Rules Generator</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+P</string>
+    <string>Ctrl+R</string>
    </property>
   </action>
  </widget>

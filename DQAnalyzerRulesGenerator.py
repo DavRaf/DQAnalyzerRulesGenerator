@@ -9,21 +9,46 @@ from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QImage, QFont
 import subprocess
 import os
+from MongoDBManager import MongoDBManager
 
-'''xml_file_manager = XMLFileManager()
-profiles, profiles_in_json = xml_file_manager.read_profile('1.2 Advanced.profile.xml')
-files = ['expressions.common.templates', 'expressions.usc.templates', 'regex.common.templates']
-rules_templates = xml_file_manager.read_rules_expressions_advanced(files)
-rules_manager = RulesManager()
-for profile in profiles:
-    rules_manager.generate_date_rules(profile)
-    rules_manager.generate_ssn_rules(profile)
-    rules_manager.generate_fiscal_code_rules(profile)
-    rules_manager.generate_len_number_rules(profile)
-    rules_manager.generate_email_rules(profile)
-    rules_manager.generate_iban_rules(profile)
-    rules_manager.generate_ipv4_rules(profile)
-    rules_manager.generate_phone_rules(profile)'''
+class ManageRulesUI(QDialog):
+    def __init__(self):
+        super(ManageRulesUI, self).__init__()
+        loadUi('manage_rules.ui', self)
+        self.mongo_db_manager = MongoDBManager()
+        self.rules_collection = self.mongo_db_manager.find_all_docs()
+
+    def create_table(self):
+        self.tableWidget = QTableWidget()
+        self.tableWidget.setRowCount(self.rules_collection.count())
+        self.tableWidget.setColumnCount(4)
+        self.tableWidget.verticalHeader().setVisible(False)
+        self.tableWidget.setHorizontalHeaderLabels(["Rule Name","Rule Category", "Rule Description", "Rule Expression Template"])
+        self.rule_names = []
+        self.rule_categories = []
+        self.rule_descriptions = []
+        self.rule_expression_templates = []
+        for rule in self.rules_collection:
+            self.rule_names.append(rule['name'])
+            self.rule_descriptions.append(rule['description'])
+            self.rule_categories.append(rule['category'])
+            self.rule_expression_templates.append(rule['expression'])
+        for x in range(0, self.rules_collection.count()):
+            self.tableWidget.setItem(x, 0, QTableWidgetItem(self.rule_names[x]))
+            for x in range(0, self.rules_collection.count()):
+                self.tableWidget.setItem(x, 1, QTableWidgetItem(self.rule_categories[x]))
+        for x in range(0, self.rules_collection.count()):
+            self.tableWidget.setItem(x, 2, QTableWidgetItem(self.rule_descriptions[x]))
+        for x in range(0, self.rules_collection.count()):
+            self.tableWidget.setItem(x, 3, QTableWidgetItem(self.rule_expression_templates[x]))
+        self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.label = QLabel()
+        self.label.setText("Business Rules Repository")
+        myFont = QFont()
+        myFont.setBold(True)
+        self.label.setFont(myFont)
+
 
 class UI(QMainWindow):
     def __init__(self):
@@ -31,15 +56,29 @@ class UI(QMainWindow):
         loadUi('dq_analyzer_rules_generator.ui', self)
         self.xml_file_manager = XMLFileManager()
         self.profiles = None
+        self.tabs = self.tabWidget
+        self.tabs.setTabsClosable(True)
+        self.tabs.tabCloseRequested.connect(self.close_tab)
         self.action_load_profile_file.triggered.connect(self.load_profile_file)
         self.action_generate_rules.setEnabled(False)
         self.action_generate_rules.triggered.connect(self.generate_rules)
+        self.action_manage_rules_repository.triggered.connect(self.manage_rules)
+
+    def manage_rules(self):
+        manage_rules_ui = ManageRulesUI()
+        manage_rules_ui.setWindowTitle('DQ Analyzer Rules Generator')
+        manage_rules_ui.create_table()
+        manage_rules_ui.layout = QVBoxLayout()
+        manage_rules_ui.layout.addWidget(manage_rules_ui.label)
+        manage_rules_ui.layout.addWidget(manage_rules_ui.tableWidget)
+        manage_rules_ui.setLayout(manage_rules_ui.layout)
+        manage_rules_ui.show()
+        manage_rules_ui.exec_()
 
     def generate_rules(self):
-        if not self.filename:
-            QMessageBox.critical(self, "File not selected", "You don't have selected any file.")
-            return
-        dialog = Dialog(self.profiles, self.xml_file_manager, self.filename)
+        index = self.tabs.currentIndex()
+        currentTabText = self.tabs.tabText(index)
+        dialog = Dialog(self.profiles, self.xml_file_manager, currentTabText)
         dialog.setWindowTitle('DQ Analyzer Rules Generator')
         dialog.show()
         dialog.exec_()
@@ -51,11 +90,6 @@ class UI(QMainWindow):
             return
         self.action_generate_rules.setEnabled(True)
         self.profiles, profiles_in_json = self.xml_file_manager.read_profile(self.filename[0])
-        myFont = QFont()
-        myFont.setBold(True)
-        self.tabs = self.tabWidget
-        self.tabs.setTabsClosable(True)
-        self.tabs.tabCloseRequested.connect(self.close_tab)
         self.tab1 = QWidget()
         self.tabs.addTab(self.tab1, self.filename[0])
         self.tableWidget = QTableWidget()
@@ -80,6 +114,8 @@ class UI(QMainWindow):
         self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tableWidget2 = QTableWidget() #table for showing domain analysis
         self.tableWidget3 = QTableWidget() #table for showing mask analysis
+        myFont = QFont()
+        myFont.setBold(True)
         self.label1 = QLabel()
         self.label1.setText("Column Analyses")
         self.label1.setFont(myFont)
@@ -95,8 +131,14 @@ class UI(QMainWindow):
         self.tab1.layout.addWidget(self.tableWidget)
         self.tab1.setLayout(self.tab1.layout)
 
-    def close_tab(self, tab):
-        self.tabs.widget(tab).deleteLater()
+    def close_tab(self, index):
+        widget = self.tabs.widget(index)
+        if widget is not None:
+            widget.deleteLater()
+        self.tabs.removeTab(index)
+        #self.tabs.widget(tab).deleteLater()
+        if self.tabs.count() == 0:
+            self.action_generate_rules.setEnabled(False)
 
     def handle_item_clicked(self):
         expression_name = str((self.tableWidget.item(self.tableWidget.currentItem().row(), 0)).text())
@@ -162,18 +204,9 @@ class Dialog(QDialog):
         self.profiles = profiles
         self.xml_file_manager = xml_file_manager
         self.profile_file = profile_file
-        self.profile_file_text_edit.setPlainText(self.profile_file[0])
+        self.profile_file_text_edit.setPlainText(self.profile_file)
         self.choose_plan_file_button.clicked.connect(self.open_file)
         self.finish_button.clicked.connect(self.create_rules)
-
-    '''def set_profiles(self, profiles):
-        self.profiles = profiles
-        
-    def set_xml_file_manager(self, xml_file_manager):
-        self.xml_file_manager = xml_file_manager
-        
-    def set_profile_file(self, profile_file):
-        self.profile_file = profile_file'''
 
     def open_file(self):
         self.plan_file = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "PLAN files (*plan)")

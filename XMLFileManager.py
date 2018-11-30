@@ -133,9 +133,6 @@ class XMLFileManager:
         cd = doc.getElementsByTagName(XMLFileManager.BUSINESS_RULES)[0]
         cd.appendChild(element)
         doc.writexml(open(file, "w"))
-        '''with open('temp.pkl', 'wb') as output:
-            rule = Rule(rule_name, rule_description, rule_expression)
-            pickle.dump(rule, output, pickle.HIGHEST_PROTOCOL)'''
 
 
 
