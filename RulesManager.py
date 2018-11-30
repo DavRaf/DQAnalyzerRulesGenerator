@@ -2,6 +2,7 @@ from MongoDBManager import MongoDBManager
 from string import Template
 import re
 
+from Rule import Rule
 from XMLFileManager import XMLFileManager
 
 
@@ -14,6 +15,7 @@ class RulesManager:
 
     def __init__(self):
         self.mongo_db_manager = MongoDBManager()
+        self.generated_rules = list()
 
     def get_rule_by_id(self, id):
         rule = self.mongo_db_manager.find_doc_by_id(id)
@@ -30,78 +32,94 @@ class RulesManager:
         xml_file_manager = XMLFileManager()
         xml_file_manager.write_rule_advanced(file, rule_name, rule_expression)
 
-    def generate_date_rules(self, profile, plan_file):
+    def generate_date_rules(self, profile):
         if 'string' in profile.expression_type.casefold() and 'day' in profile.domain_name.casefold():
             pattern = profile.get_pattern()
             if pattern:
                 if pattern == 'N-N-N':
-                    self.load_rule_template_and_replace_value("US Date format YYYY-mm-DD", profile, plan_file)
-                    self.load_rule_template_and_replace_value("EU Date format DD-mm-YYYY", profile, plan_file)
+                    rule = self.load_rule_template_and_replace_value("US Date format YYYY-mm-DD", profile)
+                    self.generated_rules.append(rule)
+                    rule = self.load_rule_template_and_replace_value("EU Date format DD-mm-YYYY", profile)
+                    self.generated_rules.append(rule)
                 elif pattern == 'N/N/N':
-                    self.load_rule_template_and_replace_value("US Date format YYYY/mm/DD", profile, plan_file)
-                    self.load_rule_template_and_replace_value("EU Date format DD/mm/YYYY", profile, plan_file)
+                    rule = self.load_rule_template_and_replace_value("US Date format YYYY/mm/DD", profile)
+                    self.generated_rules.append(rule)
+                    rule = self.load_rule_template_and_replace_value("EU Date format DD/mm/YYYY", profile)
+                    self.generated_rules.append(rule)
                 elif pattern == 'N.N.N':
-                    self.load_rule_template_and_replace_value("US Date format YYYY.mm.DD", profile, plan_file)
-                    self.load_rule_template_and_replace_value("EU Date format DD.mm.YYYY", profile, plan_file)
+                    rule = self.load_rule_template_and_replace_value("US Date format YYYY.mm.DD", profile)
+                    self.generated_rules.append(rule)
+                    rule = self.load_rule_template_and_replace_value("EU Date format DD.mm.YYYY", profile)
+                    self.generated_rules.append(rule)
 
-    def generate_ssn_rules(self, profile, plan_file):
+    def generate_ssn_rules(self, profile):
         mask = profile.get_mask()
         if mask:
             if len(mask) == 9 or mask in RulesManager.ssn_or_sin_masks:
-                    self.load_rule_template_and_replace_value("SSN", profile, plan_file)
+                rule = self.load_rule_template_and_replace_value("SSN", profile)
+                self.generated_rules.append(rule)
 
-    def generate_fiscal_code_rules(self, profile, plan_file):
+    def generate_fiscal_code_rules(self, profile):
         mask = profile.get_mask()
         if mask:
             if len(mask) == 16:
                 if mask in RulesManager.fiscal_code_masks:
-                    self.load_rule_template_and_replace_value("Fiscal Code", profile, plan_file)
+                    rule = self.load_rule_template_and_replace_value("Fiscal Code", profile)
+                    self.generated_rules.append(rule)
 
-    def generate_len_number_rules(self, profile, plan_file):
+    def generate_len_number_rules(self, profile):
         if 'integer' not in profile.domain_name:
             pattern = profile.get_pattern()
             mask = profile.get_mask()
             if pattern and mask:
                 if pattern == 'N' or pattern == 'W':
-                    self.load_rule_template_and_replace_value("Field length", profile, plan_file)
+                    rule = self.load_rule_template_and_replace_value("Field length", profile)
+                    self.generated_rules.append(rule)
 
-    def generate_email_rules(self, profile, plan_file):
+    def generate_email_rules(self, profile):
         mask = profile.get_mask()
         if mask:
             if re.match("([W._-]+@[W._-]+\.[W]+)", mask):
-                self.load_rule_template_and_replace_value("Email tester 1", profile, plan_file)
+                rule = self.load_rule_template_and_replace_value("Email tester 1", profile)
+                self.generated_rules.append(rule)
             elif re.match("<([W._-]+@[W._-]+\.[W]+)>", mask):
-                self.load_rule_template_and_replace_value("Email tester 2", profile, plan_file)
+                rule = self.load_rule_template_and_replace_value("Email tester 2", profile)
+                self.generated_rules.append(rule)
             elif re.match("W:([W._-]+@[W._-]+\.[W]+)", mask):
-                self.load_rule_template_and_replace_value("Email tester 3", profile, plan_file)
+                rule = self.load_rule_template_and_replace_value("Email tester 3", profile)
+                self.generated_rules.append(rule)
 
-
-    def generate_iban_rules(self, profile, plan_file):
+    def generate_iban_rules(self, profile):
         mask = profile.get_mask()
         if mask:
             if re.match("([L]{2}[D]{2}[DL]{11,27})", mask):
-                self.load_rule_template_and_replace_value("IBAN validator 1", profile, plan_file)
+                rule = self.load_rule_template_and_replace_value("IBAN validator 1", profile)
+                self.generated_rules.append(rule)
             elif re.match("<([L]{2}[D]{2}[DL]{11,27})>", mask):
-                self.load_rule_template_and_replace_value("IBAN validator 2", profile, plan_file)
+                rule = self.load_rule_template_and_replace_value("IBAN validator 2", profile)
+                self.generated_rules.append(rule)
             elif re.match("(\w+):([L]{2}[D]{2}[DL]{11,27})", mask):
-                self.load_rule_template_and_replace_value("IBAN validator 3", profile, plan_file)
+                rule = self.load_rule_template_and_replace_value("IBAN validator 3", profile)
+                self.generated_rules.append(rule)
             elif re.match("(\w+):<([L]{2}[D]{2}[DL]{11,27})>", mask):
-                self.load_rule_template_and_replace_value("IBAN validator 4", profile, plan_file)
+                rule = self.load_rule_template_and_replace_value("IBAN validator 4", profile)
+                self.generated_rules.append(rule)
 
-
-    def generate_ipv4_rules(self, profile, plan_file):
+    def generate_ipv4_rules(self, profile):
         pattern = profile.get_pattern()
         if pattern:
             if pattern in RulesManager.ipv4_patterns:
-                self.load_rule_template_and_replace_value("IPv4 Address validator", profile, plan_file)
+                rule = self.load_rule_template_and_replace_value("IPv4 Address validator", profile)
+                self.generated_rules.append(rule)
 
-    def generate_phone_rules(self, profile, plan_file):
+    def generate_phone_rules(self, profile):
         mask = profile.get_mask()
         if mask:
             if mask == '+N' or mask == '+N N N' or mask == '+N-N-N':
-                self.load_rule_template_and_replace_value("Phone number tester", profile, plan_file)
+                rule = self.load_rule_template_and_replace_value("Phone number tester", profile)
+                self.generated_rules.append(rule)
 
-    def load_rule_template_and_replace_value(self, rule_name, profile, plan_file):
+    def load_rule_template_and_replace_value(self, rule_name, profile):
         if rule_name == 'Field length':
             if profile.mask.isdigit():
                 length = int(profile.mask)
@@ -114,7 +132,7 @@ class RulesManager:
         rule = self.get_rule_by_name(rule_name)
         rule_expression_template = Template(rule['expression'])
         rule_expression = rule_expression_template.safe_substitute(value=profile.expression_name, length=length)
-        self.write_rule(plan_file, rule_name, rule_expression)
-
+        #self.write_rule(plan_file, rule_name, rule_expression)
+        return Rule(rule_name, rule_expression, rule['description'])
 
 

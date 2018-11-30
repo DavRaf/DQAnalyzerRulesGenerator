@@ -3,9 +3,11 @@ from DataProfile import DataProfile
 from DomainAnalyse import DomainAnalyse
 from MaskAnalysis import MaskAnalysis
 from MongoDBManager import MongoDBManager
+from Rule import Rule
 from RuleTemplate import RuleTemplate
 from StatisticsData import StatisticsData
 import html
+import pickle
 
 class XMLFileManager:
 
@@ -131,4 +133,10 @@ class XMLFileManager:
         cd = doc.getElementsByTagName(XMLFileManager.BUSINESS_RULES)[0]
         cd.appendChild(element)
         doc.writexml(open(file, "w"))
+        '''with open('temp.pkl', 'wb') as output:
+            rule = Rule(rule_name, rule_description, rule_expression)
+            pickle.dump(rule, output, pickle.HIGHEST_PROTOCOL)'''
+
+
+
 

@@ -48,6 +48,9 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -62,6 +65,10 @@
    <addaction name="action_generate_rules"/>
   </widget>
   <action name="action_load_profile_file">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../Downloads/coding.png</normaloff>../../Downloads/coding.png</iconset>
+   </property>
    <property name="text">
     <string>Load profile file</string>
    </property>
@@ -72,15 +79,11 @@
     <string>Ctrl+L</string>
    </property>
   </action>
-  <action name="action_new">
-   <property name="text">
-    <string>New</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+N</string>
-   </property>
-  </action>
   <action name="action_manage_rules_repository">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../Downloads/data-storage.png</normaloff>../../Downloads/data-storage.png</iconset>
+   </property>
    <property name="text">
     <string>Manage Rules Repository</string>
    </property>
@@ -89,6 +92,10 @@
    </property>
   </action>
   <action name="action_generate_rules">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../Downloads/ui.png</normaloff>../../Downloads/ui.png</iconset>
+   </property>
    <property name="text">
     <string>Generate Rules</string>
    </property>

@@ -1,3 +1,5 @@
+import pickle
+
 from RulesManager import RulesManager
 from XMLFileManager import XMLFileManager
 import sys
@@ -30,34 +32,30 @@ class UI(QMainWindow):
         self.xml_file_manager = XMLFileManager()
         self.profiles = None
         self.action_load_profile_file.triggered.connect(self.load_profile_file)
+        self.action_generate_rules.setEnabled(False)
         self.action_generate_rules.triggered.connect(self.generate_rules)
 
     def generate_rules(self):
-        dialog = Dialog()
+        if not self.filename:
+            QMessageBox.critical(self, "File not selected", "You don't have selected any file.")
+            return
+        dialog = Dialog(self.profiles, self.xml_file_manager, self.filename)
         dialog.setWindowTitle('DQ Analyzer Rules Generator')
         dialog.show()
         dialog.exec_()
-
-
-    def open_stuff(self, filename):
-        if sys.platform == "win32":
-            try:
-                os.startfile(filename)
-            except:
-                QMessageBox.critical(self, "Failed", "File not found.")
-        else:
-            opener = "open" if sys.platform == "darwin" else "xdg-open"
-            subprocess.call([opener, filename])
 
     def load_profile_file(self):
         self.filename = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "XML files (*profile.xml)")
         if self.filename[0] is "":
             QMessageBox.critical(self, "File not selected", "You don't have selected any file.")
             return
+        self.action_generate_rules.setEnabled(True)
         self.profiles, profiles_in_json = self.xml_file_manager.read_profile(self.filename[0])
         myFont = QFont()
         myFont.setBold(True)
         self.tabs = self.tabWidget
+        self.tabs.setTabsClosable(True)
+        self.tabs.tabCloseRequested.connect(self.close_tab)
         self.tab1 = QWidget()
         self.tabs.addTab(self.tab1, self.filename[0])
         self.tableWidget = QTableWidget()
@@ -96,6 +94,9 @@ class UI(QMainWindow):
         self.tab1.layout.addWidget(self.label1)
         self.tab1.layout.addWidget(self.tableWidget)
         self.tab1.setLayout(self.tab1.layout)
+
+    def close_tab(self, tab):
+        self.tabs.widget(tab).deleteLater()
 
     def handle_item_clicked(self):
         expression_name = str((self.tableWidget.item(self.tableWidget.currentItem().row(), 0)).text())
@@ -155,34 +156,116 @@ class UI(QMainWindow):
             self.tab1.setLayout(self.tab1.layout)
 
 class Dialog(QDialog):
-    def __init__(self):
+    def __init__(self, profiles, xml_file_manager, profile_file):
         super(Dialog, self).__init__()
         loadUi('dialog.ui', self)
-        #self.profile_file_line_edit.setText(UI.filename)
-        #self.plan_file_line_edit.clicked.connect(self.open_file)
-        #self.generate_rules_button.clicked.connect(self.generate_rules)
+        self.profiles = profiles
+        self.xml_file_manager = xml_file_manager
+        self.profile_file = profile_file
+        self.profile_file_text_edit.setPlainText(self.profile_file[0])
+        self.choose_plan_file_button.clicked.connect(self.open_file)
+        self.finish_button.clicked.connect(self.create_rules)
+
+    '''def set_profiles(self, profiles):
+        self.profiles = profiles
+        
+    def set_xml_file_manager(self, xml_file_manager):
+        self.xml_file_manager = xml_file_manager
+        
+    def set_profile_file(self, profile_file):
+        self.profile_file = profile_file'''
 
     def open_file(self):
-        self.filename = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "PLAN files (*plan)")
-        self.plan_file_line_edit.setText(self.filename[0])
+        self.plan_file = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "PLAN files (*plan)")
+        self.plan_file_text_edit.setPlainText(self.plan_file[0])
 
-    def generate_rules(self):
-        if not UI.profiles:
+    def create_rules(self):
+        if not self.profiles:
             QMessageBox.critical(self, "File not selected", "You don't have selected any profile file.")
             return
-        files = ['expressions.common.templates', 'expressions.usc.templates', 'regex.common.templates']
-        rules_templates = UI.xml_file_manager.read_rules_expressions_advanced(files)
-        rules_manager = RulesManager()
-        for profile in UI.profiles:
-            rules_manager.generate_date_rules(profile, self.filename[0])
-            rules_manager.generate_ssn_rules(profile, self.filename[0])
-            rules_manager.generate_fiscal_code_rules(profile, self.filename[0])
-            rules_manager.generate_len_number_rules(profile, self.filename[0])
-            rules_manager.generate_email_rules(profile, self.filename[0])
-            rules_manager.generate_iban_rules(profile, self.filename[0])
-            rules_manager.generate_ipv4_rules(profile, self.filename[0])
-            rules_manager.generate_phone_rules(profile, self.filename[0])
-        UI.open_stuff(self.filename[0])
+        if self.plan_file_text_edit.toPlainText().lower().endswith(('.plan')):
+            files = ['expressions.common.templates', 'expressions.usc.templates', 'regex.common.templates']
+            rules_templates = self.xml_file_manager.read_rules_expressions_advanced(files)
+            self.rules_manager = RulesManager()
+            for profile in self.profiles:
+                self.rules_manager.generate_date_rules(profile)
+                self.rules_manager.generate_ssn_rules(profile)
+                self.rules_manager.generate_fiscal_code_rules(profile)
+                self.rules_manager.generate_len_number_rules(profile)
+                self.rules_manager.generate_email_rules(profile)
+                self.rules_manager.generate_iban_rules(profile)
+                self.rules_manager.generate_ipv4_rules(profile)
+                self.rules_manager.generate_phone_rules(profile)
+            #self.open_stuff(self.plan_file[0])
+            self.close()
+            self.read_rules_in_table()
+        else:
+            QMessageBox.critical(self, "Plan file not selected", "You don't have selected any plan file.")
+            return
+
+    def read_rules_in_table(self):
+        table_review = TableReview(self.rules_manager, self.plan_file_text_edit.toPlainText())
+        table_review.setWindowTitle('DQ Analyzer Rules Generator')
+        table_review.create_table()
+        table_review.layout = QVBoxLayout()
+        table_review.layout.addWidget(table_review.label)
+        table_review.layout.addWidget(table_review.tableWidget)
+        table_review.layout.addWidget(table_review.button)
+        table_review.setLayout(table_review.layout)
+        table_review.show()
+        table_review.exec_()
+
+    def open_stuff(self, filename):
+        if sys.platform == "win32":
+            try:
+                os.startfile(filename)
+            except:
+                QMessageBox.critical(self, "Failed", "File not found.")
+        else:
+            opener = "open" if sys.platform == "darwin" else "xdg-open"
+            subprocess.call([opener, filename])
+
+class TableReview(QDialog):
+    def __init__(self, rules_manager, plan_file):
+        super(TableReview, self).__init__()
+        loadUi('table_review.ui', self)
+        self.rules_manager = rules_manager
+        self.plan_file = plan_file
+
+    def create_table(self):
+        myFont = QFont()
+        myFont.setBold(True)
+        self.tableWidget = QTableWidget()
+        self.tableWidget.setRowCount(len(self.rules_manager.generated_rules))
+        self.tableWidget.setColumnCount(3)
+        self.tableWidget.verticalHeader().setVisible(False)
+        self.tableWidget.setHorizontalHeaderLabels(["Rule Name", "Rule Description", "Rule Expression"])
+        self.rule_names = []
+        self.rule_descriptions = []
+        self.rule_expressions = []
+        for rule in self.rules_manager.generated_rules:
+            self.rule_names.append(rule.rule_name)
+            self.rule_descriptions.append(rule.rule_description)
+            self.rule_expressions.append(rule.rule_expression)
+        for x in range(0, len(self.rules_manager.generated_rules)):
+            self.tableWidget.setItem(x, 0, QTableWidgetItem(self.rule_names[x]))
+        for x in range(0, len(self.rules_manager.generated_rules)):
+            self.tableWidget.setItem(x, 1, QTableWidgetItem(self.rule_descriptions[x]))
+        for x in range(0, len(self.rules_manager.generated_rules)):
+            self.tableWidget.setItem(x, 2, QTableWidgetItem(self.rule_expressions[x]))
+        self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.label = QLabel()
+        self.label.setText("Business Rules")
+        self.label.setFont(myFont)
+        self.button = QPushButton()
+        self.button.setText("Write on plan file")
+        self.button.clicked.connect(self.write_rules_on_file)
+
+    def write_rules_on_file(self):
+        for rule in self.rules_manager.generated_rules:
+            self.rules_manager.write_rule(self.plan_file, rule.rule_name, rule.rule_expression)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
