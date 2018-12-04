@@ -1,15 +1,13 @@
-import pickle
-
 from RulesManager import RulesManager
 from XMLFileManager import XMLFileManager
-import sys
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox, QFileDialog, QMainWindow, QWidget, QVBoxLayout, \
     QPushButton, QTableWidget, QTableWidgetItem, QAbstractItemView, QLabel, QFormLayout, QLineEdit
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QImage, QFont
+from MongoDBManager import MongoDBManager
+import sys
 import subprocess
 import os
-from MongoDBManager import MongoDBManager
 
 class ManageRulesUI(QDialog):
     def __init__(self):
