@@ -217,14 +217,6 @@ class Dialog(QDialog):
         if self.plan_file_text_edit.toPlainText().lower().endswith(('.plan')):
             self.rules_manager = RulesManager()
             for profile in self.profiles:
-                '''self.rules_manager.generate_date_rules(profile)
-                self.rules_manager.generate_ssn_rules(profile)
-                self.rules_manager.generate_fiscal_code_rules(profile)
-                self.rules_manager.generate_len_number_rules(profile)
-                self.rules_manager.generate_email_rules(profile)
-                self.rules_manager.generate_iban_rules(profile)
-                self.rules_manager.generate_ipv4_rules(profile)
-                self.rules_manager.generate_phone_rules(profile)'''
                 self.rules_manager.generate_rules(profile)
             self.close()
             self.read_rules_in_table()
