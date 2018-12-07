@@ -92,37 +92,22 @@ class XMLFileManager:
             profiles_in_json.append(profile.to_json())
         return profiles, profiles_in_json
 
-    def read_rules_expressions_advanced(self, files):
+    def read_rules_expressions_advanced(self, file):
         rules_templates = []
-        for file in files:
-            doc = minidom.parse(file)
-            template_sets = doc.getElementsByTagName('templateSet')
-            for template_set in template_sets:
-                if 'name' in template_set.attributes:
-                    category = template_set.attributes['name'].value
-                templates = template_set.getElementsByTagName('template')
-                for template in templates:
-                    if 'name' in template.attributes:
-                        name = template.attributes['name'].value
-                    if 'description' in template.attributes:
-                        description = template.attributes['description'].value
-                    else:
-                        description_tag = template.getElementsByTagName('description')
-                        for d in description_tag:
-                            description = d.firstChild.data
-                    if 'expression' in template.attributes:
-                        expression = template.attributes['expression'].value
-                    else:
-                        expression_tag = template.getElementsByTagName('expression')
-                        for e in expression_tag:
-                            expression = e.firstChild.data
-                    expression = html.unescape(expression).replace("\n", "").replace("\t", "")
-                    temp = RuleTemplate(name, description, expression, category)
-                    rules_templates.append(temp.to_json())
-                    self.mongodb_manager.collection.update({"name": name}, {"$set":{"name" : name,
-                                                "description": description,
-                                                "expression": expression,
-                                                "category" : category}}, upsert = True)
+        doc = minidom.parse(file)
+        templates = doc.getElementsByTagName('template')
+        for template in templates:
+            name = template.attributes['name'].value
+            description = template.attributes['description'].value
+            expression = template.attributes['expression'].value
+            pattern = template.attributes['pattern'].value
+            expression = html.unescape(expression).replace("\n", "").replace("\t", "")
+            temp = RuleTemplate(name, description, expression, pattern)
+            rules_templates.append(temp.to_json())
+            self.mongodb_manager.collection.update({"name": name}, {"$set":{"name" : name,
+                                        "description": description,
+                                        "expression": expression,
+                                        "pattern": pattern}}, upsert = True)
         return rules_templates
 
     def write_rule_advanced(self, file, rule_name, rule_expression):

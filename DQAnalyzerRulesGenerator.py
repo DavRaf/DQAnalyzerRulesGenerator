@@ -21,22 +21,22 @@ class ManageRulesUI(QDialog):
         self.tableWidget.setRowCount(self.rules_collection.count())
         self.tableWidget.setColumnCount(4)
         self.tableWidget.verticalHeader().setVisible(False)
-        self.tableWidget.setHorizontalHeaderLabels(["Rule Name","Rule Category", "Rule Description", "Rule Expression Template"])
+        self.tableWidget.setHorizontalHeaderLabels(["Rule Name", "Rule Description", "Rule Pattern", "Rule Expression Template"])
         self.rule_names = []
-        self.rule_categories = []
         self.rule_descriptions = []
+        self.rule_patterns = []
         self.rule_expression_templates = []
         for rule in self.rules_collection:
             self.rule_names.append(rule['name'])
             self.rule_descriptions.append(rule['description'])
-            self.rule_categories.append(rule['category'])
+            self.rule_patterns.append(rule['pattern'])
             self.rule_expression_templates.append(rule['expression'])
         for x in range(0, self.rules_collection.count()):
             self.tableWidget.setItem(x, 0, QTableWidgetItem(self.rule_names[x]))
-            for x in range(0, self.rules_collection.count()):
-                self.tableWidget.setItem(x, 1, QTableWidgetItem(self.rule_categories[x]))
         for x in range(0, self.rules_collection.count()):
-            self.tableWidget.setItem(x, 2, QTableWidgetItem(self.rule_descriptions[x]))
+            self.tableWidget.setItem(x, 1, QTableWidgetItem(self.rule_descriptions[x]))
+        for x in range(0, self.rules_collection.count()):
+            self.tableWidget.setItem(x, 2, QTableWidgetItem(self.rule_patterns[x]))
         for x in range(0, self.rules_collection.count()):
             self.tableWidget.setItem(x, 3, QTableWidgetItem(self.rule_expression_templates[x]))
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
@@ -215,19 +215,17 @@ class Dialog(QDialog):
             QMessageBox.critical(self, "File not selected", "You don't have selected any profile file.")
             return
         if self.plan_file_text_edit.toPlainText().lower().endswith(('.plan')):
-            files = ['expressions.common.templates', 'expressions.usc.templates', 'regex.common.templates']
-            rules_templates = self.xml_file_manager.read_rules_expressions_advanced(files)
             self.rules_manager = RulesManager()
             for profile in self.profiles:
-                self.rules_manager.generate_date_rules(profile)
+                '''self.rules_manager.generate_date_rules(profile)
                 self.rules_manager.generate_ssn_rules(profile)
                 self.rules_manager.generate_fiscal_code_rules(profile)
                 self.rules_manager.generate_len_number_rules(profile)
                 self.rules_manager.generate_email_rules(profile)
                 self.rules_manager.generate_iban_rules(profile)
                 self.rules_manager.generate_ipv4_rules(profile)
-                self.rules_manager.generate_phone_rules(profile)
-            #self.open_stuff(self.plan_file[0])
+                self.rules_manager.generate_phone_rules(profile)'''
+                self.rules_manager.generate_rules(profile)
             self.close()
             self.read_rules_in_table()
         else:
@@ -299,6 +297,8 @@ class TableReview(QDialog):
 
 
 if __name__ == '__main__':
+    xml_file_manager = XMLFileManager()
+    rules_templates = xml_file_manager.read_rules_expressions_advanced('dictionary.templates')
     app = QApplication(sys.argv)
     window = UI()
     window.setWindowTitle('DQ Analyzer Rules Generator')

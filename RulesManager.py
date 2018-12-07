@@ -9,7 +9,7 @@ from XMLFileManager import XMLFileManager
 class RulesManager:
 
     #date_patterns = ('N-N-N', 'N/N/N', 'N.N.N')
-    ssn_or_sin_masks = ('DDDDDDDDD', 'DDD-DD-DDDD', 'DDD-DDD-DDD', 'DDD DD DDDD', 'DDD DDD DDD', 'LLLDDDDDDDDD', 'LLL:DDDDDDDDD', 'LLL:DDD-DD-DDDD', 'LLL:DDD-DDD-DDD', '9', '9 9 9', '9-9-9', 'SIN: 9')
+    ssn_or_sin_masks = ('DDDDDDDDD', 'DDD-DD-DDDD', 'DDD-DDD-DDD', 'DDD DD DDDD', 'DDD DDD DDD', 'LLLDDDDDDDDD', 'LLL:DDDDDDDDD', 'LLL:DDD-DD-DDDD', 'LLL:DDD-DDD-DDD', '9', '9 9 9', '9-9-9', 'SIN: 9', 'SSN: 9')
     fiscal_code_masks = ('LLLLLLDDLDDLDDDL','LL:LLLLLLDDLDDLDDDL')
     ipv4_patterns = ('N.N.N.N','D.D.D.D','N.D.D.D','N.N.D.D','N.N.N.D','D.N.N.N','D.D.N.N','D.D.D.N','N.D.N.D','D.N.D.N','N.D.D.N','D.N.N.D')
 
@@ -56,7 +56,7 @@ class RulesManager:
         mask = profile.get_mask()
         if mask:
             if len(mask) == 9 or mask in RulesManager.ssn_or_sin_masks:
-                rule = self.load_rule_template_and_replace_value("SSN", profile)
+                rule = self.load_rule_template_and_replace_value("SSN OR SIN", profile)
                 self.generated_rules.append(rule)
 
     def generate_fiscal_code_rules(self, profile):
@@ -98,10 +98,10 @@ class RulesManager:
             elif re.match("<([L]{2}[D]{2}[DL]{11,27})>", mask):
                 rule = self.load_rule_template_and_replace_value("IBAN validator 2", profile)
                 self.generated_rules.append(rule)
-            elif re.match("(\w+):([L]{2}[D]{2}[DL]{11,27})", mask):
+            elif re.match("([L]+):([L]{2}[D]{2}[DL]{11,27})", mask):
                 rule = self.load_rule_template_and_replace_value("IBAN validator 3", profile)
                 self.generated_rules.append(rule)
-            elif re.match("(\w+):<([L]{2}[D]{2}[DL]{11,27})>", mask):
+            elif re.match("([L]+):<([L]{2}[D]{2}[DL]{11,27})>", mask):
                 rule = self.load_rule_template_and_replace_value("IBAN validator 4", profile)
                 self.generated_rules.append(rule)
 
@@ -118,6 +118,9 @@ class RulesManager:
             if mask == '+N' or mask == '+N N N' or mask == '+N-N-N':
                 rule = self.load_rule_template_and_replace_value("Phone number tester", profile)
                 self.generated_rules.append(rule)
+
+    def generate_rules(self, profile):
+        
 
     def load_rule_template_and_replace_value(self, rule_name, profile):
         if rule_name == 'Field length':
