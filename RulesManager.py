@@ -120,7 +120,7 @@ class RulesManager:
                 self.generated_rules.append(rule)
 
     def generate_rules(self, profile):
-        
+
 
     def load_rule_template_and_replace_value(self, rule_name, profile):
         if rule_name == 'Field length':
