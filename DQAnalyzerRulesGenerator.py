@@ -1,9 +1,9 @@
 from RulesManager import RulesManager
 from XMLFileManager import XMLFileManager
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox, QFileDialog, QMainWindow, QWidget, QVBoxLayout, \
-    QPushButton, QTableWidget, QTableWidgetItem, QAbstractItemView, QLabel, QFormLayout, QLineEdit
+    QPushButton, QTableWidget, QTableWidgetItem, QAbstractItemView, QLabel, QFormLayout, QLineEdit, qApp, QTabWidget
 from PyQt5.uic import loadUi
-from PyQt5.QtGui import QPixmap, QImage, QFont
+from PyQt5.QtGui import QPixmap, QImage, QFont, QIcon
 from MongoDBManager import MongoDBManager
 import sys
 import subprocess
@@ -160,7 +160,7 @@ class UI(QMainWindow):
                 else:
                     self.values.append(d_a.value)
             for x in range(0, len(current_profile.domain_analysis)):
-                self.tableWidget2.setItem(x, 0, QTableWidgetItem(self.num_cases_list[x]))
+                self.tableWidget2.setItem(x, 0, QTableWidgetItem(str(self.num_cases_list[x])))
             for x in range(0, len(current_profile.domain_analysis)):
                 self.tableWidget2.setItem(x, 1, QTableWidgetItem(self.values[x]))
             self.tableWidget2.setEditTriggers(QTableWidget.NoEditTriggers)
@@ -173,7 +173,7 @@ class UI(QMainWindow):
             self.tableWidget3.setRowCount(len(current_profile.mask_analysis))
             self.tableWidget3.setColumnCount(3)
             self.tableWidget3.verticalHeader().setVisible(False)
-            self.tableWidget3.setHorizontalHeaderLabels(["Count", "Percent", "Value"])
+            self.tableWidget3.setHorizontalHeaderLabels(["Count", "Percentage", "Value"])
             self.values = []
             self.counts = []
             self.percents = []
@@ -183,11 +183,11 @@ class UI(QMainWindow):
                 else:
                     self.values.append(m_a.value)
                 self.counts.append(m_a.count)
-                self.percents.append(m_a.percent)
+                self.percents.append(m_a.percentage)
             for x in range(0, len(current_profile.mask_analysis)):
-                self.tableWidget3.setItem(x, 0, QTableWidgetItem(self.counts[x]))
+                self.tableWidget3.setItem(x, 0, QTableWidgetItem(str(self.counts[x])))
             for x in range(0, len(current_profile.mask_analysis)):
-                self.tableWidget3.setItem(x, 1, QTableWidgetItem(self.percents[x]))
+                self.tableWidget3.setItem(x, 1, QTableWidgetItem(str(self.percents[x])))
             for x in range(0, len(current_profile.mask_analysis)):
                 self.tableWidget3.setItem(x, 2, QTableWidgetItem(self.values[x]))
             self.tableWidget3.setEditTriggers(QTableWidget.NoEditTriggers)
@@ -205,6 +205,10 @@ class Dialog(QDialog):
         self.profile_file_text_edit.setPlainText(self.profile_file)
         self.choose_plan_file_button.clicked.connect(self.open_file)
         self.finish_button.clicked.connect(self.create_rules)
+        self.cancel_button.clicked.connect(self.close_dialog)
+
+    def close_dialog(self):
+        self.close()
 
     def open_file(self):
         self.plan_file = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "PLAN files (*plan)")
@@ -217,7 +221,7 @@ class Dialog(QDialog):
         if self.plan_file_text_edit.toPlainText().lower().endswith(('.plan')):
             self.rules_manager = RulesManager()
             for profile in self.profiles:
-                self.rules_manager.generate_rules(profile)
+                self.rules_manager.generate_rules(profile, self.plan_file_text_edit.toPlainText())
             self.close()
             self.read_rules_in_table()
         else:
@@ -228,11 +232,22 @@ class Dialog(QDialog):
         table_review = TableReview(self.rules_manager, self.plan_file_text_edit.toPlainText())
         table_review.setWindowTitle('DQ Analyzer Rules Generator')
         table_review.create_table()
+
         table_review.layout = QVBoxLayout()
+        tabs = QTabWidget()
+        tab1 = QWidget()
+        tabs.addTab(tab1, "Tab1")
+        tab1.layout = QVBoxLayout()
+        tab1.layout.addWidget(table_review.label)
+        tab1.layout.addWidget(table_review.tableWidget)
+        tab1.setLayout(tab1.layout)
+        table_review.layout.addWidget(tabs)
+        table_review.setLayout(table_review.layout)
+        '''table_review.layout = QVBoxLayout()
         table_review.layout.addWidget(table_review.label)
         table_review.layout.addWidget(table_review.tableWidget)
-        table_review.layout.addWidget(table_review.button)
-        table_review.setLayout(table_review.layout)
+        table_review.setLayout(table_review.layout)'''
+
         table_review.show()
         table_review.exec_()
 
@@ -250,6 +265,7 @@ class TableReview(QDialog):
     def __init__(self, rules_manager, plan_file):
         super(TableReview, self).__init__()
         loadUi('table_review.ui', self)
+        self.mongo_db_manager = MongoDBManager()
         self.rules_manager = rules_manager
         self.plan_file = plan_file
 
@@ -258,35 +274,60 @@ class TableReview(QDialog):
         myFont.setBold(True)
         self.tableWidget = QTableWidget()
         self.tableWidget.setRowCount(len(self.rules_manager.generated_rules))
-        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setColumnCount(9)
         self.tableWidget.verticalHeader().setVisible(False)
-        self.tableWidget.setHorizontalHeaderLabels(["Rule Name", "Rule Description", "Rule Expression"])
+        self.tableWidget.setHorizontalHeaderLabels(["Column Name", "Column Pattern", "Column Pattern Num Cases", "% Column Pattern", "Rule Name", "Rule Description", "Rule Pattern", "Rule Expression", ""])
+        self.column_names = []
+        self.column_patterns = []
+        self.column_patterns_num_cases = []
+        self.column_patterns_percentages = []
         self.rule_names = []
         self.rule_descriptions = []
+        self.rule_patterns = []
         self.rule_expressions = []
         for rule in self.rules_manager.generated_rules:
+            self.column_names.append(rule.column_name)
+            self.column_patterns.append(rule.pattern_value)
+            self.column_patterns_num_cases.append(rule.pattern_num_cases)
+            self.column_patterns_percentages.append(rule.pattern_percent)
             self.rule_names.append(rule.rule_name)
             self.rule_descriptions.append(rule.rule_description)
+            self.rule_patterns.append(rule.rule_pattern)
             self.rule_expressions.append(rule.rule_expression)
         for x in range(0, len(self.rules_manager.generated_rules)):
-            self.tableWidget.setItem(x, 0, QTableWidgetItem(self.rule_names[x]))
+            self.tableWidget.setItem(x, 0, QTableWidgetItem(self.column_names[x]))
         for x in range(0, len(self.rules_manager.generated_rules)):
-            self.tableWidget.setItem(x, 1, QTableWidgetItem(self.rule_descriptions[x]))
+            self.tableWidget.setItem(x, 1, QTableWidgetItem(self.column_patterns[x]))
         for x in range(0, len(self.rules_manager.generated_rules)):
-            self.tableWidget.setItem(x, 2, QTableWidgetItem(self.rule_expressions[x]))
+            self.tableWidget.setItem(x, 2, QTableWidgetItem(str(self.column_patterns_num_cases[x])))
+        for x in range(0, len(self.rules_manager.generated_rules)):
+            self.tableWidget.setItem(x, 3, QTableWidgetItem(str(round(self.column_patterns_percentages[x], 2)) + "%"))
+        for x in range(0, len(self.rules_manager.generated_rules)):
+            self.tableWidget.setItem(x, 4, QTableWidgetItem(self.rule_names[x]))
+        for x in range(0, len(self.rules_manager.generated_rules)):
+            self.tableWidget.setItem(x, 5, QTableWidgetItem(self.rule_descriptions[x]))
+        for x in range(0, len(self.rules_manager.generated_rules)):
+            self.tableWidget.setItem(x, 6, QTableWidgetItem(self.rule_patterns[x]))
+        for x in range(0, len(self.rules_manager.generated_rules)):
+            self.tableWidget.setItem(x, 7, QTableWidgetItem(self.rule_expressions[x]))
+        for x in range(0, len(self.rules_manager.generated_rules)):
+            self.btn_write_to_plan_file = QPushButton()
+            self.btn_write_to_plan_file.setText("Write to Plan file")
+            self.btn_write_to_plan_file.clicked.connect(self.write_rule_on_file)
+            self.tableWidget.setCellWidget(x, 8, self.btn_write_to_plan_file)
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.label = QLabel()
         self.label.setText("Business Rules")
         self.label.setFont(myFont)
-        self.button = QPushButton()
-        self.button.setText("Write on plan file")
-        self.button.clicked.connect(self.write_rules_on_file)
 
-    def write_rules_on_file(self):
-        for rule in self.rules_manager.generated_rules:
-            self.rules_manager.write_rule(self.plan_file, rule.rule_name, rule.rule_expression)
-
+    def write_rule_on_file(self):
+        button = qApp.focusWidget()
+        index = self.tableWidget.indexAt(button.pos())
+        rule_name = self.tableWidget.item(index.row(), 4).text()
+        rule_expression = self.tableWidget.item(index.row(), 7).text()
+        self.rules_manager.write_rule(self.plan_file, rule_name, rule_expression)
+        #button.setIcon(QIcon('normal.png'))
 
 if __name__ == '__main__':
     xml_file_manager = XMLFileManager()

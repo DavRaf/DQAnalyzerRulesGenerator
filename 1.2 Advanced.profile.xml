@@ -20,7 +20,7 @@
       <mapping column="P_15" name="Gender is M or F" type="INTEGER"/>
       <mapping column="P_16" name="SIN is not null" type="INTEGER"/>
       <mapping column="P_17" name="CARD is not null" type="INTEGER"/>
-      <mapping column="P_18" name="Rule 1" type="INTEGER"/>
+      <mapping column="P_18" name="GeneratedRule 1" type="INTEGER"/>
       <mapping column="E_19" name="sin + name + card_key" type="STRING"/>
       <mapping column="P_20" name="pd_0" type="LONG"/>
       <mapping column="P_21" name="pd_1" type="LONG"/>
@@ -11478,7 +11478,7 @@
         <count records="83415" keys="83415" description="false"/>
         <count records="55902" keys="55902" description="true"/>
       </bussinesRule>
-      <bussinesRule indColumn="P_18" name="Rule 1">
+      <bussinesRule indColumn="P_18" name="GeneratedRule 1">
         <expression>src_name is not &#39;SYSTEM MIGRATION&#39;</expression>
         <count records="0" description="null"/>
         <count records="4551" keys="4551" description="false"/>

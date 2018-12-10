@@ -3,7 +3,7 @@ from DataProfile import DataProfile
 from DomainAnalyse import DomainAnalyse
 from MaskAnalysis import MaskAnalysis
 from MongoDBManager import MongoDBManager
-from Rule import Rule
+from GeneratedRule import GeneratedRule
 from RuleTemplate import RuleTemplate
 from StatisticsData import StatisticsData
 import html
@@ -58,7 +58,7 @@ class XMLFileManager:
                 for example in examples:
                     ex = example.getElementsByTagName(XMLFileManager.EXAMPLE)
                     for e in ex:
-                        domain_analyse = DomainAnalyse(e.attributes[XMLFileManager.NUM_CASES].value, e.attributes[XMLFileManager.VALUE].value)
+                        domain_analyse = DomainAnalyse(int(e.attributes[XMLFileManager.NUM_CASES].value), e.attributes[XMLFileManager.VALUE].value)
                         domain_analysis.append(domain_analyse)
                     profile.set_domain_analysis(domain_analysis)
                 domain_analysis = []
@@ -77,13 +77,13 @@ class XMLFileManager:
                 for f_m in frequencies_masked:
                     mask_item = f_m.getElementsByTagName(XMLFileManager.ITEM)
                     for m_i in mask_item:
-                        mask_item_count = m_i.attributes['count'].value
-                        mask_item_percent = m_i.attributes['percent'].value
+                        mask_item_count = int(m_i.attributes['count'].value)
+                        mask_item_percentage = float(m_i.attributes['percent'].value.replace("%", ""))
                         if 'value' in m_i.attributes:
                             mask_item_value = m_i.attributes['value'].value
                         else:
                             mask_item_value = None
-                        mask_analysis = MaskAnalysis(mask_item_count, mask_item_percent, mask_item_value)
+                        mask_analysis = MaskAnalysis(mask_item_count, mask_item_percentage, mask_item_value)
                         mask_analyses.append(mask_analysis)
                     profile.set_mask_analysis(mask_analyses)
                     mask_analyses = []

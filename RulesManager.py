@@ -1,8 +1,10 @@
 from MongoDBManager import MongoDBManager
 from string import Template
 import re
-from Rule import Rule
+from GeneratedRule import GeneratedRule
 from XMLFileManager import XMLFileManager
+from DomainAnalyse import DomainAnalyse
+from MaskAnalysis import MaskAnalysis
 
 class RulesManager:
 
@@ -27,32 +29,36 @@ class RulesManager:
         xml_file_manager = XMLFileManager()
         xml_file_manager.write_rule_advanced(file, rule_name, rule_expression)
 
-    def generate_rules(self, profile):
+    def generate_rules(self, profile, plan_file):
+        threshold = 70
+        for stat in profile.statistics:
+            if stat.type == 'count':
+                number_of_rows = stat.value
         rule_templates_collection = self.mongo_db_manager.find_all_docs()
         domain_analysis = profile.domain_analysis
         mask_analysis = profile.mask_analysis
+        analysis = domain_analysis + mask_analysis
         for rule_template in rule_templates_collection:
-            if domain_analysis:
-                for domain in domain_analysis:
-                    if domain.value:
-                        if re.match(rule_template['pattern'], domain.value):
-                            rule = self.load_rule_template_and_replace_value(rule_template, profile)
-                            if rule:
-                                self.generated_rules.append(rule)
-            if mask_analysis:
-                for mask in mask_analysis:
-                    if mask.value:
-                        if re.match(rule_template['pattern'], mask.value):
-                            rule = self.load_rule_template_and_replace_value(rule_template, profile)
-                            if rule:
-                                self.generated_rules.append(rule)
+            for a in analysis:
+                if a.value:
+                    if re.match(rule_template['pattern'], a.value):
+                        if type(a) is DomainAnalyse:
+                            domain_percentage = (int(a.num_cases) / int(number_of_rows)) * 100
+                            rule = self.process_rule_template(rule_template, profile, a.value, a.num_cases, domain_percentage)
+                        elif type(a) is MaskAnalysis:
+                            mask_percentage = a.percentage
+                            rule = self.process_rule_template(rule_template, profile, a.value, a.count, mask_percentage)
+                        if rule:
+                            if rule.pattern_percent >= threshold:
+                                self.write_rule(plan_file, rule.rule_name, rule.rule_expression)
+                            self.generated_rules.append(rule)
         self.generated_rules = sorted(list(set(self.generated_rules)), key=lambda x: x.rule_name, reverse=False)
 
-    def load_rule_template_and_replace_value(self, rule_template, profile):
+    def process_rule_template(self, rule_template, profile, pattern_value, pattern_num_cases, pattern_percentage):
         if rule_template['pattern'] in RulesManager.date_patterns and 'day' not in profile.domain_name.casefold():
             return None
         rule_expression_template = Template(rule_template['expression'])
         rule_expression = rule_expression_template.safe_substitute(value=profile.expression_name)
-        return Rule(rule_template['name'], rule_expression, rule_template['description'])
+        return GeneratedRule(profile.expression_name, pattern_value, pattern_num_cases, pattern_percentage, rule_template['name'], rule_template['description'], rule_template['pattern'], rule_expression)
 
 

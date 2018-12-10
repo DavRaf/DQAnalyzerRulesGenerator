@@ -1,8 +1,8 @@
 class MaskAnalysis:
 
-    def __init__(self, count, percent, value):
+    def __init__(self, count, percentage, value):
         self.count = count
-        self.percent = percent
+        self.percentage = percentage
         self.value = value
 
 
