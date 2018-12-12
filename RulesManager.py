@@ -5,6 +5,7 @@ from GeneratedRule import GeneratedRule
 from XMLFileManager import XMLFileManager
 from DomainAnalyse import DomainAnalyse
 from MaskAnalysis import MaskAnalysis
+from NewPattern import NewPattern
 
 class RulesManager:
 
@@ -12,7 +13,9 @@ class RulesManager:
 
     def __init__(self):
         self.mongo_db_manager = MongoDBManager()
+        self.xml_file_manager = XMLFileManager()
         self.generated_rules = list()
+        self.new_detected_patterns = list()
 
     def get_rule_by_id(self, id):
         rule = self.mongo_db_manager.find_doc_by_id(id)
@@ -26,8 +29,9 @@ class RulesManager:
         return self.mongo_db_manager.find_doc_by_name(name)
 
     def write_rule(self, file, rule_name, rule_expression):
-        xml_file_manager = XMLFileManager()
-        xml_file_manager.write_rule_advanced(file, rule_name, rule_expression)
+        self.xml_file_manager.write_rule_advanced(file, rule_name, rule_expression)
+
+
 
     def generate_rules(self, profile, plan_file):
         threshold = 70
@@ -52,7 +56,21 @@ class RulesManager:
                             if rule.pattern_percent >= threshold:
                                 self.write_rule(plan_file, rule.rule_name, rule.rule_expression)
                             self.generated_rules.append(rule)
-        self.generated_rules = sorted(list(set(self.generated_rules)), key=lambda x: x.rule_name, reverse=False)
+                    else:
+                        if type(a) is DomainAnalyse:
+                            domain_percentage = (int(a.num_cases) / int(number_of_rows)) * 100
+                            pattern = NewPattern(profile.expression_name, a.value, a.num_cases, domain_percentage)
+                        elif type(a) is MaskAnalysis:
+                            mask_percentage = a.percentage
+                            pattern = NewPattern(profile.expression_name, a.value, a.count, mask_percentage)
+                        self.new_detected_patterns.append(pattern)
+        #self.generated_rules = sorted(list(set(self.generated_rules)), key=lambda x: x.rule_name, reverse=False)
+        self.new_detected_patterns = sorted(list(set(self.new_detected_patterns)), key=lambda x: x.column_name, reverse=False)
+        for rule in self.generated_rules:
+            for pattern in self.new_detected_patterns:
+                allowed_chars = set('DLNW./-')
+                if pattern.pattern_value == rule.pattern_value or set(pattern.pattern_value).issubset(allowed_chars) is False:
+                    self.new_detected_patterns.remove(pattern)
 
     def process_rule_template(self, rule_template, profile, pattern_value, pattern_num_cases, pattern_percentage):
         if rule_template['pattern'] in RulesManager.date_patterns and 'day' not in profile.domain_name.casefold():

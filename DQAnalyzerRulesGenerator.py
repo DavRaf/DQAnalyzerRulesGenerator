@@ -1,13 +1,17 @@
 from RulesManager import RulesManager
 from XMLFileManager import XMLFileManager
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox, QFileDialog, QMainWindow, QWidget, QVBoxLayout, \
-    QPushButton, QTableWidget, QTableWidgetItem, QAbstractItemView, QLabel, QFormLayout, QLineEdit, qApp, QTabWidget
+    QPushButton, QTableWidget, QTableWidgetItem, QAbstractItemView, QLabel, QFormLayout, QLineEdit, qApp, QTabWidget, QToolButton, QMenu, QWidgetAction
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QImage, QFont, QIcon
 from MongoDBManager import MongoDBManager
+from string import Template
+from xml.dom import minidom
+import html
 import sys
 import subprocess
 import os
+import re
 
 class ManageRulesUI(QDialog):
     def __init__(self):
@@ -231,23 +235,24 @@ class Dialog(QDialog):
     def read_rules_in_table(self):
         table_review = TableReview(self.rules_manager, self.plan_file_text_edit.toPlainText())
         table_review.setWindowTitle('DQ Analyzer Rules Generator')
-        table_review.create_table()
-
+        table_review.create_table_for_generated_rules()
+        table_review.create_table_for_new_detected_patterns()
         table_review.layout = QVBoxLayout()
         tabs = QTabWidget()
         tab1 = QWidget()
-        tabs.addTab(tab1, "Tab1")
+        tab2 = QWidget()
+        tabs.addTab(tab1, "Generated Rules")
+        tabs.addTab(tab2, "New Detected Patterns")
         tab1.layout = QVBoxLayout()
         tab1.layout.addWidget(table_review.label)
         tab1.layout.addWidget(table_review.tableWidget)
         tab1.setLayout(tab1.layout)
+        tab2.layout = QVBoxLayout()
+        tab2.layout.addWidget(table_review.label2)
+        tab2.layout.addWidget(table_review.tableWidget2)
+        tab2.setLayout(tab2.layout)
         table_review.layout.addWidget(tabs)
         table_review.setLayout(table_review.layout)
-        '''table_review.layout = QVBoxLayout()
-        table_review.layout.addWidget(table_review.label)
-        table_review.layout.addWidget(table_review.tableWidget)
-        table_review.setLayout(table_review.layout)'''
-
         table_review.show()
         table_review.exec_()
 
@@ -269,7 +274,7 @@ class TableReview(QDialog):
         self.rules_manager = rules_manager
         self.plan_file = plan_file
 
-    def create_table(self):
+    def create_table_for_generated_rules(self):
         myFont = QFont()
         myFont.setBold(True)
         self.tableWidget = QTableWidget()
@@ -318,8 +323,44 @@ class TableReview(QDialog):
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.label = QLabel()
-        self.label.setText("Business Rules")
+        self.label.setText("Generated Rules")
         self.label.setFont(myFont)
+
+    def create_table_for_new_detected_patterns(self):
+        myFont = QFont()
+        myFont.setBold(True)
+        self.tableWidget2 = QTableWidget()
+        self.tableWidget2.setRowCount(len(self.rules_manager.new_detected_patterns))
+        self.tableWidget2.setColumnCount(5)
+        self.tableWidget2.verticalHeader().setVisible(False)
+        self.tableWidget2.setHorizontalHeaderLabels(["Column Name", "Column Pattern", "Column Pattern Num Cases", "% Column Pattern", ""])
+        self.column_names2 = []
+        self.column_patterns2 = []
+        self.column_patterns_num_cases2 = []
+        self.column_patterns_percentages2 = []
+        for pattern in self.rules_manager.new_detected_patterns:
+            self.column_names2.append(pattern.column_name)
+            self.column_patterns2.append(pattern.pattern_value)
+            self.column_patterns_num_cases2.append(pattern.pattern_num_cases)
+            self.column_patterns_percentages2.append(pattern.pattern_percent)
+        for x in range(0, len(self.rules_manager.new_detected_patterns)):
+            self.tableWidget2.setItem(x, 0, QTableWidgetItem(self.column_names2[x]))
+        for x in range(0, len(self.rules_manager.new_detected_patterns)):
+            self.tableWidget2.setItem(x, 1, QTableWidgetItem(self.column_patterns2[x]))
+        for x in range(0, len(self.rules_manager.new_detected_patterns)):
+            self.tableWidget2.setItem(x, 2, QTableWidgetItem(str(self.column_patterns_num_cases2[x])))
+        for x in range(0, len(self.rules_manager.new_detected_patterns)):
+            self.tableWidget2.setItem(x, 3, QTableWidgetItem(str(round(self.column_patterns_percentages2[x], 2)) + "%"))
+        for x in range(0, len(self.rules_manager.new_detected_patterns)):
+            self.add_to_dict = QPushButton()
+            self.add_to_dict.setText("Add to dictionary")
+            self.add_to_dict.clicked.connect(self.add_to_dictionary)
+            self.tableWidget2.setCellWidget(x, 4, self.add_to_dict)
+        self.tableWidget2.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.tableWidget2.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.label2 = QLabel()
+        self.label2.setText("New Detected Patterns")
+        self.label2.setFont(myFont)
 
     def write_rule_on_file(self):
         button = qApp.focusWidget()
@@ -328,6 +369,146 @@ class TableReview(QDialog):
         rule_expression = self.tableWidget.item(index.row(), 7).text()
         self.rules_manager.write_rule(self.plan_file, rule_name, rule_expression)
         #button.setIcon(QIcon('normal.png'))
+
+    def add_to_dictionary(self):
+        button = qApp.focusWidget()
+        index = self.tableWidget2.indexAt(button.pos())
+        name = self.tableWidget2.item(index.row(), 0).text()
+        pattern = self.tableWidget2.item(index.row(), 1).text()
+        table_review = NewRuleUI(name, pattern, self.rules_manager, self.plan_file)
+        table_review.setWindowTitle('DQ Analyzer Rules Generator')
+        table_review.show()
+        table_review.exec_()
+
+class NewRuleUI(QDialog):
+    def __init__(self, name, pattern, rule_manager, plan_file):
+        super(NewRuleUI, self).__init__()
+        loadUi('new_rule_ui.ui', self)
+        self.rule_names = list()
+        self.mongo_db_manager = MongoDBManager()
+        self.rule_manager = rule_manager
+        self.plan_file = plan_file
+        self.name = name
+        self.pattern = pattern
+        rules = self.mongo_db_manager.find_all_docs()
+        for rule in rules:
+            self.rule_names.append(rule['name'])
+        self.rule_names_combo_box.addItems([""] + self.rule_names)
+        self.rule_names_combo_box.view().pressed.connect(self.handle_item_pressed)
+        #self.rule_names_combo_box.lineEdit().setPlaceholderText("New Rule Name")
+        self.pattern_plain_text_edit.setPlainText("^(" + self.pattern + ")$")
+        self.pattern_plain_text_edit.setReadOnly(True)
+        self.auto_radio_button.setChecked(True)
+        self.auto_radio_button.toggled.connect(lambda: self.radio_btn_state(self.auto_radio_button))
+        self.manual_radio_button.toggled.connect(lambda: self.radio_btn_state(self.manual_radio_button))
+        self.expression_plain_text_edit.setPlainText(self.create_regex_from_pattern())
+        self.expression_plain_text_edit.setReadOnly(True)
+        #self.create_regex_from_pattern()
+        #self.finish_button.clicked.connect(self.create_new_rule)
+        self.cancel_button.clicked.connect(self.close_dialog)
+        menu = QMenu()
+        menu.addAction('Write to the dictionary', self.write_to_the_dictionary)
+        menu.addAction('Write both to dictionary and plan file', self.write_both_to_dictionary_and_plan_file)
+        self.finish_button.setMenu(menu)
+
+    def radio_btn_state(self, radio_btn):
+        if radio_btn.text() == "Automatic":
+            if radio_btn.isChecked() == True:
+                self.expression_plain_text_edit.setReadOnly(True)
+
+        if radio_btn.text() == "Manual":
+            if radio_btn.isChecked() == True:
+                self.expression_plain_text_edit.setReadOnly(False)
+
+    def create_regex_from_pattern(self):
+        regex_list = list()
+        characters = list(self.pattern)
+        for c in characters:
+            if c == 'L':
+                regex_list.append('[a-zA-Z]')
+            elif c == 'D':
+                regex_list.append('[0-9]')
+            elif c == 'W':
+                regex_list.append('[a-zA-Z]+')
+            elif c == 'N':
+                regex_list.append('[0-9]+')
+            elif c == ' ':
+                regex_list.append('\s')
+            elif c == '/':
+                regex_list.append('/')
+            elif c == '.':
+                regex_list.append('\.')
+            elif c == '-':
+                regex_list.append('-')
+            elif c == ':':
+                regex_list.append(':')
+        regex = "matches(\"^(" + "".join(regex_list) + ")$\", ${value})"
+        return regex
+
+    def write_to_the_dictionary(self):
+        if self.rule_names_combo_box.currentText() == "" or self.expression_plain_text_edit.toPlainText() == "":
+            QMessageBox.critical(self, "Empty Field(s)", "Please enter both rule name and expression.")
+            return False
+        elif self.check_regex(str(self.expression_plain_text_edit.toPlainText())) is False:
+            QMessageBox.critical(self, "Invalid Field", "Please enter a valid regex.")
+            return False
+        elif self.rule_names_combo_box.currentText() in self.rule_names and self.rule_names_combo_box.isEditable() == True:
+            QMessageBox.critical(self, "Duplicate Detected", "The rule name entered is already present into the rule names list. Please select the rule name from the list.")
+            return False
+        else:
+            self.mongo_db_manager.collection.update({"name": self.rule_names_combo_box.currentText()}, {"$set": {
+                                                                             "description": self.description_plain_text_edit.toPlainText(),
+                                                                             "expression": self.expression_plain_text_edit.toPlainText(),
+                                                                             "pattern": self.pattern_plain_text_edit.toPlainText()}}, upsert=True)
+            '''for pattern in self.rule_manager.new_detected_patterns:
+                if pattern.pattern_value == self.pattern_plain_text_edit.toPlainText():
+                    self.rule_manager.new_detected_patterns.remove(pattern)'''
+            self.close()
+            return True
+
+    def check_regex(self, regex):
+        try:
+            re.compile(regex)
+        except Exception:
+            return False
+        return True
+
+    def write_both_to_dictionary_and_plan_file(self):
+        if self.write_to_the_dictionary():
+            rule_expression_template = Template(self.expression_plain_text_edit.toPlainText())
+            rule_expression = rule_expression_template.safe_substitute(value=self.name)
+            self.rule_manager.write_rule(self.plan_file, self.rule_names_combo_box.currentText(), rule_expression)
+
+    '''def create_new_rule(self):
+        if self.rule_names_combo_box.currentText() == "" or self.expression_plain_text_edit.toPlainText() == "":
+            QMessageBox.critical(self, "Empty Field(s)", "Please enter both rule name and expression.")
+        else:
+            self.mongo_db_manager.collection.update({"name": self.rule_names_combo_box.currentText()}, {"$set": {
+                                                                             "description": self.description_plain_text_edit.toPlainText(),
+                                                                             "expression": self.expression_plain_text_edit.toPlainText(),
+                                                                             "pattern": self.pattern_plain_text_edit.toPlainText()}}, upsert=True)
+            self.close()'''
+
+    def close_dialog(self):
+        self.close()
+
+    def handle_item_pressed(self, index):
+        rule_name = self.rule_names_combo_box.model().itemFromIndex(index).text()
+        if rule_name == "":
+            self.rule_names_combo_box.setEditable(True)
+            self.description_plain_text_edit.setReadOnly(False)
+            self.description_plain_text_edit.setPlainText("")
+            self.pattern_plain_text_edit.setPlainText("^(" + self.pattern + ")$")
+            self.expression_plain_text_edit.setPlainText("")
+        else:
+            self.rule_names_combo_box.setEditable(False)
+            self.description_plain_text_edit.setReadOnly(True)
+            rule = self.mongo_db_manager.find_doc_by_name(rule_name)
+            self.description_plain_text_edit.setPlainText(rule["description"])
+            index = rule['pattern'].find('$')
+            new_pattern = rule['pattern'][:index] + '|(' + self.pattern + ')' + rule['pattern'][index:]
+            self.pattern_plain_text_edit.setPlainText(new_pattern)
+            self.expression_plain_text_edit.setPlainText(rule["expression"])
 
 if __name__ == '__main__':
     xml_file_manager = XMLFileManager()
