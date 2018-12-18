@@ -68,7 +68,7 @@ class XMLFileManager:
                     for st in stat:
                         item = st.getElementsByTagName(XMLFileManager.ITEM)
                         for i in item:
-                            if st.attributes[XMLFileManager.TYPE].value in ('count', 'count_nulls', 'count_not_nulls', 'unique', 'non_unique', 'duplicate'):
+                            if st.attributes[XMLFileManager.TYPE].value in ('count', 'count_nulls', 'count_not_nulls', 'distinct', 'min', 'max', 'median', 'unique', 'non_unique', 'duplicate'):
                                 statistics_data = StatisticsData(st.attributes[XMLFileManager.TYPE].value, i.attributes[XMLFileManager.VALUE].value)
                                 statistics_data_list.append(statistics_data)
                         profile.set_statistics(statistics_data_list)
@@ -109,6 +109,19 @@ class XMLFileManager:
                                         "expression": expression,
                                         "pattern": pattern}}, upsert = True)
         return rules_templates
+
+    def read_rules_expressions_in_plan_file(self, file):
+        written_rules_names = []
+        written_rules_expressions = []
+        doc = minidom.parse(file)
+        rules = doc.getElementsByTagName('businessRule')
+        for rule in rules:
+            name = rule.attributes['name'].value
+            expression = rule.attributes['expression'].value
+            expression = html.unescape(expression).replace("\n", "").replace("\t", "")
+            written_rules_names.append(name)
+            written_rules_expressions.append(expression)
+        return written_rules_names, written_rules_expressions
 
     def write_rule_advanced(self, file, rule_name, rule_expression):
         doc = minidom.parse(file)

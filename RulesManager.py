@@ -31,8 +31,6 @@ class RulesManager:
     def write_rule(self, file, rule_name, rule_expression):
         self.xml_file_manager.write_rule_advanced(file, rule_name, rule_expression)
 
-
-
     def generate_rules(self, profile, plan_file):
         threshold = 70
         for stat in profile.statistics:

@@ -1,0 +1,131 @@
+<?xml version="1.0" ?><purity-config version="11.1.1.ga-2017-06-14">
+	<references/>
+	<component-mappings>
+		<propertyMappings/>
+	</component-mappings>
+
+<!-- (Profiler) --><step className="com.ataccama.dqc.tasks.profiling.ProfilingAlgorithm" disabled="false" id="Profiler" mode="NORMAL">
+		<properties dataSource="DB" defaultLocale="en_US" outputFile="./party_full.profile" outputLimit="1000" tableNamePrefix="party" threaded="true">
+			<businessDomains looseThreshold="20.0" strictThreshold="25.0"/>
+			<domains>
+				<customs/>
+				<datetime active="true" threshold="80"/>
+				<enum active="true" valueCountLimit="20"/>
+				<numeric active="true" threshold="80"/>
+				<pattern active="true" patternCountLimit="10"/>
+				<specval active="true" gradientThreshold="100"/>
+			</domains>
+			<fkAnalysis/>
+			<inputs>
+				<profilingInput drillThrough="true" drillThroughLimit="200" name="party">
+					<businessRules>
+						<businessRule expression="matches(&quot;^(19[0-9][0-9]|20[0-4][0-9]|2050)[-](0?[1-9]|1[0-2])[-](0?[1-9]|[12][0-9]|3[01])$&quot;, src_birth_date)" name="US Date format YYYY-mm-DD"/>
+						<businessRule expression="matches(&quot;^(0?[1-9]|[12][0-9]|3[01])[-](0?[1-9]|1[0-2])[-](19[0-9][0-9]|20[0-4][0-9]|2050)$&quot;, src_birth_date)" name="EU Date format DD-mm-YYYY"/>
+						<businessRule expression="matches(&quot;^([a-zA-Z])$&quot;, src_gender)" name="Gender (M or F)"/>
+						<businessRule expression="matches(&quot;^[0-9]{9}$&quot;, src_sin)" name="SSN OR SIN"/>
+						<businessRule expression="matches(&quot;^([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])$&quot;, src_card)" name="Card Number length is equal to 16"/>
+					</businessRules>
+					<dataToProfile>
+						<profiledData analyseBusinessDomain="false" analyseDomain="true" expression="src_name" maskName="characters">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats calculate="true" calculateAggregated="true" extremes="5" quantiles="10"/>
+						</profiledData>
+						<profiledData analyseBusinessDomain="false" analyseDomain="true" expression="src_gender" maskName="characters">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats calculate="true" calculateAggregated="true" extremes="5" quantiles="10"/>
+						</profiledData>
+						<profiledData analyseBusinessDomain="false" analyseDomain="true" expression="src_birth_date" maskName="characters">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats calculate="true" calculateAggregated="true" extremes="5" quantiles="10"/>
+						</profiledData>
+						<profiledData analyseBusinessDomain="false" analyseDomain="true" expression="src_sin" maskName="characters">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats calculate="true" calculateAggregated="true" extremes="5" quantiles="10"/>
+						</profiledData>
+						<profiledData analyseBusinessDomain="false" analyseDomain="true" expression="src_card" maskName="characters">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats calculate="true" calculateAggregated="true" extremes="5" quantiles="10"/>
+						</profiledData>
+						<profiledData analyseBusinessDomain="false" analyseDomain="true" expression="src_address" maskName="characters">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats calculate="true" calculateAggregated="true" extremes="5" quantiles="10"/>
+						</profiledData>
+						<profiledData analyseBusinessDomain="false" analyseDomain="true" expression="src_primary_key">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats calculate="true" calculateAggregated="true" extremes="5" quantiles="10"/>
+						</profiledData>
+						<profiledData analyseBusinessDomain="false" analyseDomain="true" expression="meta_last_update">
+							<frequencyAnalysis calculate="true"/>
+							<groupSizeAnalysis calculate="true"/>
+							<standardStats calculate="true" calculateAggregated="true" extremes="5" quantiles="10"/>
+						</profiledData>
+					</dataToProfile>
+					<dependencies/>
+					<pkAnalysis/>
+					<rollUps/>
+				</profilingInput>
+			</inputs>
+			<masks>
+				<maskCfg copyOther="true" name="characters">
+					<characterGroups>
+						<characterGroup characters="[:letter:]" symbol="L"/>
+						<characterGroup characters="[:digit:]" symbol="D"/>
+					</characterGroups>
+				</maskCfg>
+			</masks>
+			<userMetadata>
+				<items/>
+			</userMetadata>
+		</properties>
+		<visual-constraints bounds="72,96,-1,-1" layout="vertical"/>
+	</step>
+
+
+
+<!-- (party_full) --><step className="com.ataccama.dqc.tasks.io.text.read.TextFileReader" disabled="false" id="party_full" mode="NORMAL">
+		<properties compression="NONE" encoding="UTF-8" fieldSeparator=";" fileName="./party_full.txt" lineMaxReadLength="65536" lineSeparator="\r\n" numberOfLinesInFooter="0" numberOfLinesInHeader="1" stringQualifier="" stringQualifierEscape="">
+			<columns>
+				<textReaderColumn ignore="false" name="src_name" type="STRING"/>
+				<textReaderColumn ignore="false" name="src_gender" type="STRING"/>
+				<textReaderColumn ignore="false" name="src_birth_date" type="STRING"/>
+				<textReaderColumn ignore="false" name="src_sin" type="STRING"/>
+				<textReaderColumn ignore="false" name="src_card" type="STRING"/>
+				<textReaderColumn ignore="false" name="src_address" type="STRING"/>
+				<textReaderColumn ignore="false" name="src_primary_key" type="INTEGER">
+					<dataFormatParameters decimalSeparator="." thousandsSeparator=""/>
+				</textReaderColumn>
+				<textReaderColumn ignore="false" name="meta_last_update" type="DAY">
+					<dataFormatParameters dateFormatLocale="en_US" dayFormat="yyyy/MM/dd" thousandsSeparator=""/>
+				</textReaderColumn>
+			</columns>
+			<dataFormatParameters dateFormatLocale="en_US" dateTimeFormat="yyyy-MM-dd HH:mm:ss" dayFormat="yyyy-MM-dd" decimalSeparator="." falseValue="false" thousandsSeparator="" trueValue="true"/>
+			<errorHandlingStrategy rejectFileName="rejected.txt">
+				<errorInstructions>
+					<errorInstruction dataStrategy="READ_POSSIBLE" errorType="EXTRA_DATA" putToLog="true" putToReject="false"/>
+					<errorInstruction dataStrategy="STOP" errorType="LONG_LINE" putToLog="true" putToReject="true"/>
+					<errorInstruction dataStrategy="STOP" errorType="PROCESSING_ERROR" putToLog="true" putToReject="false"/>
+					<errorInstruction dataStrategy="READ_POSSIBLE" errorType="INVALID_DATE" putToLog="true" putToReject="false"/>
+					<errorInstruction dataStrategy="READ_POSSIBLE" errorType="SHORT_LINE" putToLog="true" putToReject="true"/>
+					<errorInstruction dataStrategy="NULL_VALUE" errorType="UNPARSABLE_FIELD" putToLog="true" putToReject="false"/>
+				</errorInstructions>
+			</errorHandlingStrategy>
+			<shadowColumns/>
+		</properties>
+		<visual-constraints bounds="72,24,-1,-1" layout="vertical"/>
+	</step>
+	<connection className="com.ataccama.dqc.model.elements.connections.StandardFlowConnection" disabled="false">
+		<source endpoint="out" step="party_full"/>
+		<target endpoint="party" step="Profiler"/>
+		<visual-constraints>
+			<bendpoints/>
+		</visual-constraints>
+	</connection>
+
+</purity-config>

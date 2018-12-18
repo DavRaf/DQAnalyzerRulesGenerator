@@ -11,7 +11,7 @@ class GeneratedRule:
         self.rule_expression = rule_expression
 
     def __eq__(self, other):
-        return self.column_name == other.column_name and self.rule_pattern == other.rule_pattern
+        return self.rule_name == other.rule_name
 
     def __hash__(self):
-        return hash((self.column_name, self.rule_pattern))
+        return hash((self.rule_name))
