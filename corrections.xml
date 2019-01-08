@@ -1,0 +1,77 @@
+         <transformer name="Convert to date" category="date">
+            <descriptor ref="Convert to date"/>
+            <properties>
+                <property name="Time zone" value="Europe/Berlin"/>
+                <property name="Null replacement" value="today()"/>
+                <property name="Date masks" value="[yyyy-MM-dd HH:mm:ss.S,yyyy-MM-dd HH:mm:ss,yyyy-MM-dd HH:mm,yyyyMMddHHmmssZ,yyMMddHHmmssZ,yyyy-MM-dd,yyyy.MM.dd,yyyy/MM/dd,dd-MM-yyyy,dd.MM.yyyy,dd/MM/yyyy,MM-dd-yyyy,MM.dd.yyyy,MM/dd/yyyy]"/>
+            </properties>
+            <input ref="${field_name}"/>
+            <output id="${new_field_name}" name="${field_name} (as date)"/>
+        </transformer>
+        <transformer name="Format date" category="date">
+            <descriptor ref="Format date"/>
+            <properties>
+                <property name="Date format" value="${value}"/>
+            </properties>
+            <input ref="${field_name}"/>
+            <output id="${new_field_name}" name="${field_name} (formatted)"/>
+        </transformer>
+        <transformer name="Plain search/replace" category="string">
+            <descriptor ref="Plain search/replace"/>
+            <properties>
+                <property name="Replacements">${values}</property>
+                <property name="Replace entire string" value="true"/>
+            </properties>
+            <input ref="${field_name}"/>
+            <output id="${new_field_name}" name="${field_name} (replaced)"/>
+        </transformer>
+        <transformer name="Remove unwanted characters" category="string">
+            <descriptor ref="Remove unwanted characters"/>
+            <properties>
+                <property name="Remove whitespaces" value="${true_or_false1}"/>
+                <property name="Remove letters" value="${true_or_false2}"/>
+                <property name="Remove digits" value="${true_or_false3}"/>
+                <property name="Remove signs" value="${true_or_false4}"/>
+            </properties>
+            <input ref="${field_name}"/>
+            <output id="${new_field_name}" name="${field_name} (cleansed)"/>
+        </transformer>
+        <transformer name="Regex parser" category="string">
+            <descriptor ref="Regex parser"/>
+            <properties>
+                <property name="Mode" value="FULL_MATCH"/>
+                <property name="Pattern" value="${value}"/>
+            </properties>
+            <input ref="${field_name}"/>
+            <output id="${new_field_name}" name="${field_name} (matched)"/>
+        </transformer>
+        <analyzer name="Create CSV file">
+            <descriptor ref="Create CSV file"/>
+            <properties>
+                <property name="File" value="file://C:/Users/David/Desktop/DataCleaner/out"/>
+                <property name="Separator char" value="&amp;#44;"/>
+                <property name="Quote char" value="&amp;quot;"/>
+                <property name="Escape char" value="\"/>
+                <property name="Include header" value="true"/>
+                <property name="Encoding" value="UTF-8"/>
+                <property name="Fields" value="[src_birth_date (as date) (formatted),src_name,src_gender,src_birth_date,src_sin,src_card,src_address,src_primary_key,meta_last_update,src_birth_date (as date) (year),src_birth_date (as date) (month),src_birth_date (as date) (day of month),src_name (search/replaced),src_sin (cleansedß),src_birth_date (as date),src_birth_date (matched part)]"/>
+                <property name="Overwrite file if exists" value="true"/>
+            </properties>
+            <input ref="col_src_birth_dateasdateformatted" name="Columns"/>
+            <input ref="col_src_name" name="Columns"/>
+            <input ref="col_src_gender" name="Columns"/>
+            <input ref="col_src_birth_date" name="Columns"/>
+            <input ref="col_src_sin" name="Columns"/>
+            <input ref="col_src_card" name="Columns"/>
+            <input ref="col_src_address" name="Columns"/>
+            <input ref="col_src_primary_key" name="Columns"/>
+            <input ref="col_meta_last_update" name="Columns"/>
+            <input ref="col_src_birth_dateasdateyear" name="Columns"/>
+            <input ref="col_src_birth_dateasdatemonth" name="Columns"/>
+            <input ref="col_src_birth_dateasdatedayofmonth" name="Columns"/>
+            <input ref="col_src_namesearchreplaced" name="Columns"/>
+            <input ref="col_src_sincleansed" name="Columns"/>
+            <input ref="col_src_birth_dateasdate" name="Columns"/>
+            <input ref="col_src_birth_datematchedpart" name="Columns"/>
+        </analyzer>
+       

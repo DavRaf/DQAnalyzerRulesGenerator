@@ -24,6 +24,10 @@
 						<businessRule expression="length(trashNonDigits(src_sin)) == 9" name="SIN Number"/>
 						<businessRule expression="length(trashNonDigits(src_card)) == 16" name="Card Number"/>
 						<businessRule expression="length(src_gender) == 1" name="Gender (M or F)"/>
+						<businessRule expression="src_name is not &quot;SYSTEM MIGRATION&quot;" name="SYSTEM MIGRATION not in name"/>
+						<businessRule expression="src_sin is not null" name="SIN is not null"/>
+						<businessRule expression="src_card is not null" name="Card Number is not null"/>
+						<businessRule expression="src_birth_date is not null" name="Date of birth is not null"/>
 					</businessRules>
 					<dataToProfile>
 						<profiledData expression="src_name" maskName="characters" analyseBusinessDomain="false" analyseDomain="true">

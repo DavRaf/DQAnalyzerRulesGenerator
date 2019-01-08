@@ -684,7 +684,7 @@ def create_palette():
 
 if __name__ == '__main__':
     xml_file_manager = XMLFileManager()
-    #rules_templates = xml_file_manager.read_rules_expressions_advanced('dictionary.templates')
+    rules_templates = xml_file_manager.read_rules_expressions_advanced('dictionary.templates')
     app = QApplication(sys.argv)
     #QApplication.setPalette(create_palette())
     window = UI()
