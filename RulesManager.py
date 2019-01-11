@@ -3,9 +3,9 @@ from string import Template
 import re
 from GeneratedRule import GeneratedRule
 from XMLFileManager import XMLFileManager
-from DomainAnalyse import DomainAnalyse
+from DomainAnalysis import DomainAnalysis
 from MaskAnalysis import MaskAnalysis
-from NewPattern import NewPattern
+from Pattern import Pattern
 
 class RulesManager:
 
@@ -44,7 +44,7 @@ class RulesManager:
             for a in analysis:
                 if a.value:
                     if re.match(rule_template['pattern'], a.value):
-                        if type(a) is DomainAnalyse:
+                        if type(a) is DomainAnalysis:
                             domain_percentage = (int(a.num_cases) / int(number_of_rows)) * 100
                             rule = self.process_rule_template(rule_template, profile, a.value, a.num_cases, domain_percentage)
                         elif type(a) is MaskAnalysis:
@@ -55,12 +55,12 @@ class RulesManager:
                                 self.write_rule(plan_file, rule.rule_name, rule.rule_expression)
                             self.generated_rules.append(rule)
                     else:
-                        if type(a) is DomainAnalyse:
+                        if type(a) is DomainAnalysis:
                             domain_percentage = (int(a.num_cases) / int(number_of_rows)) * 100
-                            pattern = NewPattern(profile.expression_name, a.value, a.num_cases, domain_percentage)
+                            pattern = Pattern(profile.expression_name, a.value, a.num_cases, domain_percentage)
                         elif type(a) is MaskAnalysis:
                             mask_percentage = a.percentage
-                            pattern = NewPattern(profile.expression_name, a.value, a.count, mask_percentage)
+                            pattern = Pattern(profile.expression_name, a.value, a.count, mask_percentage)
                         self.new_detected_patterns.append(pattern)
         #self.generated_rules = sorted(list(set(self.generated_rules)), key=lambda x: x.rule_name, reverse=False)
         self.new_detected_patterns = sorted(list(set(self.new_detected_patterns)), key=lambda x: x.column_name, reverse=False)

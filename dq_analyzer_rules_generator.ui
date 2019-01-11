@@ -76,6 +76,7 @@
     </property>
     <addaction name="action_load_profile_file"/>
     <addaction name="action_display_rules_repository"/>
+    <addaction name="action_open_data_remediation"/>
    </widget>
    <widget class="QMenu" name="menuRun">
     <property name="title">
@@ -103,6 +104,7 @@
    <addaction name="action_load_profile_file"/>
    <addaction name="action_display_rules_repository"/>
    <addaction name="action_generate_rules"/>
+   <addaction name="action_open_data_remediation"/>
   </widget>
   <action name="action_load_profile_file">
    <property name="icon">
@@ -144,6 +146,21 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="action_open_data_remediation">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/data_remed.png</normaloff>images/data_remed.png</iconset>
+   </property>
+   <property name="text">
+    <string>Perform data remediation</string>
+   </property>
+   <property name="toolTip">
+    <string>Perform data remediation</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
    </property>
   </action>
  </widget>

@@ -1,4 +1,4 @@
-class NewPattern:
+class Pattern:
 
     def __init__(self, column_name, pattern_value, pattern_num_cases, pattern_percent):
         self.column_name = column_name

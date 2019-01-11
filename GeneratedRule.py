@@ -1,6 +1,6 @@
 class GeneratedRule:
 
-    def __init__(self, column_name, pattern_value, pattern_num_cases, pattern_percent, rule_name, rule_description, rule_pattern, rule_expression):
+    def __init__(self, column_name=None, pattern_value=None, pattern_num_cases=None, pattern_percent=None, rule_name=None, rule_description=None, rule_pattern=None, rule_expression=None):
         self.column_name = column_name
         self.pattern_value = pattern_value
         self.pattern_num_cases = pattern_num_cases

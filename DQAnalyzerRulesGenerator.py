@@ -14,6 +14,7 @@ import sys
 import subprocess
 import os
 import re
+from bs4 import BeautifulSoup
 
 class DisplayRulesUI(QDialog):
     def __init__(self):
@@ -67,6 +68,7 @@ class UI(QMainWindow):
         self.action_generate_rules.setEnabled(False)
         self.action_generate_rules.triggered.connect(self.generate_rules)
         self.action_display_rules_repository.triggered.connect(self.manage_rules)
+        self.action_open_data_remediation.triggered.connect(self.open_remediate_data_dialog1)
 
     def manage_rules(self):
         manage_rules_ui = DisplayRulesUI()
@@ -93,7 +95,7 @@ class UI(QMainWindow):
             QMessageBox.critical(self, "File not selected", "You don't have selected any file.")
             return
         self.action_generate_rules.setEnabled(True)
-        self.profiles, profiles_in_json = self.xml_file_manager.read_profile(self.filename[0])
+        self.profiles = self.xml_file_manager.read_profile(self.filename[0])
         self.tab1 = QWidget()
         self.tabs.addTab(self.tab1, self.filename[0])
         self.tableWidget = QTableWidget()
@@ -184,6 +186,12 @@ class UI(QMainWindow):
         self.tab1.layout.addWidget(self.tableWidget)
         self.tab1.setLayout(self.tab1.layout)
 
+    def open_remediate_data_dialog1(self):
+        remediate_data_dialog = RemediateDataDialog1()
+        remediate_data_dialog.setWindowTitle('DQ Analyzer Rules Generator')
+        remediate_data_dialog.show()
+        remediate_data_dialog.exec_()
+
     def display_domain_analysis(self):
         button = qApp.focusWidget()
         index = self.tableWidget.indexAt(button.pos())
@@ -235,6 +243,145 @@ class UI(QMainWindow):
         #self.tabs.widget(tab).deleteLater()
         if self.tabs.count() == 0:
             self.action_generate_rules.setEnabled(False)
+
+class RemediateDataDialog1(QDialog):
+    def __init__(self):
+        super(RemediateDataDialog1, self).__init__()
+        loadUi('remediate_data_dialog_ui1.ui', self)
+        self.choose_plan_file_button.clicked.connect(self.open_file)
+        self.next_button.clicked.connect(self.open_next_dialog)
+        self.cancel_button.clicked.connect(self.close_dialog)
+        self.xml_file_manager = XMLFileManager()
+
+    def close_dialog(self):
+        self.close()
+
+    def open_file(self):
+        self.plan_file = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "PLAN files (*plan)")
+        self.plan_file_text_edit.setPlainText(self.plan_file[0])
+        self.field_names = self.xml_file_manager.read_field_names_in_plan_file(self.plan_file[0])
+        self.rules = self.xml_file_manager.read_rules_from_plan_file(self.plan_file[0])
+        self.dataset_name = self.xml_file_manager.read_dataset_name(self.plan_file[0])[2:]
+
+    def open_next_dialog(self):
+        self.close_dialog()
+        remediate_data_dialog = RemediateDataDialog2(self.dataset_name, self.field_names, self.rules)
+        remediate_data_dialog.setWindowTitle('DQ Analyzer Rules Generator')
+        remediate_data_dialog.show()
+        remediate_data_dialog.exec_()
+
+class RemediateDataDialog2(QDialog):
+    def __init__(self, dataset_name, field_names, rules):
+        super(RemediateDataDialog2, self).__init__()
+        loadUi('remediate_data_dialog_ui2.ui', self)
+        self.mongo_db_manager = MongoDBManager()
+        self.xml_file_manager = XMLFileManager()
+        self.dataset_name = dataset_name
+        self.field_names = field_names
+        self.rules = rules
+        self.rule_names = list()
+        for rule in self.rules:
+            self.rule_names.append(rule.rule_name)
+        self.business_rules_list_widget.addItems(self.rule_names)
+        self.business_rules_list_widget.itemClicked.connect(self.handle_item_click)
+        self.perform_data_remed_button.clicked.connect(self.perform_data_remediation)
+        self.cancel_button.clicked.connect(self.close_dialog)
+        self.add_remediation_rule_btn.clicked.connect(self.add_remediation_rule)
+        self.delete_remediation_rule_btn.clicked.connect(self.delete_remediation_rule)
+
+    def close_dialog(self):
+        self.close()
+
+    def add_remediation_rule(self):
+        if not self.business_rules_list_widget.selectedItems():
+            QMessageBox.critical(self, "Item not selected", "You don't have selected any item.")
+            return
+        flag = False
+        if self.remediation_rules_list_widget.count() > 0:
+            itemsTextList = [str(self.remediation_rules_list_widget.item(i).text()) for i in range(self.remediation_rules_list_widget.count())]
+            for item in itemsTextList:
+                if self.business_rules_list_widget.currentItem().text() == item:
+                    flag = True
+                    QMessageBox.critical(self, "Item already present", "You have selected an item already present.")
+            if flag is False:
+                self.remediation_rules_list_widget.addItem(self.business_rules_list_widget.currentItem().text())
+        else:
+            self.remediation_rules_list_widget.addItem(self.business_rules_list_widget.currentItem().text())
+
+    def delete_remediation_rule(self):
+        if self.remediation_rules_list_widget.count() == 0:
+            QMessageBox.critical(self, "No item in list", "The list of remediation rule is empty!")
+            return
+        item_names = list()
+        listItems = self.business_rules_list_widget.selectedItems()
+        if not listItems:
+            QMessageBox.critical(self, "Item not selected", "You don't have selected any item.")
+            return
+        for item in listItems:
+            item_names.append(item.text())
+        itemsList = [self.remediation_rules_list_widget.item(i) for i in range(self.remediation_rules_list_widget.count())]
+        for item_name in item_names:
+            for i in itemsList:
+                if i.text() == item_name:
+                    self.remediation_rules_list_widget.takeItem(self.remediation_rules_list_widget.row(i))
+                else:
+                    QMessageBox.critical(self, "Item not in list", "You have selected an item not in list.")
+
+    def handle_item_click(self, item):
+        rule = self.mongo_db_manager.find_doc_by_name(item.text())
+        self.rule_name_text_edit.setText(rule['name'])
+        self.rule_expression_text_edit.setText(rule['expression'])
+
+    def perform_data_remediation(self):
+        base_file_text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><job xmlns=\"http://eobjects.org/analyzerbeans/job/1.0\"><job-metadata><job-description>Created with DataCleaner Community edition 5.1.5</job-description><author>David</author></job-metadata><source><data-context ref=\"${filename}\"/><columns>(insert columns)</columns></source><transformation></transformation><analysis></analysis></job>"
+        column_text = "<column id=\"${new_field_name}\" path=\"${field_name}\" type=\"STRING\"/>"
+        base_file_text_template = Template(base_file_text)
+        base_file_text = base_file_text_template.safe_substitute(filename= self.dataset_name)
+        column_text_list = list()
+        for field_name in self.field_names:
+            column_text_template = Template(column_text)
+            column = column_text_template.safe_substitute(new_field_name="col_" + field_name, field_name=field_name)
+            column_text_list.append(column)
+        columns = "".join(column_text_list)
+        file = base_file_text.replace('(insert columns)', columns)
+        remediation_rules = list()
+        itemsList = [self.remediation_rules_list_widget.item(i).text() for i in range(self.remediation_rules_list_widget.count())]
+        for rule_item in itemsList:
+            remediation_rules.append(self.mongo_db_manager.find_doc_by_name(rule_item))
+        for remediation_rule in remediation_rules:
+            for rule in self.rules:
+                if remediation_rule['name'] == rule.rule_name:
+                    if remediation_rule['category'] == 'date':
+                        correction1 = self.mongo_db_manager.find_correction_by_name('Convert to date')
+                        correction2 = self.mongo_db_manager.find_correction_by_name('Format date')
+                        correction1_template = Template(correction1['full_text'])
+                        correction2_template = Template(correction2['full_text'])
+                        correction1_full_text = correction1_template.safe_substitute(ref="col_" + rule.column_name.replace(", ", "").replace(")", ""), new_ref="col_" + rule.column_name.replace(", ", "").replace(")", "") + "_as_date", field_name=rule.column_name.replace(", ", "").replace(")", "") + "_as_date")
+                        correction2_full_text = correction2_template.safe_substitute(value=remediation_rule['date_format'], ref="col_" + rule.column_name.replace(", ", "").replace(")", "") + "_as_date", new_ref="col_" + rule.column_name.replace(", ", "").replace(")", "") + "_as_date_formatted", field_name=rule.column_name.replace(", ", "").replace(")", "") + "_as_date_formatted")
+                        self.field_names.append(rule.column_name.replace(", ", "").replace(")", "") + "_as_date_formatted")
+                        file = file.replace('</transformation>', correction1_full_text + '</transformation>')
+                        file = file.replace('</transformation>', correction2_full_text + '</transformation>')
+                    else:
+                        correction = self.mongo_db_manager.find_correction_by_name('Regex parser')
+                        correction_template = Template(correction['full_text'])
+                        correction_full_text = correction_template.safe_substitute(value=remediation_rule['expression'].split("\"")[1], ref="col_" + rule.column_name.replace(", ", "").replace(")", ""), new_ref="col_" + rule.column_name.replace(", ", "").replace(")", "") + "_matched", field_name=rule.column_name.replace(", ", "").replace(")", "") + "_matched")
+                        self.field_names.append(rule.column_name.replace(", ", "").replace(")", "") + "_matched")
+                        file = file.replace('</transformation>', correction_full_text + '</transformation>')
+        column_text = "<input ref=\"${column_ref}\" name=\"Columns\"/>"
+        column_text_list = list()
+        for field_name in self.field_names:
+            column_text_template = Template(column_text)
+            column = column_text_template.safe_substitute(column_ref="col_" + field_name)
+            column_text_list.append(column)
+        fields = ",".join(self.field_names)
+        columns = "".join(column_text_list)
+        writer = self.mongo_db_manager.find_correction_by_name('Create CSV file')
+        writer_template = Template(writer['full_text'])
+        writer_full_text = writer_template.safe_substitute(fields=fields, columns=columns)
+        writer_full_text = writer_full_text.replace('transformer', 'analyzer')
+        file = file.replace('</analysis>', writer_full_text + '</analysis>')
+        self.xml_file_manager.save_to_xml_file(file)
+        self.close_dialog()
 
 class DomainAnalysisUI(QDialog):
     def __init__(self):
@@ -369,16 +516,6 @@ class Dialog(QDialog):
         table_review.show()
         table_review.exec_()
 
-    def open_stuff(self, filename):
-        if sys.platform == "win32":
-            try:
-                os.startfile(filename)
-            except:
-                QMessageBox.critical(self, "Failed", "File not found.")
-        else:
-            opener = "open" if sys.platform == "darwin" else "xdg-open"
-            subprocess.call([opener, filename])
-
 class TableReview(QDialog):
     def __init__(self, rules_manager, plan_file):
         super(TableReview, self).__init__()
@@ -433,7 +570,6 @@ class TableReview(QDialog):
                     self.is_written.append(True)
                 else:
                     self.is_written.append(False)
-            print(self.is_written)
             for x in range(0, len(self.rules_manager.generated_rules)):
                 self.tableWidget.setItem(x, 0, QTableWidgetItem(self.column_names[x]))
             for x in range(0, len(self.rules_manager.generated_rules)):
@@ -684,10 +820,37 @@ def create_palette():
 
 if __name__ == '__main__':
     xml_file_manager = XMLFileManager()
-    rules_templates = xml_file_manager.read_rules_expressions_advanced('dictionary.templates')
+    mongo_db_manager = MongoDBManager()
+    xml_file_manager.read_rules_expressions_advanced('dictionary.templates')
+    transformers_names = xml_file_manager.read_transformers()
+    # Set the opening tag name and value
+    opening_name = "transformer"
+    # Set the closing tag name
+    closing_name = "transformer"
+    # Get the XML data from a file and instantiate a BeautifulSoup parser
+    with open('corrections.xml') as xmlfile:
+        xmldoc = xmlfile.read()
+        soup = BeautifulSoup(xmldoc, 'xml')
+    # Iterate through the elements of the XML data and collect
+    # all of the elements between the opening and closing tags
+    elements = []
+    for e in soup.find_all():
+        if e.name == opening_name:
+            elements.append(str(e))
+        elif e.name == closing_name:
+            elements.append(str(e))
+            break
+    # full_text = "".join(elements)
+    i = 0
+    for e in elements:
+        mongo_db_manager.collection2.update({"name": transformers_names[i]},
+                                                 {"$set": {"name": transformers_names[i],
+                                                           "full_text": e}}, upsert=True)
+        i = i + 1
     app = QApplication(sys.argv)
     #QApplication.setPalette(create_palette())
     window = UI()
     window.setWindowTitle('DQ Analyzer Rules Generator')
     window.show()
     sys.exit(app.exec_())
+

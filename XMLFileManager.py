@@ -1,6 +1,7 @@
 from xml.dom import minidom
+from xml.etree import ElementTree as ET
 from DataProfile import DataProfile
-from DomainAnalyse import DomainAnalyse
+from DomainAnalysis import DomainAnalysis
 from MaskAnalysis import MaskAnalysis
 from MongoDBManager import MongoDBManager
 from GeneratedRule import GeneratedRule
@@ -26,6 +27,7 @@ class XMLFileManager:
     BUSINESS_RULE = 'businessRule'
     BUSINESS_RULES = 'businessRules'
     NAME = 'name'
+    DATE_FORMAT = 'date_format'
 
     def __init__(self):
         self.mongodb_manager = MongoDBManager()
@@ -33,7 +35,6 @@ class XMLFileManager:
     def read_profile(self, file):
         doc = minidom.parse(file)
         profiles = []
-        profiles_in_json = []
         domain_analysis = []
         statistics_data_list = []
         mask_analyses = []
@@ -58,7 +59,7 @@ class XMLFileManager:
                 for example in examples:
                     ex = example.getElementsByTagName(XMLFileManager.EXAMPLE)
                     for e in ex:
-                        domain_analyse = DomainAnalyse(int(e.attributes[XMLFileManager.NUM_CASES].value), e.attributes[XMLFileManager.VALUE].value)
+                        domain_analyse = DomainAnalysis(int(e.attributes[XMLFileManager.NUM_CASES].value), e.attributes[XMLFileManager.VALUE].value)
                         domain_analysis.append(domain_analyse)
                     profile.set_domain_analysis(domain_analysis)
                 domain_analysis = []
@@ -88,12 +89,9 @@ class XMLFileManager:
                     profile.set_mask_analysis(mask_analyses)
                     mask_analyses = []
                 profiles.append(profile)
-        for profile in profiles:
-            profiles_in_json.append(profile.to_json())
-        return profiles, profiles_in_json
+        return profiles
 
     def read_rules_expressions_advanced(self, file):
-        rules_templates = []
         doc = minidom.parse(file)
         templates = doc.getElementsByTagName('template')
         for template in templates:
@@ -102,26 +100,54 @@ class XMLFileManager:
             expression = template.attributes['expression'].value
             pattern = template.attributes['pattern'].value
             expression = html.unescape(expression).replace("\n", "").replace("\t", "")
+            category = template.attributes['category'].value
+            if XMLFileManager.DATE_FORMAT in template.attributes:
+                date_format = template.attributes['date_format'].value
             temp = RuleTemplate(name, description, expression, pattern)
-            rules_templates.append(temp.to_json())
             self.mongodb_manager.collection.update({"name": name}, {"$set":{"name" : name,
                                         "description": description,
                                         "expression": expression,
-                                        "pattern": pattern}}, upsert = True)
-        return rules_templates
+                                        "pattern": pattern,
+                                        "category": category,
+                                        "date_format": date_format}}, upsert = True)
 
-    def read_rules_expressions_in_plan_file(self, file):
-        written_rules_names = []
-        written_rules_expressions = []
+    def read_rules_from_plan_file(self, file):
         doc = minidom.parse(file)
         rules = doc.getElementsByTagName('businessRule')
+        rules_list = list()
         for rule in rules:
             name = rule.attributes['name'].value
             expression = rule.attributes['expression'].value
             expression = html.unescape(expression).replace("\n", "").replace("\t", "")
-            written_rules_names.append(name)
-            written_rules_expressions.append(expression)
-        return written_rules_names, written_rules_expressions
+            generated_rule = GeneratedRule(column_name=expression.split('\"')[2], rule_name=name, rule_expression=expression)
+            rules_list.append(generated_rule)
+        return rules_list
+
+    def read_field_names_in_plan_file(self, file):
+        field_names = []
+        doc = minidom.parse(file)
+        fields = doc.getElementsByTagName('textReaderColumn')
+        for field in fields:
+            field_name = field.attributes['name'].value
+            field_names.append(field_name)
+        return field_names
+
+    def read_transformers(self):
+        transformers_names = list()
+        doc = minidom.parse('corrections.xml')
+        transformers = doc.getElementsByTagName('transformer')
+        for transformer in transformers:
+            transformer_name = transformer.attributes['name'].value
+            transformers_names.append(transformer_name)
+        return transformers_names
+
+    def read_dataset_name(self, file):
+        doc = minidom.parse(file)
+        tags = doc.getElementsByTagName('properties')
+        for tag in tags:
+            if 'fileName' in tag.attributes:
+                dataset_name = tag.attributes['fileName'].value
+        return dataset_name
 
     def write_rule_advanced(self, file, rule_name, rule_expression):
         doc = minidom.parse(file)
@@ -131,6 +157,13 @@ class XMLFileManager:
         cd = doc.getElementsByTagName(XMLFileManager.BUSINESS_RULES)[0]
         cd.appendChild(element)
         doc.writexml(open(file, "w"))
+
+    def save_to_xml_file(self, file):
+        ET.register_namespace('', "http://eobjects.org/analyzerbeans/job/1.0")
+        tree = ET.XML(file)
+        with open("remediation.analysis.xml", "wb") as f:
+            f.write(ET.tostring(tree))
+
 
 
 

@@ -3,16 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="d1584e27-c793-4b29-a2bc-3e8f62bfc75e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/.party_full.txt.metaData" afterPath="" />
       <change beforePath="$PROJECT_DIR$/DQAnalyzerRulesGenerator.py" afterPath="$PROJECT_DIR$/DQAnalyzerRulesGenerator.py" />
+      <change beforePath="$PROJECT_DIR$/DataProfile.py" afterPath="$PROJECT_DIR$/DataProfile.py" />
+      <change beforePath="$PROJECT_DIR$/DomainAnalyse.py" afterPath="$PROJECT_DIR$/DomainAnalysis.py" />
+      <change beforePath="$PROJECT_DIR$/GeneratedRule.py" afterPath="$PROJECT_DIR$/GeneratedRule.py" />
+      <change beforePath="$PROJECT_DIR$/MongoDBManager.py" afterPath="$PROJECT_DIR$/MongoDBManager.py" />
+      <change beforePath="$PROJECT_DIR$/NewPattern.py" afterPath="$PROJECT_DIR$/Pattern.py" />
+      <change beforePath="$PROJECT_DIR$/RuleTemplate.py" afterPath="$PROJECT_DIR$/RuleTemplate.py" />
+      <change beforePath="$PROJECT_DIR$/RulesManager.py" afterPath="$PROJECT_DIR$/RulesManager.py" />
+      <change beforePath="$PROJECT_DIR$/StatisticsData.py" afterPath="$PROJECT_DIR$/StatisticsData.py" />
+      <change beforePath="$PROJECT_DIR$/XMLFileManager.py" afterPath="$PROJECT_DIR$/XMLFileManager.py" />
+      <change beforePath="$PROJECT_DIR$/corrections.xml" afterPath="$PROJECT_DIR$/corrections.xml" />
       <change beforePath="$PROJECT_DIR$/dictionary.templates" afterPath="$PROJECT_DIR$/dictionary.templates" />
-      <change beforePath="$PROJECT_DIR$/images/11.JPG" afterPath="$PROJECT_DIR$/images/11.JPG" />
-      <change beforePath="$PROJECT_DIR$/images/8.JPG" afterPath="$PROJECT_DIR$/images/8.JPG" />
-      <change beforePath="$PROJECT_DIR$/images/9.JPG" afterPath="$PROJECT_DIR$/images/9.JPG" />
-      <change beforePath="$PROJECT_DIR$/party_full.profile" afterPath="$PROJECT_DIR$/party_full.profile" />
-      <change beforePath="$PROJECT_DIR$/party_full.txt" afterPath="$PROJECT_DIR$/party_full.txt" />
+      <change beforePath="$PROJECT_DIR$/dq_analyzer_rules_generator.ui" afterPath="$PROJECT_DIR$/dq_analyzer_rules_generator.ui" />
       <change beforePath="$PROJECT_DIR$/party_full_auto.plan" afterPath="$PROJECT_DIR$/party_full_auto.plan" />
-      <change beforePath="$PROJECT_DIR$/party_full_manual.plan" afterPath="$PROJECT_DIR$/party_full_manual.plan" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,17 +27,61 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/DQAnalyzerGeneratorRules$testresize.coverage" NAME="testresize Coverage Results" MODIFIED="1543417250225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
-    <SUITE FILE_PATH="coverage/DQAnalyzerGeneratorRules$DQAnalyzerRulesGenerator.coverage" NAME="DQAnalyzerRulesGenerator Coverage Results" MODIFIED="1545296585446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DQAnalyzerGeneratorRules$DQAnalyzerRulesGenerator.coverage" NAME="DQAnalyzerRulesGenerator Coverage Results" MODIFIED="1547221999300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/XMLReader$XMLReader.coverage" NAME="XMLReader Coverage Results" MODIFIED="1542210836075" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DQAnalyzerGeneratorRules$DQAnalyzerGeneratorRules.coverage" NAME="DQAnalyzerGeneratorRules Coverage Results" MODIFIED="1542211781041" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../DQAnalyzerGeneratorRules" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="750">
-      <file leaf-file-name="DataProfile.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/DataProfile.py">
+      <file leaf-file-name="DQAnalyzerRulesGenerator.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/DQAnalyzerRulesGenerator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="8" column="23" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="23" />
+            <state relative-caret-position="1000">
+              <caret line="372" column="56" lean-forward="false" selection-start-line="372" selection-start-column="56" selection-end-line="372" selection-end-column="56" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RulesManager.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RulesManager.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2760">
+              <caret line="76" column="97" lean-forward="false" selection-start-line="76" selection-start-column="97" selection-end-line="76" selection-end-column="97" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MongoDBManager.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MongoDBManager.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="10" lean-forward="false" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="XMLFileManager.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/XMLFileManager.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5040">
+              <caret line="136" column="0" lean-forward="false" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#27#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GeneratedRule.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/GeneratedRule.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="680">
+              <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -51,7 +99,12 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>xml</find>
+      <find>analysis</find>
+      <find>analyses</find>
     </findStrings>
+    <replaceStrings>
+      <replace>analysis</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,7 +112,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Pattern.py" />
         <option value="$PROJECT_DIR$/XMLReader.py" />
         <option value="$PROJECT_DIR$/../DQAnalyzerGeneratorRules/DQAnalyzerGeneratorRules.py" />
         <option value="$PROJECT_DIR$/../DQAnalyzerGeneratorRules/XMLFileManager.py" />
@@ -67,17 +119,19 @@
         <option value="$PROJECT_DIR$/../DQAnalyzerGeneratorRules/StatisticsData.py" />
         <option value="$PROJECT_DIR$/../DQAnalyzerGeneratorRules/DomainAnalyse.py" />
         <option value="$PROJECT_DIR$/Template.py" />
-        <option value="$PROJECT_DIR$/MongoDBManager.py" />
-        <option value="$PROJECT_DIR$/DataProfile.py" />
-        <option value="$PROJECT_DIR$/StatisticsData.py" />
-        <option value="$PROJECT_DIR$/RuleTemplate.py" />
         <option value="$PROJECT_DIR$/Rule.py" />
         <option value="$PROJECT_DIR$/MaskAnalysis.py" />
-        <option value="$PROJECT_DIR$/DomainAnalyse.py" />
         <option value="$PROJECT_DIR$/NewPattern.py" />
-        <option value="$PROJECT_DIR$/XMLFileManager.py" />
-        <option value="$PROJECT_DIR$/GeneratedRule.py" />
         <option value="$PROJECT_DIR$/RulesManager.py" />
+        <option value="$PROJECT_DIR$/DomainAnalyse.py" />
+        <option value="$PROJECT_DIR$/DomainAnalysis.py" />
+        <option value="$PROJECT_DIR$/Pattern.py" />
+        <option value="$PROJECT_DIR$/RuleTemplate.py" />
+        <option value="$PROJECT_DIR$/StatisticsData.py" />
+        <option value="$PROJECT_DIR$/DataProfile.py" />
+        <option value="$PROJECT_DIR$/MongoDBManager.py" />
+        <option value="$PROJECT_DIR$/GeneratedRule.py" />
+        <option value="$PROJECT_DIR$/XMLFileManager.py" />
         <option value="$PROJECT_DIR$/DQAnalyzerRulesGenerator.py" />
       </list>
     </option>
@@ -89,9 +143,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-14" />
-    <option name="width" value="1948" />
-    <option name="height" value="2074" />
+    <option name="x" value="-16" />
+    <option name="y" value="-16" />
+    <option name="width" value="3872" />
+    <option name="height" value="2092" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -489,7 +544,14 @@
       <option name="project" value="LOCAL" />
       <updated>1545155031990</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="code updating">
+      <created>1546965411670</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1546965411670</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -546,9 +608,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="20" lean-forward="false" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -556,7 +616,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5680">
           <caret line="150" column="75" lean-forward="true" selection-start-line="150" selection-start-column="75" selection-end-line="150" selection-end-column="75" />
-          <folding />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -581,7 +643,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DomainAnalyse.py">
+    <entry file="file://$PROJECT_DIR$/DomainAnalysis.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -610,9 +672,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -644,7 +704,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1440">
           <caret line="43" column="46" lean-forward="false" selection-start-line="43" selection-start-column="46" selection-end-line="43" selection-end-column="46" />
-          <folding />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -660,9 +722,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -670,7 +730,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1440">
           <caret line="43" column="46" lean-forward="true" selection-start-line="43" selection-start-column="46" selection-end-line="43" selection-end-column="46" />
-          <folding />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -727,7 +789,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5080">
           <caret line="134" column="74" lean-forward="false" selection-start-line="134" selection-start-column="74" selection-end-line="134" selection-end-column="74" />
-          <folding />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -735,7 +799,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -753,7 +819,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2080">
           <caret line="56" column="31" lean-forward="true" selection-start-line="56" selection-start-column="31" selection-end-line="56" selection-end-column="31" />
-          <folding />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -797,37 +865,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RuleTemplate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="11" lean-forward="true" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MaskAnalysis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DomainAnalyse.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="2" column="4" lean-forward="false" selection-start-line="2" selection-start-column="4" selection-end-line="4" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MongoDBManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="31" lean-forward="false" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Anaconda3/Lib/xml/dom/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -835,63 +872,89 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Pattern.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="12" column="55" lean-forward="true" selection-start-line="12" selection-start-column="55" selection-end-line="12" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MaskAnalysis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RuleTemplate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/StatisticsData.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="7" column="72" lean-forward="false" selection-start-line="7" selection-start-column="72" selection-end-line="7" selection-end-column="72" />
+        <state relative-caret-position="200">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DataProfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="800">
+          <caret line="20" column="36" lean-forward="true" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DomainAnalysis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="13" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GeneratedRule.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RulesManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2760">
+          <caret line="76" column="97" lean-forward="false" selection-start-line="76" selection-start-column="97" selection-end-line="76" selection-end-column="97" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/XMLFileManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4560">
-          <caret line="123" column="61" lean-forward="false" selection-start-line="123" selection-start-column="61" selection-end-line="123" selection-end-column="61" />
-          <folding />
+        <state relative-caret-position="5040">
+          <caret line="136" column="0" lean-forward="false" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GeneratedRule.py">
+    <entry file="file://$PROJECT_DIR$/MongoDBManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="640">
-          <caret line="16" column="35" lean-forward="false" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
+        <state relative-caret-position="0">
+          <caret line="0" column="10" lean-forward="false" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DQAnalyzerRulesGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25880">
-          <caret line="662" column="62" lean-forward="false" selection-start-line="662" selection-start-column="62" selection-end-line="662" selection-end-column="62" />
+        <state relative-caret-position="1000">
+          <caret line="372" column="56" lean-forward="false" selection-start-line="372" selection-start-column="56" selection-end-line="372" selection-end-column="56" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RulesManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="28" column="59" lean-forward="false" selection-start-line="28" selection-start-column="59" selection-end-line="28" selection-end-column="59" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/NewPattern.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="12" column="59" lean-forward="false" selection-start-line="12" selection-start-column="59" selection-end-line="12" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DataProfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="8" column="23" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
