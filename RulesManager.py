@@ -33,6 +33,7 @@ class RulesManager:
 
     def generate_rules(self, profile, plan_file):
         threshold = 70
+        rules_names_in_plan_file = list()
         for stat in profile.statistics:
             if stat.type == 'count':
                 number_of_rows = stat.value
@@ -40,6 +41,9 @@ class RulesManager:
         domain_analysis = profile.domain_analysis
         mask_analysis = profile.mask_analysis
         analysis = domain_analysis + mask_analysis
+        rules_in_plan_file = self.xml_file_manager.read_rules_from_plan_file(plan_file)
+        for rule_plan_file in rules_in_plan_file:
+            rules_names_in_plan_file.append(rule_plan_file.rule_name)
         for rule_template in rule_templates_collection:
             for a in analysis:
                 if a.value:
@@ -51,8 +55,9 @@ class RulesManager:
                             mask_percentage = a.percentage
                             rule = self.process_rule_template(rule_template, profile, a.value, a.count, mask_percentage)
                         if rule:
-                            if rule.pattern_percent >= threshold:
-                                self.write_rule(plan_file, rule.rule_name, rule.rule_expression)
+                            if rule.rule_name not in rules_names_in_plan_file:
+                                if rule.pattern_percent >= threshold:
+                                    self.write_rule(plan_file, rule.rule_name, rule.rule_expression)
                             self.generated_rules.append(rule)
                     else:
                         if type(a) is DomainAnalysis:

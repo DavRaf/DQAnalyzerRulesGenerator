@@ -26,9 +26,9 @@ class DisplayRulesUI(QDialog):
     def create_table(self):
         self.tableWidget = QTableWidget()
         self.tableWidget.setRowCount(self.rules_collection.count())
-        self.tableWidget.setColumnCount(4)
+        self.tableWidget.setColumnCount(5)
         self.tableWidget.verticalHeader().setVisible(False)
-        self.tableWidget.setHorizontalHeaderLabels(["Rule Name", "Rule Description", "Rule Pattern", "Rule Expression Template"])
+        self.tableWidget.setHorizontalHeaderLabels(["Rule Name", "Rule Description", "Rule Pattern", "Rule Expression Template", ""])
         self.rule_names = []
         self.rule_descriptions = []
         self.rule_patterns = []
@@ -46,6 +46,11 @@ class DisplayRulesUI(QDialog):
             self.tableWidget.setItem(x, 2, QTableWidgetItem(self.rule_patterns[x]))
         for x in range(0, self.rules_collection.count()):
             self.tableWidget.setItem(x, 3, QTableWidgetItem(self.rule_expression_templates[x]))
+        for x in range(0, self.rules_collection.count()):
+            self.edit_rule_btn = QPushButton()
+            self.edit_rule_btn.setText("Edit Rule")
+            self.edit_rule_btn.clicked.connect(self.open_edit_rule_dialog)
+            self.tableWidget.setCellWidget(x, 4, self.edit_rule_btn)
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.label = QLabel()
@@ -54,6 +59,59 @@ class DisplayRulesUI(QDialog):
         myFont.setBold(True)
         self.label.setFont(myFont)
 
+    def open_edit_rule_dialog(self):
+        button = qApp.focusWidget()
+        index = self.tableWidget.indexAt(button.pos())
+        rule_name = self.tableWidget.item(index.row(), 0)
+        rule_description = self.tableWidget.item(index.row(), 1)
+        rule_pattern = self.tableWidget.item(index.row(), 2)
+        rule_expression = self.tableWidget.item(index.row(), 3)
+        edit_rule_ui = EditRuleUI(rule_name, rule_description, rule_pattern, rule_expression)
+        edit_rule_ui.setWindowTitle('DQ Analyzer Rules Generator')
+        edit_rule_ui.show()
+        edit_rule_ui.exec_()
+
+class EditRuleUI(QDialog):
+    def __init__(self, rule_name, rule_description, rule_pattern, rule_expression):
+        super(EditRuleUI, self).__init__()
+        loadUi('edit_rule_ui.ui', self)
+        self.rule_name = rule_name
+        self.rule_description = rule_description
+        self.rule_pattern = rule_pattern
+        self.rule_expression = rule_expression
+        self.name_plain_text_edit.setPlainText(self.rule_name.text())
+        self.name_plain_text_edit.setEnabled(False)
+        self.description_plain_text_edit.setPlainText(self.rule_description.text())
+        self.pattern_plain_text_edit.setPlainText(self.rule_pattern.text())
+        self.expression_plain_text_edit.setPlainText(self.rule_expression.text())
+        self.finish_button.clicked.connect(self.edit_rule)
+        self.cancel_button.clicked.connect(self.close_dialog)
+        self.mongo_db_manager = MongoDBManager()
+
+
+    def edit_rule(self):
+        if self.check_regex(self.expression_plain_text_edit.toPlainText()) is False or self.check_regex(self.pattern_plain_text_edit.toPlainText()) is False:
+            QMessageBox.critical(self, "Error!", "Invalid regex")
+            return
+        self.mongo_db_manager.collection.update({"name": self.name_plain_text_edit.toPlainText()}, {"$set": {
+            "description": self.description_plain_text_edit.toPlainText(),
+            "expression": self.expression_plain_text_edit.toPlainText(),
+            "pattern": self.pattern_plain_text_edit.toPlainText()}}, upsert=True)
+        self.rule_description.setText(self.description_plain_text_edit.toPlainText())
+        self.rule_pattern.setText(self.pattern_plain_text_edit.toPlainText())
+        self.rule_expression.setText(self.expression_plain_text_edit.toPlainText())
+        QMessageBox.information(self, "Success!", "Rule updated with success")
+        self.close_dialog()
+
+    def close_dialog(self):
+        self.close()
+
+    def check_regex(self, regex):
+        try:
+            re.compile(regex)
+        except Exception:
+            return False
+        return True
 
 class UI(QMainWindow):
     def __init__(self):
@@ -250,6 +308,7 @@ class RemediateDataDialog1(QDialog):
         loadUi('remediate_data_dialog_ui1.ui', self)
         self.choose_plan_file_button.clicked.connect(self.open_file)
         self.next_button.clicked.connect(self.open_next_dialog)
+        self.next_button.setEnabled(False)
         self.cancel_button.clicked.connect(self.close_dialog)
         self.xml_file_manager = XMLFileManager()
 
@@ -258,10 +317,14 @@ class RemediateDataDialog1(QDialog):
 
     def open_file(self):
         self.plan_file = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "PLAN files (*plan)")
+        if self.plan_file[0] is "":
+            QMessageBox.critical(self, "File not selected", "You don't have selected any file.")
+            return
         self.plan_file_text_edit.setPlainText(self.plan_file[0])
         self.field_names = self.xml_file_manager.read_field_names_in_plan_file(self.plan_file[0])
         self.rules = self.xml_file_manager.read_rules_from_plan_file(self.plan_file[0])
         self.dataset_name = self.xml_file_manager.read_dataset_name(self.plan_file[0])[2:]
+        self.next_button.setEnabled(True)
 
     def open_next_dialog(self):
         self.close_dialog()
@@ -285,6 +348,7 @@ class RemediateDataDialog2(QDialog):
         self.business_rules_list_widget.addItems(self.rule_names)
         self.business_rules_list_widget.itemClicked.connect(self.handle_item_click)
         self.perform_data_remed_button.clicked.connect(self.perform_data_remediation)
+        self.perform_data_remed_button.setEnabled(False)
         self.cancel_button.clicked.connect(self.close_dialog)
         self.add_remediation_rule_btn.clicked.connect(self.add_remediation_rule)
         self.delete_remediation_rule_btn.clicked.connect(self.delete_remediation_rule)
@@ -307,6 +371,8 @@ class RemediateDataDialog2(QDialog):
                 self.remediation_rules_list_widget.addItem(self.business_rules_list_widget.currentItem().text())
         else:
             self.remediation_rules_list_widget.addItem(self.business_rules_list_widget.currentItem().text())
+        if self.remediation_rules_list_widget.count() > 0:
+            self.perform_data_remed_button.setEnabled(True)
 
     def delete_remediation_rule(self):
         if self.remediation_rules_list_widget.count() == 0:
@@ -324,8 +390,8 @@ class RemediateDataDialog2(QDialog):
             for i in itemsList:
                 if i.text() == item_name:
                     self.remediation_rules_list_widget.takeItem(self.remediation_rules_list_widget.row(i))
-                else:
-                    QMessageBox.critical(self, "Item not in list", "You have selected an item not in list.")
+        if self.remediation_rules_list_widget.count() == 0:
+            self.perform_data_remed_button.setEnabled(False)
 
     def handle_item_click(self, item):
         rule = self.mongo_db_manager.find_doc_by_name(item.text())
@@ -382,6 +448,7 @@ class RemediateDataDialog2(QDialog):
         file = file.replace('</analysis>', writer_full_text + '</analysis>')
         self.xml_file_manager.save_to_xml_file(file)
         self.close_dialog()
+        QMessageBox.information(self, "Success!", "DataCleaner File Created")
 
 class DomainAnalysisUI(QDialog):
     def __init__(self):
@@ -556,15 +623,15 @@ class TableReview(QDialog):
                 self.rule_descriptions.append(rule.rule_description)
                 self.rule_patterns.append(rule.rule_pattern)
                 self.rule_expressions.append(rule.rule_expression)
-            written_rules_names, written_rules_expressions = self.xml_file_manager.read_rules_expressions_in_plan_file(self.plan_file)
+            written_rules = self.xml_file_manager.read_rules_from_plan_file(self.plan_file)
             for generated_rule in self.rules_manager.generated_rules:
                 check_name = False
-                for written_rule_name in written_rules_names:
-                    if written_rule_name == generated_rule.rule_name:
+                for written_rule in written_rules:
+                    if written_rule.rule_name == generated_rule.rule_name:
                         check_name = True
                 check_exp = False
-                for written_rule_exp in written_rules_expressions:
-                    if written_rule_exp == generated_rule.rule_expression:
+                for written_rule in written_rules:
+                    if written_rule.rule_expression == generated_rule.rule_expression:
                         check_exp = True
                 if check_name is True and check_exp is True:
                     self.is_written.append(True)
@@ -690,12 +757,13 @@ class NewRuleUI(QDialog):
         self.rule_names_combo_box.addItems([""] + self.rule_names)
         self.rule_names_combo_box.view().pressed.connect(self.handle_item_pressed)
         #self.rule_names_combo_box.lineEdit().setPlaceholderText("New Rule Name")
-        self.pattern_plain_text_edit.setPlainText("^(" + self.pattern + ")$")
+        self.pattern_plain_text_edit.setPlainText("(^" + self.pattern + "$)")
         self.pattern_plain_text_edit.setReadOnly(True)
         self.auto_radio_button.setChecked(True)
         self.auto_radio_button.toggled.connect(lambda: self.radio_btn_state(self.auto_radio_button))
         self.manual_radio_button.toggled.connect(lambda: self.radio_btn_state(self.manual_radio_button))
-        self.expression_plain_text_edit.setPlainText(self.create_regex_from_pattern())
+        self.regex = self.create_regex_from_pattern()
+        self.expression_plain_text_edit.setPlainText(self.regex)
         self.expression_plain_text_edit.setEnabled(False)
         #self.create_regex_from_pattern()
         #self.finish_button.clicked.connect(self.create_new_rule)
@@ -736,7 +804,7 @@ class NewRuleUI(QDialog):
                 regex_list.append('-')
             elif c == ':':
                 regex_list.append(':')
-        regex = "matches(\"^(" + "".join(regex_list) + ")$\", ${value})"
+        regex = "matches(\"(^" + "".join(regex_list) + "$)\", ${value})"
         return regex
 
     def write_to_the_dictionary(self):
@@ -750,10 +818,16 @@ class NewRuleUI(QDialog):
             QMessageBox.critical(self, "Duplicate Detected", "The rule name entered is already present into the rule names list. Please select the rule name from the list.")
             return False
         else:
-            self.mongo_db_manager.collection.update({"name": self.rule_names_combo_box.currentText()}, {"$set": {
-                                                                             "description": self.description_plain_text_edit.toPlainText(),
-                                                                             "expression": self.expression_plain_text_edit.toPlainText(),
+            if self.rule_names_combo_box.isEditable() == False:
+                self.mongo_db_manager.collection.update({"name": self.rule_names_combo_box.currentText()}, {"$set": {
                                                                              "pattern": self.pattern_plain_text_edit.toPlainText()}}, upsert=True)
+            else:
+                rule = self.mongo_db_manager.find_doc_by_name(self.rule_names_combo_box.currentText())
+                self.mongo_db_manager.collection.update({"name": self.rule_names_combo_box.currentText()}, {"$set": {
+                                                        "description": self.description_plain_text_edit.toPlainText(),
+                                                        "expression": self.expression_plain_text_edit.toPlainText(),
+                                                        "pattern": self.pattern_plain_text_edit.toPlainText(),
+                                                        "category": "string"}}, upsert=True)
             '''for pattern in self.rule_manager.new_detected_patterns:
                 if pattern.pattern_value == self.pattern_plain_text_edit.toPlainText():
                     self.rule_manager.new_detected_patterns.remove(pattern)'''
@@ -792,15 +866,16 @@ class NewRuleUI(QDialog):
             self.rule_names_combo_box.setEditable(True)
             self.description_plain_text_edit.setReadOnly(False)
             self.description_plain_text_edit.setPlainText("")
-            self.pattern_plain_text_edit.setPlainText("^(" + self.pattern + ")$")
-            self.expression_plain_text_edit.setPlainText("")
+            self.pattern_plain_text_edit.setPlainText("(^" + self.pattern + "$)")
+            self.expression_plain_text_edit.setPlainText(self.regex)
         else:
             self.rule_names_combo_box.setEditable(False)
             self.description_plain_text_edit.setReadOnly(True)
             rule = self.mongo_db_manager.find_doc_by_name(rule_name)
             self.description_plain_text_edit.setPlainText(rule["description"])
-            index = rule['pattern'].find('$')
-            new_pattern = rule['pattern'][:index] + '|(' + self.pattern + ')' + rule['pattern'][index:]
+            '''index = rule['pattern'].find('$')
+            new_pattern = rule['pattern'][:index] + '|(' + self.pattern + ')' + rule['pattern'][index:]'''
+            new_pattern = rule['pattern'] + '|(^' + self.pattern + '$)'
             self.pattern_plain_text_edit.setPlainText(new_pattern)
             self.expression_plain_text_edit.setPlainText(rule["expression"])
 

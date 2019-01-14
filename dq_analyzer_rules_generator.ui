@@ -76,13 +76,13 @@
     </property>
     <addaction name="action_load_profile_file"/>
     <addaction name="action_display_rules_repository"/>
-    <addaction name="action_open_data_remediation"/>
    </widget>
    <widget class="QMenu" name="menuRun">
     <property name="title">
      <string>Run</string>
     </property>
     <addaction name="action_generate_rules"/>
+    <addaction name="action_open_data_remediation"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuRun"/>
