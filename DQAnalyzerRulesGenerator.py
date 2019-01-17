@@ -234,6 +234,8 @@ class UI(QMainWindow):
         self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tableWidget.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
         self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.horizontalHeader().setStretchLastSection(True)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents )
         myFont = QFont()
         myFont.setBold(True)
         self.label1 = QLabel()
@@ -323,7 +325,7 @@ class RemediateDataDialog1(QDialog):
         self.plan_file_text_edit.setPlainText(self.plan_file[0])
         self.field_names = self.xml_file_manager.read_field_names_in_plan_file(self.plan_file[0])
         self.rules = self.xml_file_manager.read_rules_from_plan_file(self.plan_file[0])
-        self.dataset_name = self.xml_file_manager.read_dataset_name(self.plan_file[0])[2:]
+        self.dataset_name = self.xml_file_manager.read_dataset_name(self.plan_file[0])
         self.next_button.setEnabled(True)
 
     def open_next_dialog(self):
@@ -395,8 +397,15 @@ class RemediateDataDialog2(QDialog):
 
     def handle_item_click(self, item):
         rule = self.mongo_db_manager.find_doc_by_name(item.text())
-        self.rule_name_text_edit.setText(rule['name'])
-        self.rule_expression_text_edit.setText(rule['expression'])
+        if rule:
+            self.rule_name_text_edit.setText(rule['name'])
+            self.rule_expression_text_edit.setText(rule['expression'])
+        else:
+            self.rule_name_text_edit.setText(item.text())
+            for r in self.rules:
+                if r.rule_name == item.text():
+                    rule_expression = r.rule_expression
+            self.rule_expression_text_edit.setText(rule_expression)
 
     def perform_data_remediation(self):
         base_file_text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><job xmlns=\"http://eobjects.org/analyzerbeans/job/1.0\"><job-metadata><job-description>Created with DataCleaner Community edition 5.1.5</job-description><author>David</author></job-metadata><source><data-context ref=\"${filename}\"/><columns>(insert columns)</columns></source><transformation></transformation><analysis></analysis></job>"
@@ -411,41 +420,100 @@ class RemediateDataDialog2(QDialog):
         columns = "".join(column_text_list)
         file = base_file_text.replace('(insert columns)', columns)
         remediation_rules = list()
+        remediation_data_range_rules = list()
         itemsList = [self.remediation_rules_list_widget.item(i).text() for i in range(self.remediation_rules_list_widget.count())]
+        n = 0
+        temp = list()
         for rule_item in itemsList:
-            remediation_rules.append(self.mongo_db_manager.find_doc_by_name(rule_item))
-        for remediation_rule in remediation_rules:
-            for rule in self.rules:
-                if remediation_rule['name'] == rule.rule_name:
-                    if remediation_rule['category'] == 'date':
-                        correction1 = self.mongo_db_manager.find_correction_by_name('Convert to date')
-                        correction2 = self.mongo_db_manager.find_correction_by_name('Format date')
-                        correction1_template = Template(correction1['full_text'])
-                        correction2_template = Template(correction2['full_text'])
-                        correction1_full_text = correction1_template.safe_substitute(ref="col_" + rule.column_name.replace(", ", "").replace(")", ""), new_ref="col_" + rule.column_name.replace(", ", "").replace(")", "") + "_as_date", field_name=rule.column_name.replace(", ", "").replace(")", "") + "_as_date")
-                        correction2_full_text = correction2_template.safe_substitute(value=remediation_rule['date_format'], ref="col_" + rule.column_name.replace(", ", "").replace(")", "") + "_as_date", new_ref="col_" + rule.column_name.replace(", ", "").replace(")", "") + "_as_date_formatted", field_name=rule.column_name.replace(", ", "").replace(")", "") + "_as_date_formatted")
-                        self.field_names.append(rule.column_name.replace(", ", "").replace(")", "") + "_as_date_formatted")
-                        file = file.replace('</transformation>', correction1_full_text + '</transformation>')
-                        file = file.replace('</transformation>', correction2_full_text + '</transformation>')
-                    else:
-                        correction = self.mongo_db_manager.find_correction_by_name('Regex parser')
+            if 'Data Range' not in rule_item:
+                remediation_rules.append(self.mongo_db_manager.find_doc_by_name(rule_item.rsplit(' ', 1)[0]))
+            else:
+                remediation_data_range_rules.append(self.mongo_db_manager.find_data_range_rule_by_name(rule_item))
+        if remediation_rules:
+            for remediation_rule in remediation_rules:
+                for rule in self.rules:
+                    if remediation_rule['name'] + " " + rule.column_name.replace(", ", "").replace(")", "") == rule.rule_name and remediation_rule['name'] + " " + rule.column_name.replace(", ", "").replace(")", "") not in temp:
+                        if remediation_rule['category'] == 'date':
+                            correction1 = self.mongo_db_manager.find_correction_by_name('Convert to date')
+                            correction2 = self.mongo_db_manager.find_correction_by_name('Format date')
+                            correction1_template = Template(correction1['full_text'])
+                            correction2_template = Template(correction2['full_text'])
+                            correction1_full_text = correction1_template.safe_substitute(ref="col_" + rule.column_name.replace(", ", "").replace(")", ""), new_ref="col_" + rule.column_name.replace(", ", "").replace(")", "") + "_as_date", field_name=rule.column_name.replace(", ", "").replace(")", "") + "_as_date")
+                            correction2_full_text = correction2_template.safe_substitute(value=remediation_rule['date_format'], ref="col_" + rule.column_name.replace(", ", "").replace(")", "") + "_as_date", new_ref="col_" + rule.column_name.replace(", ", "").replace(")", "") + "_as_date_formatted", field_name=rule.column_name.replace(", ", "").replace(")", "") + "_as_date_formatted")
+                            self.field_names.append(rule.column_name.replace(", ", "").replace(")", "") + "_as_date_formatted")
+                            file = file.replace('</transformation>', correction1_full_text + '</transformation>')
+                            file = file.replace('</transformation>', correction2_full_text + '</transformation>')
+                        else:
+                            correction = self.mongo_db_manager.find_correction_by_name('Regex parser')
+                            correction_template = Template(correction['full_text'])
+                            correction_full_text = correction_template.safe_substitute(value=remediation_rule['expression'].split("\"")[1], ref="col_" + rule.column_name.replace(", ", "").replace(")", ""), new_ref="col_" + rule.column_name.replace(", ", "").replace(")", "") + "_matched", field_name=rule.column_name.replace(", ", "").replace(")", "") + "_matched")
+                            self.field_names.append(rule.column_name.replace(", ", "").replace(")", "") + "_matched")
+                            file = file.replace('</transformation>', correction_full_text + '</transformation>')
+                        temp.append(remediation_rule['name'] + " " + rule.column_name.replace(", ", "").replace(")", ""))
+        if remediation_data_range_rules:
+            for remediation_data_range_rule in remediation_data_range_rules:
+                for rule in self.rules:
+                    if remediation_data_range_rule['name'] == rule.rule_name:
+                        correction = self.mongo_db_manager.find_correction_by_name('Equals')
                         correction_template = Template(correction['full_text'])
-                        correction_full_text = correction_template.safe_substitute(value=remediation_rule['expression'].split("\"")[1], ref="col_" + rule.column_name.replace(", ", "").replace(")", ""), new_ref="col_" + rule.column_name.replace(", ", "").replace(")", "") + "_matched", field_name=rule.column_name.replace(", ", "").replace(")", "") + "_matched")
-                        self.field_names.append(rule.column_name.replace(", ", "").replace(")", "") + "_matched")
+                        char1 = '{'
+                        char2 = '}'
+                        expression = remediation_data_range_rule['expression']
+                        values = re.sub(",\s*", ",", expression[expression.find(char1) + 1: expression.find(char2)])
+                        values = values.replace("'", "")
+                        correction_full_text = correction_template.safe_substitute(values=values, ref="col_" + remediation_data_range_rule['expression'].split(' ')[0], n=max(n - 1, 0), n1=n+1, n2=n+2)
+                        correction_full_text = correction_full_text.replace('transformer', 'filter')
+                        if n == 0:
+                            correction_full_text = correction_full_text.replace("requires=\"outcome_0\"", "")
                         file = file.replace('</transformation>', correction_full_text + '</transformation>')
-        column_text = "<input ref=\"${column_ref}\" name=\"Columns\"/>"
-        column_text_list = list()
-        for field_name in self.field_names:
-            column_text_template = Template(column_text)
-            column = column_text_template.safe_substitute(column_ref="col_" + field_name)
-            column_text_list.append(column)
-        fields = ",".join(self.field_names)
-        columns = "".join(column_text_list)
-        writer = self.mongo_db_manager.find_correction_by_name('Create CSV file')
-        writer_template = Template(writer['full_text'])
-        writer_full_text = writer_template.safe_substitute(fields=fields, columns=columns)
-        writer_full_text = writer_full_text.replace('transformer', 'analyzer')
-        file = file.replace('</analysis>', writer_full_text + '</analysis>')
+                        if n + 1 % 2 != 0:
+                            output = "file://C:/Users/David/Desktop/DataCleaner/final" + str(n) + ".csv"
+                            column_text = "<input ref=\"${column_ref}\" name=\"Columns\"/>"
+                            column_text_list = list()
+                            for field_name in self.field_names:
+                                column_text_template = Template(column_text)
+                                column = column_text_template.safe_substitute(column_ref="col_" + field_name)
+                                column_text_list.append(column)
+                            fields = ",".join(self.field_names)
+                            columns = "".join(column_text_list)
+                            writer = self.mongo_db_manager.find_correction_by_name('Create CSV file')
+                            writer_template = Template(writer['full_text'])
+                            writer_full_text = writer_template.safe_substitute(fields=fields, columns=columns, n=n+1, output=output)
+                            writer_full_text = writer_full_text.replace('transformer', 'analyzer')
+                            file = file.replace('</analysis>', writer_full_text + '</analysis>')
+                            self.xml_file_manager.save_to_xml_file(file)
+                        if n % 2 == 0:
+                            output = "file://C:/Users/David/Desktop/DataCleaner/not_equal" + str(n) + ".csv"
+                            column_text = "<input ref=\"${column_ref}\" name=\"Columns\"/>"
+                            column_text_list = list()
+                            for field_name in self.field_names:
+                                column_text_template = Template(column_text)
+                                column = column_text_template.safe_substitute(column_ref="col_" + field_name)
+                                column_text_list.append(column)
+                            fields = ",".join(self.field_names)
+                            columns = "".join(column_text_list)
+                            writer = self.mongo_db_manager.find_correction_by_name('Create CSV file')
+                            writer_template = Template(writer['full_text'])
+                            writer_full_text = writer_template.safe_substitute(fields=fields, columns=columns, n=n+2, output=output)
+                            writer_full_text = writer_full_text.replace('transformer', 'analyzer')
+                            file = file.replace('</analysis>', writer_full_text + '</analysis>')
+                        n = n + 2
+        else:
+            column_text = "<input ref=\"${column_ref}\" name=\"Columns\"/>"
+            output = "file://C:/Users/David/Desktop/DataCleaner/final.csv"
+            column_text_list = list()
+            for field_name in self.field_names:
+                column_text_template = Template(column_text)
+                column = column_text_template.safe_substitute(column_ref="col_" + field_name)
+                column_text_list.append(column)
+            fields = ",".join(self.field_names)
+            columns = "".join(column_text_list)
+            writer = self.mongo_db_manager.find_correction_by_name('Create CSV file')
+            writer_template = Template(writer['full_text'])
+            writer_full_text = writer_template.safe_substitute(fields=fields, columns=columns, output=output)
+            writer_full_text = writer_full_text.replace('transformer', 'analyzer')
+            writer_full_text = writer_full_text.replace("requires=\"outcome_${n}\"", "")
+            file = file.replace('</analysis>', writer_full_text + '</analysis>')
         self.xml_file_manager.save_to_xml_file(file)
         self.close_dialog()
         QMessageBox.information(self, "Success!", "DataCleaner File Created")
@@ -547,6 +615,7 @@ class Dialog(QDialog):
             self.rules_manager = RulesManager()
             for profile in self.profiles:
                 self.rules_manager.generate_rules(profile, self.plan_file_text_edit.toPlainText())
+            self.rules_manager.generate_range_value_rules(self.plan_file_text_edit.toPlainText())
             self.close()
             self.read_rules_in_table()
         else:
@@ -558,12 +627,15 @@ class Dialog(QDialog):
         table_review.setWindowTitle('DQ Analyzer Rules Generator')
         table_review.create_table_for_generated_rules()
         table_review.create_table_for_new_detected_patterns()
+        table_review.create_table_for_data_range_rules()
         table_review.layout = QVBoxLayout()
         tabs = QTabWidget()
         tab1 = QWidget()
         tab2 = QWidget()
+        tab3 = QWidget()
         tabs.addTab(tab1, "Generated Rules")
         tabs.addTab(tab2, "New Detected Patterns")
+        tabs.addTab(tab3, "Data Range Rules")
         tab1.layout = QVBoxLayout()
         if self.rules_manager.generated_rules:
             tab1.layout.addWidget(table_review.label)
@@ -578,6 +650,11 @@ class Dialog(QDialog):
         else:
             tab1.layout.addWidget(table_review.label4)
         tab2.setLayout(tab2.layout)
+        tab3.layout = QVBoxLayout()
+        if self.rules_manager.generated_data_range_rules:
+            tab3.layout.addWidget(table_review.label5)
+            tab3.layout.addWidget(table_review.tableWidget3)
+        tab3.setLayout(tab3.layout)
         table_review.layout.addWidget(tabs)
         table_review.setLayout(table_review.layout)
         table_review.show()
@@ -627,7 +704,7 @@ class TableReview(QDialog):
             for generated_rule in self.rules_manager.generated_rules:
                 check_name = False
                 for written_rule in written_rules:
-                    if written_rule.rule_name == generated_rule.rule_name:
+                    if written_rule.rule_name == generated_rule.rule_name + " " + generated_rule.rule_expression.split('\"')[2].replace(", ", "").replace(")", ""):
                         check_name = True
                 check_exp = False
                 for written_rule in written_rules:
@@ -675,6 +752,80 @@ class TableReview(QDialog):
             self.label3.setText("No rule has been generated")
             self.label3.setFont(myFont)
             self.label3.setAlignment(Qt.AlignCenter)
+
+    def create_table_for_data_range_rules(self):
+        myFont = QFont()
+        myFont.setBold(True)
+        if self.rules_manager.generated_data_range_rules:
+            self.tableWidget3 = QTableWidget()
+            self.tableWidget3.setRowCount(len(self.rules_manager.generated_data_range_rules))
+            self.tableWidget3.setColumnCount(5)
+            self.tableWidget3.verticalHeader().setVisible(False)
+            self.tableWidget3.setHorizontalHeaderLabels(
+                ["Column Name", "Rule Name", "Rule Expression", "Is Written", ""])
+            column_names = []
+            rule_names = []
+            self.data_range_rule_expressions = []
+            is_written = []
+            for rule in self.rules_manager.generated_data_range_rules:
+                column_names.append(rule.column_name)
+                rule_names.append(rule.rule_name)
+                self.data_range_rule_expressions.append(rule.rule_expression)
+            written_rules = self.xml_file_manager.read_rules_from_plan_file(self.plan_file)
+            for generated_rule in self.rules_manager.generated_data_range_rules:
+                check_exp = False
+                for written_rule in written_rules:
+                    if written_rule.rule_expression == generated_rule.rule_expression:
+                        check_exp = True
+                if check_exp is True:
+                    is_written.append(True)
+                else:
+                    is_written.append(False)
+            for x in range(0, len(self.rules_manager.generated_data_range_rules)):
+                self.tableWidget3.setItem(x, 0, QTableWidgetItem(column_names[x]))
+            for x in range(0, len(self.rules_manager.generated_data_range_rules)):
+                self.tableWidget3.setItem(x, 1, QTableWidgetItem(rule_names[x]))
+            for x in range(0, len(self.rules_manager.generated_data_range_rules)):
+                self.tableWidget3.setItem(x, 2, QTableWidgetItem("Click to see the expression"))
+            for x in range(0, len(self.rules_manager.generated_data_range_rules)):
+                self.tableWidget3.setItem(x, 3, QTableWidgetItem(str(is_written[x])))
+            for x in range(0, len(self.rules_manager.generated_data_range_rules)):
+                btn_write_to_plan_file = QPushButton()
+                btn_write_to_plan_file.setText("Write to Plan file")
+                btn_write_to_plan_file.clicked.connect(self.write_data_range_rule_on_file)
+                self.tableWidget3.setCellWidget(x, 4, btn_write_to_plan_file)
+            self.tableWidget3.setEditTriggers(QTableWidget.NoEditTriggers)
+            #self.tableWidget3.setSelectionBehavior(QAbstractItemView.SelectRows)
+            self.tableWidget3.cellDoubleClicked.connect(self.cell_was_clicked)
+            self.label5 = QLabel()
+            self.label5.setText("Generated Data Range Rules")
+            self.label5.setFont(myFont)
+            allRows = self.tableWidget3.rowCount()
+            for row in range(0, allRows):
+                is_written = self.tableWidget3.item(row, 3).text()
+                if is_written == "True":
+                    self.setColortoRow(self.tableWidget3, row, QColor(125, 125, 125))
+
+    def cell_was_clicked(self, row, column):
+        data_range_ui = DataRangeExpressionUI(self.data_range_rule_expressions, self.data_range_rule_expressions[row], row)
+        data_range_ui.setWindowTitle('DQ Analyzer Rules Generator')
+        data_range_ui.show()
+        data_range_ui.exec_()
+
+    def write_data_range_rule_on_file(self):
+        button = qApp.focusWidget()
+        index = self.tableWidget3.indexAt(button.pos())
+        if self.tableWidget3.item(index.row(), 3).text() == "True":
+            QMessageBox.critical(self, "Rule already present",
+                                 "The rule you have selected is already present in the plan file.")
+            return
+        rule_name = self.tableWidget3.item(index.row(), 1).text()
+        rule_expression = self.data_range_rule_expressions[index.row()]
+        self.rules_manager.write_rule(self.plan_file, rule_name, rule_expression)
+        self.mongo_db_manager.collection3.update({"name": rule_name}, {"$set": {
+                                                        "expression": rule_expression}}, upsert=True)
+        self.tableWidget3.item(index.row(), 3).setText("True")
+        self.setColortoRow(self.tableWidget3, index.row(), QColor(125, 125, 125))
 
     def create_table_for_new_detected_patterns(self):
         myFont = QFont()
@@ -740,6 +891,20 @@ class TableReview(QDialog):
         table_review.setWindowTitle('DQ Analyzer Rules Generator')
         table_review.show()
         table_review.exec_()
+
+class DataRangeExpressionUI(QDialog):
+    def __init__(self, data_range_rule_expressions, expression, row):
+        super(DataRangeExpressionUI, self).__init__()
+        loadUi('data_range_expression_ui.ui', self)
+        self.data_range_rule_expressions = data_range_rule_expressions
+        self.expression = expression
+        self.row = row
+        self.rule_expression_plain_text_edit.setPlainText(self.expression)
+        #self.rule_expression_plain_text_edit.setReadOnly(True)
+
+    def closeEvent(self, event):
+        expression = self.rule_expression_plain_text_edit.toPlainText()
+        self.data_range_rule_expressions[self.row] = expression
 
 class NewRuleUI(QDialog):
     def __init__(self, name, pattern, rule_manager, plan_file):

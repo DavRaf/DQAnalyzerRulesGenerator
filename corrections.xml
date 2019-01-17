@@ -47,10 +47,19 @@
         <input ref="${ref}"/>
         <output id="${new_ref}" name="${field_name} (matched)"/>
     </transformer>
-    <transformer name="Create CSV file">
+    <transformer name="Equals" requires="outcome_${n}">
+            <descriptor ref="Equals"/>
+            <properties>
+                <property name="Compare values" value="[${values}]"/>
+            </properties>
+            <input ref="${ref}" name="Input column"/>
+            <outcome id="outcome_${n1}" category="EQUALS"/>
+            <outcome id="outcome_${n2}" category="NOT_EQUALS"/>
+    </transformer>
+    <transformer name="Create CSV file" requires="outcome_${n}">
         <descriptor ref="Create CSV file"/>
         <properties>
-            <property name="File" value="file://C:/Users/David/Desktop/DataCleaner/out.csv"/>
+            <property name="File" value="${output}"/>
             <property name="Separator char" value="&amp;#44;"/>
             <property name="Quote char" value="&amp;quot;"/>
             <property name="Escape char" value="\"/>

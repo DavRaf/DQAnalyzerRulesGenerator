@@ -7,6 +7,7 @@ class MongoDBManager:
         self.db = client.dq_analyzer_rules_generator
         self.collection = self.db.rules_repository
         self.collection2 = self.db.corrections_repository
+        self.collection3 = self.db.data_range_rules
 
     def insert_doc(self, doc):
         self.collection.insert_one(doc)
@@ -22,4 +23,7 @@ class MongoDBManager:
 
     def find_correction_by_name(self, name):
         return self.collection2.find_one({"name": name})
+
+    def find_data_range_rule_by_name(self, name):
+        return self.collection3.find_one({"name": name})
 

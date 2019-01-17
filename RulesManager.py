@@ -6,6 +6,8 @@ from XMLFileManager import XMLFileManager
 from DomainAnalysis import DomainAnalysis
 from MaskAnalysis import MaskAnalysis
 from Pattern import Pattern
+import os
+import pandas as pd
 
 class RulesManager:
 
@@ -15,6 +17,7 @@ class RulesManager:
         self.mongo_db_manager = MongoDBManager()
         self.xml_file_manager = XMLFileManager()
         self.generated_rules = list()
+        self.generated_data_range_rules = list()
         self.new_detected_patterns = list()
 
     def get_rule_by_id(self, id):
@@ -33,7 +36,7 @@ class RulesManager:
 
     def generate_rules(self, profile, plan_file):
         threshold = 70
-        rules_names_in_plan_file = list()
+        rules_expressions_in_plan_file = list()
         for stat in profile.statistics:
             if stat.type == 'count':
                 number_of_rows = stat.value
@@ -43,7 +46,7 @@ class RulesManager:
         analysis = domain_analysis + mask_analysis
         rules_in_plan_file = self.xml_file_manager.read_rules_from_plan_file(plan_file)
         for rule_plan_file in rules_in_plan_file:
-            rules_names_in_plan_file.append(rule_plan_file.rule_name)
+            rules_expressions_in_plan_file.append(rule_plan_file.rule_expression)
         for rule_template in rule_templates_collection:
             for a in analysis:
                 if a.value:
@@ -55,9 +58,11 @@ class RulesManager:
                             mask_percentage = a.percentage
                             rule = self.process_rule_template(rule_template, profile, a.value, a.count, mask_percentage)
                         if rule:
-                            if rule.rule_name not in rules_names_in_plan_file:
-                                if rule.pattern_percent >= threshold:
-                                    self.write_rule(plan_file, rule.rule_name, rule.rule_expression)
+                            if rule.rule_expression not in rules_expressions_in_plan_file:
+                                if rule.pattern_percent:
+                                    if rule.pattern_percent >= threshold:
+                                        if 'integer' not in profile.domain_name and 'float' not in profile.domain_name:
+                                            self.write_rule(plan_file, rule.rule_name, rule.rule_expression)
                             self.generated_rules.append(rule)
                     else:
                         if type(a) is DomainAnalysis:
@@ -74,6 +79,18 @@ class RulesManager:
                 allowed_chars = set('DLNW./-')
                 if pattern.pattern_value == rule.pattern_value or set(pattern.pattern_value).issubset(allowed_chars) is False:
                     self.new_detected_patterns.remove(pattern)
+
+    def generate_range_value_rules(self, plan_file):
+        dataset_name = os.path.abspath(self.xml_file_manager.read_dataset_name(plan_file))
+        dataset = pd.read_csv(dataset_name, sep=';')  # loads the dataset without considering the headers
+        values_list = list()
+        n = 0
+        for c in dataset:
+            cleaned_list = [x for x in dataset[c].values.tolist() if str(x) != 'nan']
+            values_list.append(set(cleaned_list))
+            rule = GeneratedRule(column_name=c, rule_name="Data Range Rule " + c, rule_expression=c + " in {" + str(values_list[n]).replace("{", "").replace("}", "") + "}")
+            self.generated_data_range_rules.append(rule)
+            n = n + 1
 
     def process_rule_template(self, rule_template, profile, pattern_value, pattern_num_cases, pattern_percentage):
         if rule_template['pattern'] in RulesManager.date_patterns and 'day' not in profile.domain_name.casefold():
