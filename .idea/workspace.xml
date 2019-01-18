@@ -3,13 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d1584e27-c793-4b29-a2bc-3e8f62bfc75e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/display_rules.ui" afterPath="$PROJECT_DIR$/display_rules.ui" />
       <change beforePath="$PROJECT_DIR$/dq_analyzer_rules_generator.ui" afterPath="$PROJECT_DIR$/dq_analyzer_rules_generator.ui" />
       <change beforePath="$PROJECT_DIR$/edit_rule_ui.ui" afterPath="$PROJECT_DIR$/edit_rule_ui.ui" />
       <change beforePath="$PROJECT_DIR$/new_rule_ui.ui" afterPath="$PROJECT_DIR$/new_rule_ui.ui" />
-      <change beforePath="$PROJECT_DIR$/remediate_data_dialog_ui1.ui" afterPath="$PROJECT_DIR$/remediate_data_dialog_ui1.ui" />
       <change beforePath="$PROJECT_DIR$/remediate_data_dialog_ui2.ui" afterPath="$PROJECT_DIR$/remediate_data_dialog_ui2.ui" />
-      <change beforePath="$PROJECT_DIR$/table_review.ui" afterPath="$PROJECT_DIR$/table_review.ui" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -599,7 +596,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547824276653</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="code updating">
+      <created>1547825116432</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1547825116432</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="ToolWindowManager">

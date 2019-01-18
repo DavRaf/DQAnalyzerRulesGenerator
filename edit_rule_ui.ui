@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1047</width>
-    <height>1022</height>
+    <height>716</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -116,8 +116,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>-30</x>
-     <y>910</y>
+     <x>-20</x>
+     <y>600</y>
      <width>1121</width>
      <height>131</height>
     </rect>
@@ -171,7 +171,7 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>540</y>
+     <y>410</y>
      <width>151</width>
      <height>33</height>
     </rect>
@@ -184,7 +184,7 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>740</y>
+     <y>480</y>
      <width>201</width>
      <height>33</height>
     </rect>
@@ -197,9 +197,9 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>540</y>
+     <y>400</y>
      <width>621</width>
-     <height>131</height>
+     <height>51</height>
     </rect>
    </property>
   </widget>
@@ -209,7 +209,7 @@ p, li { white-space: pre-wrap; }
      <x>310</x>
      <y>330</y>
      <width>621</width>
-     <height>171</height>
+     <height>51</height>
     </rect>
    </property>
   </widget>
@@ -217,9 +217,9 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>730</y>
+     <y>470</y>
      <width>621</width>
-     <height>151</height>
+     <height>51</height>
     </rect>
    </property>
   </widget>
