@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1799</width>
-    <height>1340</height>
+    <width>1184</width>
+    <height>977</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>-31</x>
      <y>-1</y>
-     <width>1851</width>
-     <height>301</height>
+     <width>1231</width>
+     <height>211</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -62,8 +62,8 @@
      <rect>
       <x>170</x>
       <y>90</y>
-      <width>1181</width>
-      <height>131</height>
+      <width>1041</width>
+      <height>91</height>
      </rect>
     </property>
     <property name="font">
@@ -89,9 +89,9 @@ p, li { white-space: pre-wrap; }
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>-40</x>
-     <y>1190</y>
-     <width>1841</width>
+     <x>-10</x>
+     <y>860</y>
+     <width>1211</width>
      <height>151</height>
     </rect>
    </property>
@@ -101,60 +101,60 @@ p, li { white-space: pre-wrap; }
    <property name="frameShadow">
     <enum>QFrame::Plain</enum>
    </property>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QPushButton" name="perform_data_remed_button">
     <property name="geometry">
      <rect>
-      <x>1120</x>
-      <y>40</y>
-      <width>536</width>
-      <height>59</height>
+      <x>630</x>
+      <y>30</y>
+      <width>332</width>
+      <height>57</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="cancel_button">
-       <property name="text">
-        <string>Cancel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="perform_data_remed_button">
-       <property name="acceptDrops">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Perform Data Remediation</string>
-       </property>
-       <property name="autoDefault">
-        <bool>true</bool>
-       </property>
-       <property name="default">
-        <bool>false</bool>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>Perform Data Remediation</string>
+    </property>
+    <property name="autoDefault">
+     <bool>true</bool>
+    </property>
+    <property name="default">
+     <bool>false</bool>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cancel_button">
+    <property name="geometry">
+     <rect>
+      <x>428</x>
+      <y>30</y>
+      <width>187</width>
+      <height>57</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cancel</string>
+    </property>
    </widget>
   </widget>
   <widget class="QListWidget" name="business_rules_list_widget">
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>470</y>
-     <width>421</width>
-     <height>631</height>
+     <y>300</y>
+     <width>241</width>
+     <height>361</height>
     </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="add_remediation_rule_btn">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>1110</y>
+     <x>60</x>
+     <y>690</y>
      <width>71</width>
      <height>57</height>
     </rect>
@@ -166,8 +166,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QPushButton" name="delete_remediation_rule_btn">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>1110</y>
+     <x>150</x>
+     <y>690</y>
      <width>71</width>
      <height>57</height>
     </rect>
@@ -179,8 +179,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>480</y>
+     <x>330</x>
+     <y>330</y>
      <width>201</width>
      <height>33</height>
     </rect>
@@ -192,9 +192,9 @@ p, li { white-space: pre-wrap; }
   <widget class="QTextEdit" name="rule_name_text_edit">
    <property name="geometry">
     <rect>
-     <x>750</x>
-     <y>470</y>
-     <width>981</width>
+     <x>570</x>
+     <y>320</y>
+     <width>541</width>
      <height>51</height>
     </rect>
    </property>
@@ -202,9 +202,9 @@ p, li { white-space: pre-wrap; }
   <widget class="QTextEdit" name="rule_expression_text_edit">
    <property name="geometry">
     <rect>
-     <x>750</x>
-     <y>550</y>
-     <width>981</width>
+     <x>570</x>
+     <y>400</y>
+     <width>541</width>
      <height>131</height>
     </rect>
    </property>
@@ -212,8 +212,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>550</y>
+     <x>330</x>
+     <y>400</y>
      <width>201</width>
      <height>33</height>
     </rect>
@@ -225,10 +225,10 @@ p, li { white-space: pre-wrap; }
   <widget class="QListWidget" name="remediation_rules_list_widget">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>790</y>
-     <width>1221</width>
-     <height>311</height>
+     <x>330</x>
+     <y>590</y>
+     <width>471</width>
+     <height>241</height>
     </rect>
    </property>
    <property name="selectionMode">
@@ -239,7 +239,7 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>410</y>
+     <y>240</y>
      <width>211</width>
      <height>33</height>
     </rect>
@@ -251,8 +251,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_11">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>710</y>
+     <x>330</x>
+     <y>540</y>
      <width>311</width>
      <height>33</height>
     </rect>

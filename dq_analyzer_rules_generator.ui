@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>3533</width>
-    <height>1509</height>
+    <width>3130</width>
+    <height>1500</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -28,8 +28,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>3511</width>
-      <height>1371</height>
+      <width>3111</width>
+      <height>1361</height>
      </rect>
     </property>
     <property name="contextMenuPolicy">
@@ -66,7 +66,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>3533</width>
+     <width>3130</width>
      <height>47</height>
     </rect>
    </property>
