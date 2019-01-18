@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1327</width>
-    <height>1275</height>
+    <width>1028</width>
+    <height>1070</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -88,7 +88,7 @@
      <rect>
       <x>170</x>
       <y>90</y>
-      <width>1171</width>
+      <width>1161</width>
       <height>131</height>
      </rect>
     </property>
@@ -116,8 +116,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>-40</x>
-     <y>1140</y>
+     <x>-70</x>
+     <y>940</y>
      <width>1411</width>
      <height>201</height>
     </rect>
@@ -171,7 +171,7 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>530</y>
+     <y>450</y>
      <width>151</width>
      <height>33</height>
     </rect>
@@ -184,7 +184,7 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>700</y>
+     <y>570</y>
      <width>201</width>
      <height>33</height>
     </rect>
@@ -197,9 +197,9 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>340</x>
-     <y>540</y>
-     <width>941</width>
-     <height>121</height>
+     <y>450</y>
+     <width>501</width>
+     <height>91</height>
     </rect>
    </property>
   </widget>
@@ -208,7 +208,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>340</x>
      <y>260</y>
-     <width>941</width>
+     <width>501</width>
      <height>39</height>
     </rect>
    </property>
@@ -220,17 +220,17 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>340</x>
-     <y>330</y>
-     <width>941</width>
-     <height>176</height>
+     <y>320</y>
+     <width>501</width>
+     <height>91</height>
     </rect>
    </property>
   </widget>
   <widget class="QRadioButton" name="auto_radio_button">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>730</y>
+     <x>310</x>
+     <y>580</y>
      <width>691</width>
      <height>31</height>
     </rect>
@@ -242,8 +242,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QRadioButton" name="manual_radio_button">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>830</y>
+     <x>310</x>
+     <y>680</y>
      <width>491</width>
      <height>37</height>
     </rect>
@@ -255,8 +255,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>780</y>
+     <x>360</x>
+     <y>630</y>
      <width>641</width>
      <height>33</height>
     </rect>
@@ -268,8 +268,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>880</y>
+     <x>360</x>
+     <y>730</y>
      <width>431</width>
      <height>33</height>
     </rect>
@@ -281,9 +281,9 @@ p, li { white-space: pre-wrap; }
   <widget class="QPlainTextEdit" name="expression_plain_text_edit">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>950</y>
-     <width>941</width>
+     <x>310</x>
+     <y>800</y>
+     <width>501</width>
      <height>121</height>
     </rect>
    </property>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1011</width>
-    <height>887</height>
+    <height>681</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -90,7 +90,7 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>-10</x>
-     <y>740</y>
+     <y>540</y>
      <width>1031</width>
      <height>151</height>
     </rect>
@@ -143,8 +143,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>450</y>
+     <x>70</x>
+     <y>360</y>
      <width>141</width>
      <height>33</height>
     </rect>
@@ -156,8 +156,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QPushButton" name="choose_plan_file_button">
    <property name="geometry">
     <rect>
-     <x>790</x>
-     <y>440</y>
+     <x>780</x>
+     <y>350</y>
      <width>151</width>
      <height>51</height>
     </rect>
@@ -169,8 +169,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QPlainTextEdit" name="plan_file_text_edit">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>440</y>
+     <x>190</x>
+     <y>350</y>
      <width>571</width>
      <height>51</height>
     </rect>
