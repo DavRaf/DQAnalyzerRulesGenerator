@@ -3,12 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d1584e27-c793-4b29-a2bc-3e8f62bfc75e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/data_range_expression_ui.ui" afterPath="$PROJECT_DIR$/data_range_expression_ui.ui" />
-      <change beforePath="$PROJECT_DIR$/domain_analysis_ui.ui" afterPath="$PROJECT_DIR$/domain_analysis_ui.ui" />
-      <change beforePath="$PROJECT_DIR$/edit_rule_ui.ui" afterPath="$PROJECT_DIR$/edit_rule_ui.ui" />
-      <change beforePath="$PROJECT_DIR$/mask_analysis_ui.ui" afterPath="$PROJECT_DIR$/mask_analysis_ui.ui" />
-      <change beforePath="$PROJECT_DIR$/new_rule_ui.ui" afterPath="$PROJECT_DIR$/new_rule_ui.ui" />
-      <change beforePath="$PROJECT_DIR$/remediate_data_dialog_ui2.ui" afterPath="$PROJECT_DIR$/remediate_data_dialog_ui2.ui" />
+      <change beforePath="$PROJECT_DIR$/DQAnalyzerRulesGenerator.py" afterPath="$PROJECT_DIR$/DQAnalyzerRulesGenerator.py" />
+      <change beforePath="$PROJECT_DIR$/RulesManager.py" afterPath="$PROJECT_DIR$/RulesManager.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,17 +15,17 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/DQAnalyzerGeneratorRules$testresize.coverage" NAME="testresize Coverage Results" MODIFIED="1543417250225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
-    <SUITE FILE_PATH="coverage/DQAnalyzerGeneratorRules$DQAnalyzerRulesGenerator.coverage" NAME="DQAnalyzerRulesGenerator Coverage Results" MODIFIED="1547741508618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DQAnalyzerGeneratorRules$DQAnalyzerRulesGenerator.coverage" NAME="DQAnalyzerRulesGenerator Coverage Results" MODIFIED="1548070094046" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/XMLReader$XMLReader.coverage" NAME="XMLReader Coverage Results" MODIFIED="1542210836075" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DQAnalyzerGeneratorRules$DQAnalyzerGeneratorRules.coverage" NAME="DQAnalyzerGeneratorRules Coverage Results" MODIFIED="1542211781041" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../DQAnalyzerGeneratorRules" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="750">
-      <file leaf-file-name="DQAnalyzerRulesGenerator.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DQAnalyzerRulesGenerator.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DQAnalyzerRulesGenerator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="40">
-              <caret line="463" column="0" lean-forward="false" selection-start-line="463" selection-start-column="0" selection-end-line="463" selection-end-column="0" />
+            <state relative-caret-position="613">
+              <caret line="617" column="57" lean-forward="false" selection-start-line="617" selection-start-column="31" selection-end-line="617" selection-end-column="57" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -40,7 +36,7 @@
       <file leaf-file-name="XMLFileManager.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/XMLFileManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4680">
+            <state relative-caret-position="1194">
               <caret line="127" column="87" lean-forward="false" selection-start-line="127" selection-start-column="87" selection-end-line="127" selection-end-column="87" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
@@ -49,11 +45,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RulesManager.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RulesManager.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/RulesManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3160">
-              <caret line="88" column="28" lean-forward="false" selection-start-line="88" selection-start-column="28" selection-end-line="88" selection-end-column="28" />
+            <state relative-caret-position="1086">
+              <caret line="95" column="0" lean-forward="true" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -136,8 +132,8 @@
         <option value="$PROJECT_DIR$/GeneratedRule.py" />
         <option value="$PROJECT_DIR$/XMLFileManager.py" />
         <option value="$PROJECT_DIR$/MongoDBManager.py" />
-        <option value="$PROJECT_DIR$/RulesManager.py" />
         <option value="$PROJECT_DIR$/DQAnalyzerRulesGenerator.py" />
+        <option value="$PROJECT_DIR$/RulesManager.py" />
       </list>
     </option>
   </component>
@@ -169,6 +165,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -180,8 +178,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -612,7 +608,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547825500315</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="code updating">
+      <created>1547826058264</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1547826058264</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -623,11 +626,12 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32076502" sideWeight="0.5020877" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2420765" sideWeight="0.49791232" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2420765" sideWeight="0.49791232" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18932292" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32568306" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -637,7 +641,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32568306" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
     </layout>
@@ -971,16 +974,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/XMLFileManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4680">
-          <caret line="127" column="87" lean-forward="false" selection-start-line="127" selection-start-column="87" selection-end-line="127" selection-end-column="87" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/GeneratedRule.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
@@ -1005,22 +998,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RulesManager.py">
+    <entry file="file://$PROJECT_DIR$/XMLFileManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3160">
-          <caret line="88" column="28" lean-forward="false" selection-start-line="88" selection-start-column="28" selection-end-line="88" selection-end-column="28" />
+        <state relative-caret-position="1194">
+          <caret line="127" column="87" lean-forward="false" selection-start-line="127" selection-start-column="87" selection-end-line="127" selection-end-column="87" />
           <folding>
-            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#0#27#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DQAnalyzerRulesGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="463" column="0" lean-forward="false" selection-start-line="463" selection-start-column="0" selection-end-line="463" selection-end-column="0" />
+        <state relative-caret-position="613">
+          <caret line="617" column="57" lean-forward="false" selection-start-line="617" selection-start-column="31" selection-end-line="617" selection-end-column="57" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RulesManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1086">
+          <caret line="95" column="0" lean-forward="true" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>

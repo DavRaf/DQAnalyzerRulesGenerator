@@ -467,7 +467,7 @@ class RemediateDataDialog2(QDialog):
                             correction_full_text = correction_full_text.replace("requires=\"outcome_0\"", "")
                         file = file.replace('</transformation>', correction_full_text + '</transformation>')
                         if n + 1 % 2 != 0:
-                            output = "file://C:/Users/David/Desktop/DataCleaner/final" + str(n) + ".csv"
+                            output = "file://" + os.path.expanduser("~/Desktop") + "/final" + str(n) + ".csv"
                             column_text = "<input ref=\"${column_ref}\" name=\"Columns\"/>"
                             column_text_list = list()
                             for field_name in self.field_names:
@@ -483,7 +483,7 @@ class RemediateDataDialog2(QDialog):
                             file = file.replace('</analysis>', writer_full_text + '</analysis>')
                             self.xml_file_manager.save_to_xml_file(file)
                         if n % 2 == 0:
-                            output = "file://C:/Users/David/Desktop/DataCleaner/not_equal" + str(n) + ".csv"
+                            output = "file://" + os.path.expanduser("~/Desktop") + "/not_equal" + str(n) + ".csv"
                             column_text = "<input ref=\"${column_ref}\" name=\"Columns\"/>"
                             column_text_list = list()
                             for field_name in self.field_names:
@@ -500,7 +500,7 @@ class RemediateDataDialog2(QDialog):
                         n = n + 2
         else:
             column_text = "<input ref=\"${column_ref}\" name=\"Columns\"/>"
-            output = "file://C:/Users/David/Desktop/DataCleaner/final.csv"
+            output = "file://" + os.path.expanduser("~/Desktop") + "/final.csv" #file://C:/Users/David/Desktop/final.csv
             column_text_list = list()
             for field_name in self.field_names:
                 column_text_template = Template(column_text)
@@ -616,6 +616,7 @@ class Dialog(QDialog):
             for profile in self.profiles:
                 self.rules_manager.generate_rules(profile, self.plan_file_text_edit.toPlainText())
             self.rules_manager.generate_range_value_rules(self.plan_file_text_edit.toPlainText())
+            print('ok')
             self.close()
             self.read_rules_in_table()
         else:
@@ -674,6 +675,7 @@ class TableReview(QDialog):
             table.item(rowIndex, j).setBackground(color)
 
     def create_table_for_generated_rules(self):
+        print('ok')
         myFont = QFont()
         myFont.setBold(True)
         if self.rules_manager.generated_rules:

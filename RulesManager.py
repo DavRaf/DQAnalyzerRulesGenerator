@@ -87,10 +87,12 @@ class RulesManager:
         n = 0
         for c in dataset:
             cleaned_list = [x for x in dataset[c].values.tolist() if str(x) != 'nan']
+            print(cleaned_list)
             values_list.append(set(cleaned_list))
             rule = GeneratedRule(column_name=c, rule_name="Data Range Rule " + c, rule_expression=c + " in {" + str(values_list[n]).replace("{", "").replace("}", "") + "}")
             self.generated_data_range_rules.append(rule)
             n = n + 1
+        print(self.generated_data_range_rules)
 
     def process_rule_template(self, rule_template, profile, pattern_value, pattern_num_cases, pattern_percentage):
         if rule_template['pattern'] in RulesManager.date_patterns and 'day' not in profile.domain_name.casefold():
