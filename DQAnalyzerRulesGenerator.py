@@ -597,6 +597,7 @@ class Dialog(QDialog):
         self.profile_file = profile_file
         self.profile_file_text_edit.setPlainText(self.profile_file)
         self.choose_plan_file_button.clicked.connect(self.open_file)
+        self.choose_dataset_file_button.clicked.connect(self.open_dataset)
         self.finish_button.clicked.connect(self.create_rules)
         self.cancel_button.clicked.connect(self.close_dialog)
 
@@ -607,6 +608,10 @@ class Dialog(QDialog):
         self.plan_file = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "PLAN files (*plan)")
         self.plan_file_text_edit.setPlainText(self.plan_file[0])
 
+    def open_dataset(self):
+        self.dataset_file = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', "All files (*)")
+        self.dataset_file_text_edit.setPlainText(self.dataset_file[0])
+
     def create_rules(self):
         if not self.profiles:
             QMessageBox.critical(self, "File not selected", "You don't have selected any profile file.")
@@ -615,8 +620,7 @@ class Dialog(QDialog):
             self.rules_manager = RulesManager()
             for profile in self.profiles:
                 self.rules_manager.generate_rules(profile, self.plan_file_text_edit.toPlainText())
-            self.rules_manager.generate_range_value_rules(self.plan_file_text_edit.toPlainText())
-            print('ok')
+            self.rules_manager.generate_range_value_rules(self.dataset_file_text_edit.toPlainText())
             self.close()
             self.read_rules_in_table()
         else:
@@ -675,7 +679,6 @@ class TableReview(QDialog):
             table.item(rowIndex, j).setBackground(color)
 
     def create_table_for_generated_rules(self):
-        print('ok')
         myFont = QFont()
         myFont.setBold(True)
         if self.rules_manager.generated_rules:

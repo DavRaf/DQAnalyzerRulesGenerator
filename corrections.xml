@@ -65,7 +65,7 @@
             <property name="Escape char" value="\"/>
             <property name="Include header" value="true"/>
             <property name="Encoding" value="UTF-8"/>
-            <property name="Fields" value="[(${fields})]"/>
+            <property name="Fields" value="[${fields}]"/>
             <property name="Overwrite file if exists" value="true"/>
         </properties>
         ${columns}

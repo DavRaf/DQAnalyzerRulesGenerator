@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1011</width>
-    <height>681</height>
+    <width>1357</width>
+    <height>938</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <rect>
      <x>-31</x>
      <y>-1</y>
-     <width>1051</width>
+     <width>1411</width>
      <height>231</height>
     </rect>
    </property>
@@ -89,9 +89,9 @@ p, li { white-space: pre-wrap; }
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>-10</x>
-     <y>540</y>
-     <width>1031</width>
+     <x>-60</x>
+     <y>800</y>
+     <width>1471</width>
      <height>151</height>
     </rect>
    </property>
@@ -104,7 +104,7 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="next_button">
     <property name="geometry">
      <rect>
-      <x>790</x>
+      <x>1130</x>
       <y>40</y>
       <width>187</width>
       <height>57</height>
@@ -129,7 +129,7 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="cancel_button">
     <property name="geometry">
      <rect>
-      <x>588</x>
+      <x>928</x>
       <y>40</y>
       <width>187</width>
       <height>57</height>
@@ -143,8 +143,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>360</y>
+     <x>200</x>
+     <y>470</y>
      <width>141</width>
      <height>33</height>
     </rect>
@@ -156,9 +156,9 @@ p, li { white-space: pre-wrap; }
   <widget class="QPushButton" name="choose_plan_file_button">
    <property name="geometry">
     <rect>
-     <x>780</x>
-     <y>350</y>
-     <width>151</width>
+     <x>1070</x>
+     <y>460</y>
+     <width>161</width>
      <height>51</height>
     </rect>
    </property>
@@ -169,11 +169,14 @@ p, li { white-space: pre-wrap; }
   <widget class="QPlainTextEdit" name="plan_file_text_edit">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>350</y>
-     <width>571</width>
+     <x>320</x>
+     <y>460</y>
+     <width>731</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

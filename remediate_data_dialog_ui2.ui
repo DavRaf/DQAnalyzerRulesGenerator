@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1127</width>
-    <height>698</height>
+    <width>1575</width>
+    <height>1003</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <rect>
      <x>-31</x>
      <y>-1</y>
-     <width>1231</width>
+     <width>1661</width>
      <height>211</height>
     </rect>
    </property>
@@ -90,9 +90,9 @@ p, li { white-space: pre-wrap; }
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>-10</x>
-     <y>580</y>
-     <width>1211</width>
+     <x>-40</x>
+     <y>860</y>
+     <width>1681</width>
      <height>151</height>
     </rect>
    </property>
@@ -105,8 +105,8 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="perform_data_remed_button">
     <property name="geometry">
      <rect>
-      <x>630</x>
-      <y>30</y>
+      <x>1182</x>
+      <y>40</y>
       <width>332</width>
       <height>57</height>
      </rect>
@@ -130,8 +130,8 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="cancel_button">
     <property name="geometry">
      <rect>
-      <x>428</x>
-      <y>30</y>
+      <x>980</x>
+      <y>40</y>
       <width>187</width>
       <height>57</height>
      </rect>
@@ -144,18 +144,18 @@ p, li { white-space: pre-wrap; }
   <widget class="QListWidget" name="business_rules_list_widget">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>300</y>
-     <width>241</width>
-     <height>191</height>
+     <x>30</x>
+     <y>390</y>
+     <width>331</width>
+     <height>361</height>
     </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="add_remediation_rule_btn">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>500</y>
+     <x>80</x>
+     <y>770</y>
      <width>71</width>
      <height>57</height>
     </rect>
@@ -167,8 +167,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QPushButton" name="delete_remediation_rule_btn">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>500</y>
+     <x>170</x>
+     <y>770</y>
      <width>71</width>
      <height>57</height>
     </rect>
@@ -180,8 +180,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>240</y>
+     <x>460</x>
+     <y>330</y>
      <width>201</width>
      <height>33</height>
     </rect>
@@ -193,9 +193,9 @@ p, li { white-space: pre-wrap; }
   <widget class="QTextEdit" name="rule_name_text_edit">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>230</y>
-     <width>541</width>
+     <x>700</x>
+     <y>320</y>
+     <width>651</width>
      <height>51</height>
     </rect>
    </property>
@@ -203,18 +203,18 @@ p, li { white-space: pre-wrap; }
   <widget class="QTextEdit" name="rule_expression_text_edit">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>310</y>
-     <width>541</width>
-     <height>51</height>
+     <x>700</x>
+     <y>400</y>
+     <width>651</width>
+     <height>101</height>
     </rect>
    </property>
   </widget>
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>310</y>
+     <x>460</x>
+     <y>400</y>
      <width>201</width>
      <height>33</height>
     </rect>
@@ -226,10 +226,10 @@ p, li { white-space: pre-wrap; }
   <widget class="QListWidget" name="remediation_rules_list_widget">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>430</y>
-     <width>471</width>
-     <height>111</height>
+     <x>460</x>
+     <y>560</y>
+     <width>781</width>
+     <height>231</height>
     </rect>
    </property>
    <property name="selectionMode">
@@ -239,8 +239,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_10">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>240</y>
+     <x>30</x>
+     <y>330</y>
      <width>211</width>
      <height>33</height>
     </rect>
@@ -252,8 +252,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="label_11">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>380</y>
+     <x>460</x>
+     <y>510</y>
      <width>311</width>
      <height>33</height>
     </rect>
