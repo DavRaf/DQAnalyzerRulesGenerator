@@ -25,6 +25,3 @@ class DataProfile:
 
     def set_domain_name(self, domain_name):
         self.domain_name = domain_name
-
-    def set_pattern(self, pattern):
-        self.pattern = pattern
