@@ -28,6 +28,3 @@ class DataProfile:
 
     def set_pattern(self, pattern):
         self.pattern = pattern
-
-    def set_mask(self, mask):
-        self.mask = mask

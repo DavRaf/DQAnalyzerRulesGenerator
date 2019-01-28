@@ -4,22 +4,7 @@
     <list default="true" id="d1584e27-c793-4b29-a2bc-3e8f62bfc75e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/DQAnalyzerRulesGenerator.py" afterPath="$PROJECT_DIR$/DQAnalyzerRulesGenerator.py" />
-      <change beforePath="$PROJECT_DIR$/RulesManager.py" afterPath="$PROJECT_DIR$/RulesManager.py" />
-      <change beforePath="$PROJECT_DIR$/corrections.xml" afterPath="$PROJECT_DIR$/corrections.xml" />
-      <change beforePath="$PROJECT_DIR$/data_range_expression_ui.ui" afterPath="$PROJECT_DIR$/data_range_expression_ui.ui" />
-      <change beforePath="$PROJECT_DIR$/dialog.ui" afterPath="$PROJECT_DIR$/dialog.ui" />
-      <change beforePath="$PROJECT_DIR$/dictionary.templates" afterPath="$PROJECT_DIR$/dictionary.templates" />
-      <change beforePath="$PROJECT_DIR$/display_rules.ui" afterPath="$PROJECT_DIR$/display_rules.ui" />
-      <change beforePath="$PROJECT_DIR$/domain_analysis_ui.ui" afterPath="$PROJECT_DIR$/domain_analysis_ui.ui" />
-      <change beforePath="$PROJECT_DIR$/dq_analyzer_rules_generator.ui" afterPath="$PROJECT_DIR$/dq_analyzer_rules_generator.ui" />
-      <change beforePath="$PROJECT_DIR$/edit_rule_ui.ui" afterPath="$PROJECT_DIR$/edit_rule_ui.ui" />
-      <change beforePath="$PROJECT_DIR$/mask_analysis_ui.ui" afterPath="$PROJECT_DIR$/mask_analysis_ui.ui" />
-      <change beforePath="$PROJECT_DIR$/new_rule_ui.ui" afterPath="$PROJECT_DIR$/new_rule_ui.ui" />
-      <change beforePath="$PROJECT_DIR$/party_full.profile" afterPath="$PROJECT_DIR$/party_full.profile" />
-      <change beforePath="$PROJECT_DIR$/party_full_auto.plan" afterPath="$PROJECT_DIR$/party_full_auto.plan" />
-      <change beforePath="$PROJECT_DIR$/remediate_data_dialog_ui1.ui" afterPath="$PROJECT_DIR$/remediate_data_dialog_ui1.ui" />
-      <change beforePath="$PROJECT_DIR$/remediate_data_dialog_ui2.ui" afterPath="$PROJECT_DIR$/remediate_data_dialog_ui2.ui" />
-      <change beforePath="$PROJECT_DIR$/table_review.ui" afterPath="$PROJECT_DIR$/table_review.ui" />
+      <change beforePath="$PROJECT_DIR$/DataProfile.py" afterPath="$PROJECT_DIR$/DataProfile.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,71 +15,29 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/DQAnalyzerGeneratorRules$testresize.coverage" NAME="testresize Coverage Results" MODIFIED="1543417250225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
-    <SUITE FILE_PATH="coverage/DQAnalyzerGeneratorRules$DQAnalyzerRulesGenerator.coverage" NAME="DQAnalyzerRulesGenerator Coverage Results" MODIFIED="1548345351505" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DQAnalyzerGeneratorRules$DQAnalyzerRulesGenerator.coverage" NAME="DQAnalyzerRulesGenerator Coverage Results" MODIFIED="1548426447367" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/XMLReader$XMLReader.coverage" NAME="XMLReader Coverage Results" MODIFIED="1542210836075" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DQAnalyzerGeneratorRules$DQAnalyzerGeneratorRules.coverage" NAME="DQAnalyzerGeneratorRules Coverage Results" MODIFIED="1542211781041" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../DQAnalyzerGeneratorRules" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="750">
-      <file leaf-file-name="DQAnalyzerRulesGenerator.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DQAnalyzerRulesGenerator.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DQAnalyzerRulesGenerator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="40">
-              <caret line="512" column="109" lean-forward="false" selection-start-line="512" selection-start-column="109" selection-end-line="512" selection-end-column="109" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="XMLFileManager.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/XMLFileManager.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4680">
-              <caret line="127" column="87" lean-forward="false" selection-start-line="127" selection-start-column="87" selection-end-line="127" selection-end-column="87" />
+            <state relative-caret-position="675">
+              <caret line="900" column="35" lean-forward="false" selection-start-line="900" selection-start-column="14" selection-end-line="900" selection-end-column="35" />
               <folding>
-                <element signature="e#0#27#0" expanded="true" />
+                <element signature="e#0#37#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RulesManager.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/RulesManager.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3000">
-              <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataProfile.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DataProfile.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DataProfile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="800">
-              <caret line="20" column="36" lean-forward="false" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MongoDBManager.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MongoDBManager.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1080">
-              <caret line="27" column="43" lean-forward="false" selection-start-line="27" selection-start-column="43" selection-end-line="27" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GeneratedRule.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GeneratedRule.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="2" column="49" lean-forward="false" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="54" />
+            <state relative-caret-position="1120">
+              <caret line="28" column="35" lean-forward="true" selection-start-line="28" selection-start-column="35" selection-end-line="28" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -141,12 +84,12 @@
         <option value="$PROJECT_DIR$/Pattern.py" />
         <option value="$PROJECT_DIR$/RuleTemplate.py" />
         <option value="$PROJECT_DIR$/StatisticsData.py" />
-        <option value="$PROJECT_DIR$/DataProfile.py" />
         <option value="$PROJECT_DIR$/GeneratedRule.py" />
         <option value="$PROJECT_DIR$/XMLFileManager.py" />
         <option value="$PROJECT_DIR$/MongoDBManager.py" />
         <option value="$PROJECT_DIR$/RulesManager.py" />
         <option value="$PROJECT_DIR$/DQAnalyzerRulesGenerator.py" />
+        <option value="$PROJECT_DIR$/DataProfile.py" />
       </list>
     </option>
   </component>
@@ -156,8 +99,8 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1906" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-14" />
     <option name="width" value="1948" />
     <option name="height" value="2074" />
   </component>
@@ -177,19 +120,19 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="DQAnalyzerGeneratorRules" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DQAnalyzerRulesGenerator" type="462c0819:PsiDirectoryNode" />
+              <item name="DQAnalyzerRulesGeneratorAndRemediator" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -634,11 +577,19 @@
       <option name="project" value="LOCAL" />
       <updated>1548070521450</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="code updating">
+      <created>1548349788177</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1548349788177</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-16" y="-16" width="3872" height="2092" extended-state="6" />
+    <frame x="-14" y="0" width="1948" height="2074" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32076502" sideWeight="0.5020877" order="7" side_tool="true" content_ui="tabs" />
@@ -646,9 +597,10 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2420765" sideWeight="0.49791232" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18932292" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33924845" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32568306" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -658,7 +610,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32568306" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
     </layout>
@@ -686,116 +637,12 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/XMLFileManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5680">
-          <caret line="150" column="75" lean-forward="true" selection-start-line="150" selection-start-column="75" selection-end-line="150" selection-end-column="75" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RuleTemplate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/StatisticsData.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="4" column="26" lean-forward="false" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DataProfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2000">
-          <caret line="50" column="86" lean-forward="false" selection-start-line="50" selection-start-column="86" selection-end-line="50" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DomainAnalysis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DQAnalyzerRulesGenerator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
-          <caret line="27" column="5" lean-forward="false" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MongoDBManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="22" column="33" lean-forward="false" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/RulesManager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
           <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RuleTemplate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DQAnalyzerRulesGenerator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="16" column="49" lean-forward="true" selection-start-line="16" selection-start-column="49" selection-end-line="16" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DataProfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1320">
-          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/XMLFileManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1440">
-          <caret line="43" column="46" lean-forward="false" selection-start-line="43" selection-start-column="46" selection-end-line="43" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MongoDBManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RulesManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#0#41#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -805,7 +652,7 @@
         <state relative-caret-position="1440">
           <caret line="43" column="46" lean-forward="true" selection-start-line="43" selection-start-column="46" selection-end-line="43" selection-end-column="46" />
           <folding>
-            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#0#27#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -821,7 +668,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="560">
           <caret line="16" column="49" lean-forward="true" selection-start-line="16" selection-start-column="49" selection-end-line="16" selection-end-column="49" />
-          <folding />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -851,7 +700,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="10" column="22" lean-forward="true" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-          <folding />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -860,7 +711,7 @@
         <state relative-caret-position="5080">
           <caret line="134" column="74" lean-forward="false" selection-start-line="134" selection-start-column="74" selection-end-line="134" selection-end-column="74" />
           <folding>
-            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#0#27#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -870,7 +721,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#0#27#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -879,7 +730,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="40">
           <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -888,7 +741,7 @@
         <state relative-caret-position="2080">
           <caret line="56" column="31" lean-forward="true" selection-start-line="56" selection-start-column="31" selection-end-line="56" selection-end-column="31" />
           <folding>
-            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#0#27#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -897,7 +750,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="4" column="26" lean-forward="true" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
-          <folding />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -938,13 +793,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Pattern.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="12" column="55" lean-forward="true" selection-start-line="12" selection-start-column="55" selection-end-line="12" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Desktop/apriori/apriori.py" />
     <entry file="file://$PROJECT_DIR$/MaskAnalysis.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
@@ -952,10 +801,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RuleTemplate.py">
+    <entry file="file://$PROJECT_DIR$/party_full_manual.plan">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pattern.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="12" column="55" lean-forward="true" selection-start-line="12" selection-start-column="55" selection-end-line="12" selection-end-column="55" />
         </state>
       </provider>
     </entry>
@@ -966,6 +822,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="uml://JavaScript-modules-diagram/C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>JavaScript-modules-diagram</ID>
+          <OriginalElement>$PROJECT_DIR$</OriginalElement>
+          <nodes />
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="1557.0" y="853.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>All</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>Details</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/DomainAnalysis.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -973,18 +847,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/apriori/apriori.py">
+    <entry file="file://$PROJECT_DIR$/XMLFileManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="4120">
+          <caret line="113" column="88" lean-forward="false" selection-start-line="113" selection-start-column="88" selection-end-line="113" selection-end-column="88" />
+          <folding>
+            <element signature="e#0#27#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GeneratedRule.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="2" column="49" lean-forward="false" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="54" />
-          <folding />
+    <entry file="uml://Python/#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/DomainAnalysis.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/DomainAnalysis.py</OriginalElement>
+          <nodes>
+            <node x="" y="">_collections_abc.Hashable</node>
+            <node x="" y="">object</node>
+            <node x="" y="">DomainAnalysis.DomainAnalysis</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="254.0" y="1091.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Methods</Category>
+            <Category>Fields</Category>
+          </Categories>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/MaskAnalysis.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/MaskAnalysis.py</OriginalElement>
+          <nodes>
+            <node x="" y="">_collections_abc.Hashable</node>
+            <node x="" y="">MaskAnalysis.MaskAnalysis</node>
+            <node x="" y="">object</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="220.0" y="1150.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Methods</Category>
+            <Category>Fields</Category>
+          </Categories>
         </state>
       </provider>
     </entry>
@@ -996,38 +907,246 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DataProfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="800">
-          <caret line="20" column="36" lean-forward="false" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
-          <folding />
+    <entry file="uml://Python/#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/StatisticsData.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/StatisticsData.py</OriginalElement>
+          <nodes>
+            <node x="" y="">StatisticsData.StatisticsData</node>
+            <node x="" y="">_collections_abc.Hashable</node>
+            <node x="" y="">object</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="220.0" y="1091.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Methods</Category>
+            <Category>Fields</Category>
+          </Categories>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/XMLFileManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4680">
-          <caret line="127" column="87" lean-forward="false" selection-start-line="127" selection-start-column="87" selection-end-line="127" selection-end-column="87" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
+    <entry file="uml://Python/#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/XMLFileManager.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/XMLFileManager.py</OriginalElement>
+          <nodes>
+            <node x="" y="">XMLFileManager.XMLFileManager</node>
+            <node x="" y="">_collections_abc.Hashable</node>
+            <node x="" y="">object</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="266.0" y="2483.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Methods</Category>
+            <Category>Fields</Category>
+          </Categories>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/MongoDBManager.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/MongoDBManager.py</OriginalElement>
+          <nodes>
+            <node x="" y="">_collections_abc.Hashable</node>
+            <node x="" y="">MongoDBManager.MongoDBManager</node>
+            <node x="" y="">object</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="298.0" y="1563.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Methods</Category>
+          </Categories>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/RulesManager.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/RulesManager.py</OriginalElement>
+          <nodes>
+            <node x="" y="">_collections_abc.Hashable</node>
+            <node x="" y="">object</node>
+            <node x="" y="">RulesManager.RulesManager</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="233.0" y="1775.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Methods</Category>
+          </Categories>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/GeneratedRule.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/GeneratedRule.py</OriginalElement>
+          <nodes>
+            <node x="" y="">GeneratedRule.GeneratedRule</node>
+            <node x="" y="">_collections_abc.Hashable</node>
+            <node x="" y="">object</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="241.0" y="1598.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Methods</Category>
+            <Category>Fields</Category>
+          </Categories>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/RuleTemplate.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/RuleTemplate.py</OriginalElement>
+          <nodes>
+            <node x="" y="">_collections_abc.Hashable</node>
+            <node x="" y="">object</node>
+            <node x="" y="">RuleTemplate.RuleTemplate</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="226.0" y="1244.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Methods</Category>
+          </Categories>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/Pattern.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/Pattern.py</OriginalElement>
+          <nodes>
+            <node x="" y="">_collections_abc.Hashable</node>
+            <node x="" y="">object</node>
+            <node x="" y="">Pattern.Pattern</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="175.5" y="1362.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Methods</Category>
+          </Categories>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/DQAnalyzerRulesGenerator.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/DQAnalyzerRulesGenerator.py</OriginalElement>
+          <nodes>
+            <node x="" y="">DQAnalyzerRulesGenerator.EditRuleUI</node>
+            <node x="" y="">DQAnalyzerRulesGenerator.MaskAnalysisUI</node>
+            <node x="" y="">PyQt5.QtCore.QObject.QObject</node>
+            <node x="" y="">DQAnalyzerRulesGenerator.DataRangeExpressionUI</node>
+            <node x="" y="">PyQt5.QtWidgets.QWidget.QWidget</node>
+            <node x="" y="">DQAnalyzerRulesGenerator.TableReview</node>
+            <node x="" y="">PyQt5.QtWidgets.QMainWindow.QMainWindow</node>
+            <node x="" y="">DQAnalyzerRulesGenerator.UI</node>
+            <node x="" y="">DQAnalyzerRulesGenerator.NewRuleUI</node>
+            <node x="" y="">PyQt5.QtGui.QPaintDevice.QPaintDevice</node>
+            <node x="" y="">PyQt5.QtWidgets.QDialog.QDialog</node>
+            <node x="" y="">DQAnalyzerRulesGenerator.DomainAnalysisUI</node>
+            <node x="" y="">DQAnalyzerRulesGenerator.RemediateDataDialog1</node>
+            <node x="" y="">DQAnalyzerRulesGenerator.DisplayRulesUI</node>
+            <node x="" y="">DQAnalyzerRulesGenerator.RemediateDataDialog2</node>
+            <node x="" y="">DQAnalyzerRulesGenerator.Dialog</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="0.770827148832816" x="1503.1957777544376" y="26409.927703672583" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Methods</Category>
+          </Categories>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/DataProfile.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Users/David/PycharmProjects/DQAnalyzerRulesGeneratorAndRemediator/DataProfile.py</OriginalElement>
+          <nodes>
+            <node x="" y="">_collections_abc.Hashable</node>
+            <node x="" y="">object</node>
+            <node x="" y="">DataProfile.DataProfile</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="856.0" y="700.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Methods</Category>
+          </Categories>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/RulesManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3000">
-          <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-2016">
+          <caret line="17" column="48" lean-forward="false" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GeneratedRule.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="2" column="49" lean-forward="false" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RuleTemplate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DQAnalyzerRulesGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="512" column="109" lean-forward="false" selection-start-line="512" selection-start-column="109" selection-end-line="512" selection-end-column="109" />
+        <state relative-caret-position="675">
+          <caret line="900" column="35" lean-forward="false" selection-start-line="900" selection-start-column="14" selection-end-line="900" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DataProfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1120">
+          <caret line="28" column="35" lean-forward="true" selection-start-line="28" selection-start-column="35" selection-end-line="28" selection-end-column="35" />
           <folding />
         </state>
       </provider>

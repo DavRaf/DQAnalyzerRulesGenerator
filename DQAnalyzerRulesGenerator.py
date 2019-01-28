@@ -88,7 +88,6 @@ class EditRuleUI(QDialog):
         self.cancel_button.clicked.connect(self.close_dialog)
         self.mongo_db_manager = MongoDBManager()
 
-
     def edit_rule(self):
         if self.check_regex(self.expression_plain_text_edit.toPlainText()) is False or self.check_regex(self.pattern_plain_text_edit.toPlainText()) is False:
             QMessageBox.critical(self, "Error!", "Invalid regex")
